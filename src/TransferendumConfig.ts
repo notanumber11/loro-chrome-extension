@@ -11,8 +11,8 @@ export default class TransferendumConfig {
 
     private constructor() {
         // TODO: Read automatically from env variables
-        this.isChrome = true;
-        this.isLocalGUI = false;
+        this.isChrome = process.env.isChrome != null;
+        this.isLocalGUI = process.env.isLocalGUI != null;
         if (this.isChrome) {
             this.guiProxy = new GuiProxyChrome();
         }

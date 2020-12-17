@@ -6,7 +6,6 @@ module.exports = {
     background: path.join(__dirname, "src/chrome/background.ts"),
     contentScript: path.join(__dirname, "src/chrome/contentScript.ts")
   },
-  target: "node", // https://stackoverflow.com/questions/33001237/webpack-not-excluding-node-modules
   output: {
     path: path.join(__dirname, "dist/js"),
     filename: "[name].js"
