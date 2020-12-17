@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "jsx": "react",
+    "lib": ["es2015", "dom"],
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "outDir": "dist/js",
+    "rootDir": "src",
+    "sourceMap": true,
+    "target": "es5",
+    "resolveJsonModule": true, // To be able to read jsons
+    "skipLibCheck": true // https://stackoverflow.com/questions/33001237/webpack-not-excluding-node-modules
+  },
+  "exclude": [
+    "./tests/"
+  ]
+}
