@@ -1,4 +1,4 @@
-# Transferendum chrome extension
+# TransferendumConfig chrome extension
 
 ## Test
  `npm test`

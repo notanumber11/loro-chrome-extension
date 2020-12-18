@@ -1,4 +1,4 @@
-import GuiProxy from "../gui/guiProxy";
+import GuiProxy from "../gui/GuiProxy";
 
 export default class GuiProxyChrome extends GuiProxy {
     sendMessage(message: any, responseCallback?: (response: any) => void) {

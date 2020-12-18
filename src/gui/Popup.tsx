@@ -2,19 +2,15 @@ import React, {Component} from "react";
 import "./Popup.scss";
 import TransferendumConfig from "../TransferendumConfig";
 
-type PopupProps = {
-  conf: TransferendumConfig
-}
-
-class Popup extends Component<PopupProps> {
-  private readonly conf:TransferendumConfig;
+class Popup extends Component {
+  readonly trans:TransferendumConfig;
   constructor(props) {
     super(props);
-    this.conf = props.conf;
+    this.trans = new TransferendumConfig();
   }
 
   componentDidMount() {
-    this.conf.guiProxy.sendMessage({ popupMounted: true });
+    this.trans.guiProxy.sendMessage({ popupMounted: true });
   }
 
   render() {

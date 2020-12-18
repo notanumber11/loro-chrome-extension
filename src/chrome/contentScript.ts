@@ -16,3 +16,5 @@ chrome.runtime.sendMessage({
     action: "getSource",
     source: processDocument(document)
 });
+
+export default {};

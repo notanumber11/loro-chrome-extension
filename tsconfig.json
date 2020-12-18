@@ -1,18 +1,16 @@
 {
   "compilerOptions": {
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
-    "experimentalDecorators": true,
-    "jsx": "react",
-    "lib": ["es2015", "dom"],
+    "target": "es5", //defines what sort of code ts generates, es5 because it's what most browsers currently UNDERSTANDS.
     "module": "commonjs",
-    "moduleResolution": "node",
+    "jsx": "react",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
     "outDir": "dist/js",
     "rootDir": "src",
+    "strict": false,
     "sourceMap": true,
-    "target": "es5",
-    "resolveJsonModule": true, // To be able to read jsons
-    "skipLibCheck": true // https://stackoverflow.com/questions/33001237/webpack-not-excluding-node-modules
+    "resolveJsonModule": true // To be able to read jsons
   },
   "exclude": [
     "./tests/"

@@ -10,7 +10,7 @@ import CheckIcon from '@material-ui/icons/Check';
 import {CardActions} from "@material-ui/core";
 import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
 
-const useStyles = makeStyles({
+const myStyles = makeStyles({
     root: {
         minWidth: 120,
         minHeight: 120,
@@ -48,7 +48,7 @@ type TranslationCardProps = {
 }
 
 const TranslationCard = ({original, translated}: TranslationCardProps) => {
-    const classes = useStyles();
+    const classes = myStyles();
 
     return (
         <div className={classes.envelope}>

@@ -1,11 +1,12 @@
 const path = require("path");
 
 module.exports = {
-  entry: {
-    popup: path.join(__dirname, "src/gui/index.tsx"),
+   entry: {
+    popup: path.join(__dirname, "src/index.tsx"),
     background: path.join(__dirname, "src/chrome/background.ts"),
     contentScript: path.join(__dirname, "src/chrome/contentScript.ts")
   },
+  target: "node",
   output: {
     path: path.join(__dirname, "dist/js"),
     filename: "[name].js"
@@ -15,6 +16,11 @@ module.exports = {
       {
         exclude: /node_modules/,
         test: /\.tsx?$/,
+        use: "ts-loader"
+      },
+      {
+        exclude: /node_modules/,
+        test: /\.js?$/,
         use: "ts-loader"
       },
       {
