@@ -40,7 +40,6 @@ class ToolTip extends Component<ToolTipProps, IState> {
                 this.state.isHovering &&
                 <TranslationCard original={this.props.original} translated={this.props.translated}/>
             }
-            <span hidden>{this.props.original}</span>
           </span>;
     }
 }
