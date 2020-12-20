@@ -1,6 +1,6 @@
 // Responsability: Interact with the DOM
 import {OriginalAndTranslated} from "./Translator";
-import ToolTip from "../gui/ToolTip";
+import WordHovering from "../gui/WordHovering";
 import React from 'react';
 import ReactDOM from 'react-dom';
 
@@ -66,7 +66,7 @@ export default class DomHandler {
             for(let j=0; j< nodes.length; j++) {
                 let node = nodes[j];
                 // TODO: Check how to do it faster
-                ReactDOM.render(<ToolTip original={original} translated={translated} />, node);
+                ReactDOM.render(<WordHovering original={original} translated={translated} />, node);
             }
         }
         console.log("finishing apply react on hover");

@@ -4,11 +4,8 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Box from "@material-ui/core/Box";
-import IconButton from "@material-ui/core/IconButton";
-import CheckIcon from '@material-ui/icons/Check';
-import {CardActions} from "@material-ui/core";
-import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
 import Divider from "@material-ui/core/Divider";
+import ReportErrorModal from "./ReportErrorModal";
 
 const myStyles = makeStyles({
     root: {
@@ -45,7 +42,6 @@ type TranslationCardProps = {
 
 const TranslationCard = ({original, translated}: TranslationCardProps) => {
     const classes = myStyles();
-
     return (
         <div className={classes.envelope}>
             <Box>
@@ -59,18 +55,15 @@ const TranslationCard = ({original, translated}: TranslationCardProps) => {
                             {translated}
                         </Typography>
                     </CardContent>
-                    <CardActions disableSpacing>
-                        <IconButton size="small" title="I know this word">
-                            <CheckIcon color="primary" />
-                        </IconButton>
-                        <IconButton  size="small" title="Report error">
-                            <ErrorOutlineIcon color="secondary" />
-                        </IconButton>
-                    </CardActions>
+                        <Box display="flex" flexDirection="row-reverse">
+                            <Box p={1}>
+                                <ReportErrorModal original={original} translated={translated} reportError={true} />
+                            </Box>
+                        </Box>
                 </Card>
             </Box>
         </div>
     );
-}
+};
 
 export default TranslationCard;

@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import "./ToolTip.scss";
+import "./WordHovering.scss";
 import TranslationCard from "./TranslationCard";
 
 type ToolTipProps = {
@@ -11,7 +11,7 @@ interface IState {
     isHovering?: boolean;
 }
 
-class ToolTip extends Component<ToolTipProps, IState> {
+class WordHovering extends Component<ToolTipProps, IState> {
     constructor(props) {
         super(props);
         this.handleMouseHover = this.handleMouseHover.bind(this);
@@ -44,4 +44,4 @@ class ToolTip extends Component<ToolTipProps, IState> {
     }
 }
 
-export default ToolTip;
+export default WordHovering;
