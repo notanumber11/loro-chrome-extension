@@ -22,7 +22,7 @@
         "128": "icon128.png"
     },
 
-    "permissions": ["tabs", "<all_urls>"],
+    "permissions": ["tabs", "<all_urls>", "https://transferendum-backend.herokuapp.com/"],
     "content_scripts" : [{
         "matches": ["http://*/*", "https://*/*" ],
         "js" : ["js/contentScript.js"]

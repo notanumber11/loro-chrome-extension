@@ -7,10 +7,11 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Divider from "@material-ui/core/Divider";
-import Avatar from "@material-ui/core/Avatar";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 import ReportProblemIcon from "@material-ui/icons/ReportProblem";
+import ReportErrorAPI from "../external/reportErrorAPI";
+import Alert from "@material-ui/lab/Alert";
 
 function getModalStyle() {
     const top = 50;
@@ -33,7 +34,7 @@ const useStyles = makeStyles((theme: Theme) =>
             boxShadow: theme.shadows[5],
             padding: theme.spacing(2, 3, 3),
         },
-        margin: {
+        button: {
             width: '100%'
         }
     }),
@@ -47,26 +48,62 @@ type ReportErrorModalProps = {
 }
 
 const ReportErrorModal = (reportErrorModalProps: ReportErrorModalProps) => {
+    const reportErrorAPI = new ReportErrorAPI();
     const classes = useStyles();
     // getModalStyle is not a pure function, we roll the style only on the first render
     const [modalStyle] = React.useState(getModalStyle);
-    const [open, setOpen] = React.useState(false);
 
-    const [value, setValue] = React.useState('1');
+    const [state, setState] = React.useState({
+        modalStyle: getModalStyle,
+        textFiledValue: "",
+        problemChoice: "",
+        showAlertSucess: false,
+        showAlertError: false,
+        open: false
+    });
+
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setValue((event.target as HTMLInputElement).value);
+        setState({...state,
+            problemChoice: (event.target as HTMLInputElement).value});
     };
 
     const handleOpen = () => {
-        setOpen(true);
+        setState({...state,
+            open: true});
     };
 
     const handleClose = () => {
-        setOpen(false);
+        setState({...state,
+            open: false});
+    };
+
+    const send = () => {
+        let booleanPromise = reportErrorAPI.reportError({
+            type: "testType",
+            translation: "testTranslation",
+            web_page: "test",
+            word: "test",
+            other_description: state.textFiledValue,
+        });
+        booleanPromise.then(s => {
+            setState({...state,
+                showAlertSucess: s,
+                showAlertError: !s,
+                textFiledValue: s ? "" : state.textFiledValue});
+        }).catch(e => {
+            console.log("Problems calling reportError api: " + e);
+            setState({...state, showAlertSucess: false, showAlertError: true });
+        });
     };
 
     const modalContent = (
             <div style={modalStyle} className={classes.paper}>
+                {
+                    state.showAlertSucess &&  <Alert severity="success">Gracias por ayudarnos a mejorar</Alert>
+                }
+                {
+                    state.showAlertError && <Alert severity="error">Problemas enviando el reporte :( </Alert>
+                }
                 <Grid
                     container
                     direction="row"
@@ -88,15 +125,15 @@ const ReportErrorModal = (reportErrorModalProps: ReportErrorModalProps) => {
                 <Divider variant="fullWidth" />
                 <br/>
                 <Typography variant="body1">
-                    Por favor ayudanos a mejorar dandonos más datos del error.
+                    Por favor ayudanos a mejorar dandonos más datos del problema.
                 </Typography>
                 <br/>
                 <FormControl component="fieldset">
                     <RadioGroup aria-label="errorOptions" name="errorOptions" onChange={handleChange}>
-                        <FormControlLabel value="1" control={<Radio color="primary"  />}  label="Error ortográfico" />
-                        <FormControlLabel value="2" control={<Radio color="primary" />}  label="Error gramatical" />
-                        <FormControlLabel value="3" control={<Radio color="primary" />}  label="La traducción no tiene sentido en este contexto" />
-                        <FormControlLabel value="4" control={<Radio color="primary" />}  label="Otros" />
+                        <FormControlLabel value="1" control={<Radio color="primary"/>}  label="Error ortográfico" />
+                        <FormControlLabel value="2" control={<Radio color="primary"/>}  label="Error gramatical" />
+                        <FormControlLabel value="3" control={<Radio color="primary"/>}  label="La traducción no tiene sentido en este contexto" />
+                        <FormControlLabel value="4" control={<Radio color="primary"/>}  label="Otros" />
                     </RadioGroup>
                 </FormControl>
                 <TextField
@@ -112,8 +149,8 @@ const ReportErrorModal = (reportErrorModalProps: ReportErrorModalProps) => {
                     variant="outlined"
                 />
             <br/>
-                    <Badge color="primary" className={classes.margin} >
-                        <Button variant="contained" fullWidth color="primary">Enviar</Button>
+                    <Badge color="primary" className={classes.button} >
+                        <Button variant="contained" fullWidth color="primary" onClick={send}>Enviar</Button>
                     </Badge>
 
             </div>
@@ -127,14 +164,8 @@ const ReportErrorModal = (reportErrorModalProps: ReportErrorModalProps) => {
                     <ReportProblemIcon color="primary" />
                 </IconButton>
             }
-            {
-                reportErrorModalProps.feedback &&
-                <Button size="small" color="primary" onClick={handleOpen}>
-                    Feedback
-                </Button>
-            }
             <Modal
-                open={open}
+                open={state.open}
                 onClose={handleClose}
                 aria-labelledby="simple-modal-title"
                 aria-describedby="simple-modal-description"
