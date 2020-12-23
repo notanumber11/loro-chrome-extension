@@ -23,6 +23,7 @@ export default class NlpOrchestrator {
     }
 
     public static getInstance() {
-        return new NlpOrchestrator(new DomHandler(), new WordPicker(5), new Translator());
+        let translator = new Translator();
+        return new NlpOrchestrator(new DomHandler(), new WordPicker(5, translator), translator);
     }
 }

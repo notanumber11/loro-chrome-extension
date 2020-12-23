@@ -6,6 +6,8 @@ export default class TransferendumConfig {
 
     public readonly guiProxy:GuiProxy;
 
+    public static transferendumConfig = new TransferendumConfig();
+
     public constructor() {
         if (process.env.isChrome == "true") {
             this.guiProxy = new GuiProxyChrome();

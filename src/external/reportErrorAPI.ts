@@ -11,11 +11,6 @@ export interface ReportErrorInputInterface {
 
 export default class ReportErrorAPI {
 
-    public static readonly API = "https://transferendum-backend.herokuapp.com/api/v1/translations/mistake";
-    constructor() {
-
-    }
-
     async reportError(reportErrorInputInterface
         :ReportErrorInputInterface) : Promise<boolean> {
         console.log("Reporting error...");
@@ -31,18 +26,18 @@ export default class ReportErrorAPI {
             other_description = reportErrorInputInterface.other_description
         }
                 = reportErrorInputInterface;
-
-        const response = await fetch(ReportErrorAPI.API, {
-            method: 'POST',
-            body: JSON.stringify(reportErrorInputInterface),
-            headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'}
-        });
-
-        if (response) {
-            console.log("Error reported correctly");
-            return true;
+        try {
+            let response = await fetch(ReportErrorAPI.API, {
+                method: 'POST',
+                body: JSON.stringify(reportErrorInputInterface),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'}
+            });
+            return response.status == 200;
+        } catch (e) {
+            return false;
         }
-        console.error("Problems reporting error");
-        return false;
     }
+
+    public static readonly API = "https://transferendum-backend.herokuapp.com/api/v1/translations/mistake";
+
 }

@@ -77,12 +77,19 @@ const ReportErrorModal = (reportErrorModalProps: ReportErrorModalProps) => {
             open: false});
     };
 
+    const choicesToTypes = {
+        "1" : "mispelling",
+        "2" : "grammar",
+        "3" : "translation",
+        "4" : "other"
+    };
+
     const send = () => {
         let booleanPromise = reportErrorAPI.reportError({
-            type: "testType",
-            translation: "testTranslation",
+            translation: reportErrorModalProps.translated,
             web_page: "test",
-            word: "test",
+            type: choicesToTypes[state.problemChoice],
+            word: reportErrorModalProps.original,
             other_description: state.textFiledValue,
         });
         booleanPromise.then(s => {

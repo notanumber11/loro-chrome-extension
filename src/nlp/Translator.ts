@@ -19,14 +19,18 @@ export default class Translator {
             if (translatedWord != null) {
                 textTranslated.originalWords.push(wordOriginal);
                 textTranslated.translatedWords.push(translatedWord);
-                textTranslated.ids.push(Math.ceil(Math.random() * 10000000));
+                textTranslated.ids.push(i);
             }
         }
-        console.log("The number of unique words to translate is:: " + textTranslated.ids.length);
+        console.log("The number of unique words to translate is: " + textTranslated.ids.length);
         return textTranslated;
     }
 
     private translateWord(wordOriginal: string) {
         return dictionary[wordOriginal];
+    }
+
+    public wordExistOnDictionary(wordOriginal: string) : boolean {
+        return dictionary[wordOriginal] != null;
     }
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -15,12 +15,13 @@ import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
-import FeedbackPopup from "./FeedbackPopup";
+import GuiProxy from "./GuiProxy";
 
 const useStyles = makeStyles((theme) => ({
     root: {
         minWidth: 380,
         maxWidth: 380,
+        margin: 8
     },
     expand: {
         transform: 'rotate(0deg)',
@@ -46,19 +47,30 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 class DefaultPopupProps {
-    callback: any
+    callback: (showDefaultPopup: boolean, showFeedbackPopup: boolean) => void
+    guiProxy: GuiProxy
 }
 
 const DefaultPopup = (defaultPopupProps: DefaultPopupProps) => {
+    const difficultyKeyForChromeStore = "difficulty";
     const classes = useStyles();
-
     const [state, setState] = React.useState({
         toucanSwitch: true,
-        choice: "less"
+        choice: null
     });
+
+    const retrieveDifficult = (val:string) => {
+        setState({...state, choice: val });
+    };
+
+    // Run function after component is mounted: https://stackoverflow.com/questions/54792722/on-react-how-can-i-call-a-function-on-component-mount-on-a-functional-stateless
+    useEffect(() => {
+        defaultPopupProps.guiProxy.getOnLocalStore(difficultyKeyForChromeStore, retrieveDifficult);
+    }, []);
 
     const difficultyChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setState({ ...state, choice: (event.target as HTMLInputElement).value });
+        defaultPopupProps.guiProxy.saveOnLocalStore(difficultyKeyForChromeStore, (event.target as HTMLInputElement).value);
     };
 
     const handleClose = () => {
@@ -72,6 +84,7 @@ const DefaultPopup = (defaultPopupProps: DefaultPopupProps) => {
     const showFeedback = ()=> defaultPopupProps.callback(false, true);
 
     return (
+
         <div>
             {
                 <Card className={classes.root} variant="outlined">

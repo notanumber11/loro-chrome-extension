@@ -4,4 +4,9 @@
 // 2) Enable future development of extensions for other browsers
 export default abstract class GuiProxy {
     abstract sendMessage(message: any, responseCallback?: (response: any) => void): void;
+
+    abstract saveOnLocalStore(key:string, value:string);
+
+    abstract getOnLocalStore(key:string, callback:(val:string) => void);
+
 }

@@ -16,7 +16,6 @@ export default class DomHandler {
 
 // Return all test in the webpage that can be considered for translation
     public  obtainTextCandidate(document:Document) : Array<TextCandidate> {
-        console.log("Executing obtainTextSuitableToTranslate...");
         // Obtain all paragraphs
         let nodes = document.getElementsByTagName("p");
         let textCandidateList: Array<TextCandidate> = [];
@@ -30,7 +29,6 @@ export default class DomHandler {
             // Add to the map for further reference
             this.nodes.push(node);
         }
-        console.log("Returning TextSuitableToTranslate with lenght: " + textCandidateList.length);
         return textCandidateList;
     }
 

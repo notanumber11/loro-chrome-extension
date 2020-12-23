@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 class FeedbackPopupProps {
-    callback:any
+    callback:(showDefaultPopup: boolean, showFeedbackPopup: boolean) => void
 }
 
 const FeedbackPopup = (feedbackPopupProps: FeedbackPopupProps) => {
