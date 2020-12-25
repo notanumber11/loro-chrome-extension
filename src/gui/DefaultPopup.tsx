@@ -16,6 +16,7 @@ import Box from "@material-ui/core/Box";
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import GuiProxy from "./GuiProxy";
+import TransferendumConfig from "../TransferendumConfig";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -47,44 +48,53 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 class DefaultPopupProps {
-    callback: (showDefaultPopup: boolean, showFeedbackPopup: boolean) => void
+    callback: (showDefaultPopup: boolean, showFeedbackPopup: boolean) => void;
     guiProxy: GuiProxy
 }
 
 const DefaultPopup = (defaultPopupProps: DefaultPopupProps) => {
-    const difficultyKeyForChromeStore = "difficulty";
     const classes = useStyles();
-    const [state, setState] = React.useState({
-        toucanSwitch: true,
-        choice: null
-    });
+    const [difficultyState, setDifficultyState] = React.useState("many");
 
-    const retrieveDifficult = (val:string) => {
-        setState({...state, choice: val });
+    const [loroSwitchState, setLoroSwitchState] = React.useState(false);
+
+    const retrieveDifficult = (difficulty:string) => {
+        difficulty = difficulty != null ? difficulty : "less";
+        console.log("[DefaultPopup] retrieveDifficult= " + difficulty);
+        setDifficultyState(difficulty);
+    };
+
+    const retrieveLoroSwitch = (loroSwitch:string) => {
+        let switchBoolean = loroSwitch == null || loroSwitch == "true";
+        console.log("[DefaultPopup] - retrieveLoroSwitch= " + loroSwitch);
+        setLoroSwitchState(switchBoolean);
     };
 
     // Run function after component is mounted: https://stackoverflow.com/questions/54792722/on-react-how-can-i-call-a-function-on-component-mount-on-a-functional-stateless
     useEffect(() => {
-        defaultPopupProps.guiProxy.getOnLocalStore(difficultyKeyForChromeStore, retrieveDifficult);
+        defaultPopupProps.guiProxy.getOnLocalStore(TransferendumConfig.DIFFICULTY_KEY, retrieveDifficult);
+        defaultPopupProps.guiProxy.getOnLocalStore(TransferendumConfig.LORO_SWITCH_KEY, retrieveLoroSwitch);
     }, []);
 
     const difficultyChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setState({ ...state, choice: (event.target as HTMLInputElement).value });
-        defaultPopupProps.guiProxy.saveOnLocalStore(difficultyKeyForChromeStore, (event.target as HTMLInputElement).value);
+        setDifficultyState((event.target as HTMLInputElement).value );
+        defaultPopupProps.guiProxy.setOnLocalStore(TransferendumConfig.DIFFICULTY_KEY, (event.target as HTMLInputElement).value);
+        defaultPopupProps.guiProxy.reloadCurrentTab();
+    };
+
+    const toucanSwitchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setLoroSwitchState(event.target.checked);
+        defaultPopupProps.guiProxy.setOnLocalStore(TransferendumConfig.LORO_SWITCH_KEY,event.target.checked.toString());
+        defaultPopupProps.guiProxy.reloadCurrentTab();
     };
 
     const handleClose = () => {
         window.close();
     };
 
-    const toucanSwitchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setState({ ...state, [event.target.name]: event.target.checked });
-    };
-
     const showFeedback = ()=> defaultPopupProps.callback(false, true);
 
     return (
-
         <div>
             {
                 <Card className={classes.root} variant="outlined">
@@ -99,7 +109,7 @@ const DefaultPopup = (defaultPopupProps: DefaultPopupProps) => {
                                 <CloseIcon color="primary" />
                             </IconButton>
                         }
-                        title="Aprende un nuevo language"
+                        title="Aprende un new lenguage"
                         subheader="Sin darte cuenta :)"
                     />
                     <Divider variant="middle" />
@@ -112,19 +122,19 @@ const DefaultPopup = (defaultPopupProps: DefaultPopupProps) => {
                                 <FormControlLabel
                                     control={<Radio color = "primary" />}
                                     value="less"
-                                    checked={state.choice == "less"}
+                                    checked={difficultyState == "less"}
                                     label="Menos (Pocas y sútiles)"
                                 />
                                 <FormControlLabel
                                     control={<Radio color = "primary" />}
                                     value="more"
-                                    checked={state.choice == "more"}
+                                    checked={difficultyState == "more"}
                                     label="Más (Frequentes y obvias)"
                                 />
                                 <FormControlLabel
                                     control={<Radio color = "primary" />}
                                     value="many"
-                                    checked={state.choice == "many"}
+                                    checked={difficultyState == "many"}
                                     label="Muchas (Muchas y abundantes)"
                                 />
                             </RadioGroup>
@@ -141,7 +151,7 @@ const DefaultPopup = (defaultPopupProps: DefaultPopupProps) => {
                                 <Grid item xs={3} >
                                     <Switch
                                         color="primary"
-                                        checked={state.toucanSwitch}
+                                        checked={loroSwitchState}
                                         onChange={toucanSwitchChange}
                                         name="toucanSwitch"
                                         inputProps={{ 'aria-label': 'secondary checkbox' }}
@@ -159,24 +169,24 @@ const DefaultPopup = (defaultPopupProps: DefaultPopupProps) => {
                                         </Grid>
                                         <Grid item xs={4}>
                                             {
-                                                state.toucanSwitch &&
+                                                loroSwitchState &&
                                                 <Typography color="primary" variant="h6">ON</Typography>
                                             }
                                             {
-                                                !state.toucanSwitch &&
+                                                !loroSwitchState &&
                                                 <Typography color="primary" variant="h6">OFF</Typography>
                                             }
                                         </Grid>
                                     </Grid>
                                     <Grid item xs={9}>
                                         {
-                                            state.toucanSwitch &&
+                                            loroSwitchState &&
                                             <Typography variant="subtitle2">
                                                 Necesitas apagar las traducciones un rato? Prueba apagando Loro :)
                                             </Typography>
                                         }
                                         {
-                                            !state.toucanSwitch &&
+                                            !loroSwitchState &&
                                             <Typography variant="subtitle2" >
                                                 Enciende Loro para ver traducciones de nuevo :)
                                             </Typography>

@@ -4,7 +4,7 @@ import Translator from "../../../src/nlp/Translator";
 
 describe('WordPicker tests', () => {
     it('Words on map', () => {
-        let wordPicker: WordPicker = new WordPicker(5, new Translator());
+        let wordPicker: WordPicker = new WordPicker(new Translator());
         let map = new Map();
         let words = ["a", "b", "a"];
         for (let word of words) {
@@ -15,15 +15,15 @@ describe('WordPicker tests', () => {
     });
 
     it('Choose words', () => {
-        let wordPicker: WordPicker = new WordPicker(100, new Translator());
+        let wordPicker: WordPicker = new WordPicker( new Translator());
         let words = text;
-        let result = wordPicker.chooseWords(words);
-        expect(result.length).to.equal(26);
+        let result = wordPicker.chooseWords(words, 100);
+        expect(result.length).to.equal(25);
     });
     it('Choose words with special characters', () => {
-        let wordPicker: WordPicker = new WordPicker(100, new Translator());
+        let wordPicker: WordPicker = new WordPicker(new Translator());
         let words = "más años adsadasdas";
-        let result = wordPicker.chooseWords(words);
+        let result = wordPicker.chooseWords(words, 100);
         expect(result.length).to.equal(2);
     });
 });

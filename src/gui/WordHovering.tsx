@@ -34,7 +34,7 @@ class WordHovering extends Component<ToolTipProps, IState> {
         return <span
             onMouseEnter={this.handleMouseHover}
             onMouseLeave={this.handleMouseHover}
-            className="ToolTipContainer">
+            className="hovering">
                 {this.props.translated}
             {
                 this.state.isHovering &&

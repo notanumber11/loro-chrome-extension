@@ -1,10 +1,6 @@
 // Listen to messages sent from other parts of the extension.
 // This is executed on the popup of the application
 
-import ReportErrorAPI from "../external/reportErrorAPI";
-
-let reportErrorAPI = new ReportErrorAPI();
-
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     console.log("Executing listener on background.ts ...");
     // onMessage must return "true" if response is async.

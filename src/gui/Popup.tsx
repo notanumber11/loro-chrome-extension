@@ -1,5 +1,5 @@
 import React from 'react';
-import FeedbackPopup from "./FeedbackPopup";
+import ContactPopup from "./ContactPopup";
 import DefaultPopup from "./DefaultPopup";
 import TransferendumConfig from "../TransferendumConfig";
 
@@ -14,16 +14,15 @@ export default function Popup() {
         setState({...state, showDefault: showDefaultPopup, showFeedback: showFeedbackPopup});
     };
 
-
     return (
         <div>
             {
                 state.showDefault &&
-                <DefaultPopup callback={popUpToSee} guiProxy={TransferendumConfig.transferendumConfig.guiProxy}/>
+                <DefaultPopup callback={popUpToSee} guiProxy={TransferendumConfig.instance.guiProxy}/>
             }
             {
                 state.showFeedback &&
-                <FeedbackPopup callback={popUpToSee}/>
+                <ContactPopup callback={popUpToSee}/>
             }
         </div>
     )

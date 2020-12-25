@@ -87,7 +87,7 @@ const ReportErrorModal = (reportErrorModalProps: ReportErrorModalProps) => {
     const send = () => {
         let booleanPromise = reportErrorAPI.reportError({
             translation: reportErrorModalProps.translated,
-            web_page: "test",
+            web_page: window.location.href,
             type: choicesToTypes[state.problemChoice],
             word: reportErrorModalProps.original,
             other_description: state.textFiledValue,

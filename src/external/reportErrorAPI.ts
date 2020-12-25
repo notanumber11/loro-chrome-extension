@@ -14,18 +14,10 @@ export default class ReportErrorAPI {
     async reportError(reportErrorInputInterface
         :ReportErrorInputInterface) : Promise<boolean> {
         console.log("Reporting error...");
+        reportErrorInputInterface.user = reportErrorInputInterface.user != null ? reportErrorInputInterface.user : "default";
+        reportErrorInputInterface.phrase = reportErrorInputInterface.phrase != null ? reportErrorInputInterface.phrase : "default";
+        reportErrorInputInterface.time = reportErrorInputInterface.time != null ? reportErrorInputInterface.time : "2020-11-11T11:11:11.111Z";
         console.log("The reported error is: " + JSON.stringify(reportErrorInputInterface));
-        const {
-            user = "default",
-            phrase = "default",
-            time = "default",
-            web_page = reportErrorInputInterface.web_page,
-            word = reportErrorInputInterface.word,
-            translation = reportErrorInputInterface.translation,
-            type = reportErrorInputInterface.type,
-            other_description = reportErrorInputInterface.other_description
-        }
-                = reportErrorInputInterface;
         try {
             let response = await fetch(ReportErrorAPI.API, {
                 method: 'POST',

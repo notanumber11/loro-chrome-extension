@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import TranslationCard from "./gui/TranslationCard";
 import DefaultPopup from "./gui/DefaultPopup";
 import ReportErrorModal from "./gui/ReportErrorModal";
-import FeedbackPopup from "./gui/FeedbackPopup";
+import ContactPopup from "./gui/ContactPopup";
 import Popup from "./gui/Popup";
 
 
@@ -18,5 +18,5 @@ ReactDOM.render(<ReportErrorModal  original="original" translated="translated"/>
 ReactDOM.render(<Popup/>, document.getElementById('popup'));
 
 /*
-ReactDOM.render(<FeedbackPopup/>, document.getElementById('popup'));
+ReactDOM.render(<ContactPopup/>, document.getElementById('popup'));
 */

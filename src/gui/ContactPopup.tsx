@@ -10,8 +10,8 @@ import Alert from '@material-ui/lab/Alert';
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         paper: {
-            minWidth: 380,
-            maxWidth: 380,
+            minWidth: 350,
+            maxWidth: 350,
             backgroundColor: theme.palette.background.paper,
             boxShadow: theme.shadows[5],
             padding: theme.spacing(2, 3, 3),
@@ -26,12 +26,14 @@ class FeedbackPopupProps {
     callback:(showDefaultPopup: boolean, showFeedbackPopup: boolean) => void
 }
 
-const FeedbackPopup = (feedbackPopupProps: FeedbackPopupProps) => {
+const ContactPopup = (feedbackPopupProps: FeedbackPopupProps) => {
     const reportErrorAPI = new ReportErrorAPI();
     const classes = useStyles();
 
     const [state, setState] = React.useState({
         textFiledValue: "",
+        emailFiledValue: "",
+        nameFiledValue: "",
         showAlertSucess: false,
         showAlertError: false
     });
@@ -40,19 +42,28 @@ const FeedbackPopup = (feedbackPopupProps: FeedbackPopupProps) => {
         setState({...state, textFiledValue: e.target.value });
     };
 
+    const handleEmailFieldChange = (e)=> {
+        setState({...state, emailFiledValue: e.target.value });
+    };
+
+    const handleNameFieldChange = (e)=> {
+        setState({...state, nameFiledValue: e.target.value });
+    };
+
     const handleClose = () => {
         feedbackPopupProps.callback(true, false);
     };
 
     const send = () => {
-        let booleanPromise = reportErrorAPI.reportError({
-            type: "testType",
-            translation: "testTranslation",
-            web_page: "test",
-            word: "test",
+        let reportErrorResultPromise = reportErrorAPI.reportError({
+            type: "other",
+            translation: "notAvailableOnReportGeneralFeedback",
+            web_page: "notAvailableOnReportGeneralFeedback",
+            word: "notAvailableOnReportGeneralFeedback",
+            user: state.nameFiledValue + " - " + state.emailFiledValue,
             other_description: state.textFiledValue,
         });
-        booleanPromise.then(s => {
+        reportErrorResultPromise.then(s => {
             setState({...state,
                 showAlertSucess: s,
                 showAlertError: !s,
@@ -94,9 +105,40 @@ const FeedbackPopup = (feedbackPopupProps: FeedbackPopupProps) => {
             <Typography variant="body1">
                 Si tienes un problema o quieres ayudarnos a mejorar no dudes en contactarnos :)
             </Typography>
+            <TextField onChange={handleNameFieldChange}
+                       id="outlined-full-width"
+                       placeholder="Nombre"
+                       label="Nombre"
+                       rows={1}
+                       fullWidth
+                       multiline={false}
+                       margin="normal"
+                       InputLabelProps={{
+                           shrink: true,
+                       }}
+                       variant="outlined"
+                       value = {state.nameFiledValue}
+            />
+
+            <TextField onChange={handleEmailFieldChange}
+                       id="outlined-full-width"
+                       placeholder="Email"
+                       label="Email"
+                       rows={1}
+                       fullWidth
+                       multiline={false}
+                       margin="normal"
+                       InputLabelProps={{
+                           shrink: true,
+                       }}
+                       variant="outlined"
+                       value = {state.emailFiledValue}
+            />
+
             <TextField onChange={handleTextFieldChange}
                 id="outlined-full-width"
-                placeholder="¿Algun detalle adicional?"
+                placeholder="¿Que te gustaría contarnos?"
+                label="Mensaje"
                 rows={2}
                 fullWidth
                 multiline={true}
@@ -116,4 +158,4 @@ const FeedbackPopup = (feedbackPopupProps: FeedbackPopupProps) => {
     );
 };
 
-export default FeedbackPopup;
+export default ContactPopup;

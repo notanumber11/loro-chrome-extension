@@ -8,18 +8,15 @@ export interface TextToTranslate {
 }
 
 export default class WordPicker {
-    private readonly difficulty:number;
     private readonly translator:Translator;
 
-    constructor(difficulty:number, translator:Translator) {
-        this.difficulty = difficulty;
+    constructor(translator:Translator) {
         this.translator = translator;
     }
 
-    public getWordsForTranslation(textCandidateList: Array<TextCandidate>) : TextToTranslate {
+    public getWordsForTranslation(textCandidateList: Array<TextCandidate>, difficulty:number) : TextToTranslate {
         let fullText = this.getFullText(textCandidateList);
-        console.log(`Processing ${fullText.length} words`);
-        let wordsToTranslate = this.chooseWords(fullText);
+        let wordsToTranslate = this.chooseWords(fullText, difficulty);
         return {originalWords: wordsToTranslate};
     }
 
@@ -32,7 +29,7 @@ export default class WordPicker {
         return fullText;
     }
 
-    public chooseWords(fullText: string) : Array<string> {
+    public chooseWords(fullText: string, difficulty:number) : Array<string> {
         const regEx = new RegExp("^[a-zà-úñ]+$");
         let words: string[] = fullText.split(" ");
         let wordMapCounter:Map<string, number> = new Map();
@@ -51,7 +48,7 @@ export default class WordPicker {
             // Update the map with the occurrences of each word
             wordMapCounter = this.updateMap(wordMapCounter, word);
         }
-        return this.selectWordsToTranslate(this.difficulty, wordMapCounter, words.length);
+        return this.selectWordsToTranslate(difficulty, wordMapCounter, words.length);
     }
 
     private selectWordsToTranslate(difficulty:number, wordMapCounter:Map<string, number>, numberOfWordsInWholeText:number) : Array<string> {
@@ -72,7 +69,7 @@ export default class WordPicker {
             }
         }
         console.log(`The map contains ${wordMapCounter.set.length} different unique words`);
-        console.log(`The difficulty is: ${difficulty} and we expect to replace at min ${numberOfWordsToReplace} words.`)
+        console.log(`The difficulty is: ${difficulty} and we expect to replace at min ${numberOfWordsToReplace}/${numberOfWordsInWholeText} words.`)
         console.log(`We are translating ${numberOfUniqueWords} unique words and replacing ${numberOfReplacedWords}/${numberOfWordsInWholeText} words`);
         return chosenWordsToTranslate;
     }

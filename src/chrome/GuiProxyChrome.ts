@@ -1,22 +1,32 @@
 import GuiProxy from "../gui/GuiProxy";
 
 export default class GuiProxyChrome extends GuiProxy {
+
     sendMessage(message: any, responseCallback?: (response: any) => void) {
-        console.log("Sending message from GuiProxyChrome");
         chrome.runtime.sendMessage(message);
     }
 
-    saveOnLocalStore(key:string, value:string) {
-        chrome.storage.sync.set({key: value}, function() {
-            console.log(`Saving on local chrome storage with key=${key} and value=${value}`);
+    setOnLocalStore(key:string, value:string) {
+        chrome.storage.sync.set({[key]: value}, function() {
+            console.log(`Saving with key=${key} and value=${value}`);
         });
     }
 
     getOnLocalStore(key:string, callback:(value:string) => void) {
-        chrome.storage.sync.get(['key'], function(result) {
-            let value  = result.key;
-            console.log(`Retrieving from local chrome storage with key=${key} and value=${value}`);
+        chrome.storage.sync.get([key], function(result) {
+            let value  = result[key];
+            if (value == null) {
+                console.warn("Problems retrieving from local storage with key=" + key);
+            }
+            console.log(`Retrieved with key=${key} and value=${value}`);
             callback(value);
+        });
+    }
+
+    reloadCurrentTab() {
+        chrome.tabs.query({active: true}, function (tabs) {
+            let code = 'window.location.reload();';
+            chrome.tabs.executeScript(tabs.pop().id, {code: code});
         });
     }
 }

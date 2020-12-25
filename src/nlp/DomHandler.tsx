@@ -52,22 +52,22 @@ export default class DomHandler {
         console.log("Finishing replace words");
     }
 
-    public applyReactOnHover(document:Document, originalAndTranslated:OriginalAndTranslated ) {
-        console.log("apply react on hover");
+    public async applyReactOnHover(document: Document, originalAndTranslated: OriginalAndTranslated) {
+        console.log("Start applyReactOnHover");
         // Iterate over all the words marked
-        for(let i=0; i<originalAndTranslated.originalWords.length; i++) {
+        for (let i = 0; i < originalAndTranslated.originalWords.length; i++) {
             let id = originalAndTranslated.ids[i];
             let original = originalAndTranslated.originalWords[i];
             let translated = originalAndTranslated.translatedWords[i];
             // Find all the nodes replaced for a given word
             let nodes = document.getElementsByClassName(this.IDENTIFIER + id);
-            for(let j=0; j< nodes.length; j++) {
+            for (let j = 0; j < nodes.length; j++) {
                 let node = nodes[j];
                 // TODO: Check how to do it faster
-                ReactDOM.render(<WordHovering original={original} translated={translated} />, node);
+                ReactDOM.render(<WordHovering original={original} translated={translated}/>, node);
             }
         }
-        console.log("finishing apply react on hover");
+        console.log("Finish applyReactOnHover");
     }
 
     private markWords(htmlContent: string, original: string, translation: string, id:number) :string {
