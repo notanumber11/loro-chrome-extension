@@ -15,21 +15,13 @@ module.exports = {
     rules: [
       {
         exclude: /node_modules/,
+        include: path.resolve(__dirname, 'src'),
         test: /\.tsx?$/,
         use: "ts-loader"
       },
       {
         exclude: /node_modules/,
-        test: /\.js?$/,
-        use: "ts-loader"
-      },
-      {
-        exclude: /tests/,
-        test: /\.tsx?$/,
-        use: "ts-loader"
-      },
-      {
-        exclude: /node_modules/,
+        include: path.resolve(__dirname, 'src/gui'),
         test: /\.scss$/,
         use: [
           {

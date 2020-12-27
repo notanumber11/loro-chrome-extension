@@ -1,3 +1,4 @@
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const path = require("path");
 const merge = require("webpack-merge");
 const common = require("./webpack.common.js");
@@ -8,7 +9,11 @@ module.exports = merge(common, {
   entry: path.join(__dirname, "src/index.tsx"),
   mode: "development",
   devtool: "inline-source-map",
+  devServer: {
+    contentBase: './dist/js',
+  },
   plugins: [
+    new CleanWebpackPlugin({ cleanStaleWebpackAssets: false }),
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, "src", "index.html")
     }),

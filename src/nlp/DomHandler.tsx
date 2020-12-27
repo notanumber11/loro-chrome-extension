@@ -52,7 +52,7 @@ export default class DomHandler {
         console.log("Finishing replace words");
     }
 
-    public async applyReactOnHover(document: Document, originalAndTranslated: OriginalAndTranslated) {
+    public applyReactOnHover(document: Document, originalAndTranslated: OriginalAndTranslated) {
         console.log("Start applyReactOnHover");
         // Iterate over all the words marked
         for (let i = 0; i < originalAndTranslated.originalWords.length; i++) {
