@@ -12,7 +12,7 @@ interface IState {
 }
 
 class WordHovering extends Component<ToolTipProps, IState> {
-    constructor(props) {
+    constructor(props: ToolTipProps) {
         super(props);
         this.handleMouseHover = this.handleMouseHover.bind(this);
         this.state = {
@@ -24,7 +24,7 @@ class WordHovering extends Component<ToolTipProps, IState> {
         this.setState(this.toggleHoverState);
     }
 
-    toggleHoverState(state) {
+    toggleHoverState(state:IState) {
         return {
             isHovering: !state.isHovering,
         };

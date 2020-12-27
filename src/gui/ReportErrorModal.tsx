@@ -1,7 +1,7 @@
 import React from 'react';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
-import {Grid, TextField, Typography, Box, Badge, Button, ButtonBase} from "@material-ui/core";
+import {Grid, TextField, Typography, Box, Badge, Button} from "@material-ui/core";
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -77,7 +77,7 @@ const ReportErrorModal = (reportErrorModalProps: ReportErrorModalProps) => {
             open: false});
     };
 
-    const choicesToTypes = {
+    const choicesToTypes : Record<string, string> = {
         "1" : "mispelling",
         "2" : "grammar",
         "3" : "translation",

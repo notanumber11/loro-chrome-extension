@@ -60,7 +60,7 @@ export default class WordPicker {
 
         for(let i=0; i<randomArray.length; i++) {
             let randomWord:string = randomArray[i];
-            let occurrences:number = wordMapCounter.get(randomWord);
+            let occurrences:number = wordMapCounter.get(randomWord)!;
             numberOfReplacedWords = numberOfReplacedWords + occurrences;
             chosenWordsToTranslate.push(randomWord);
             numberOfUniqueWords +=1;
@@ -91,7 +91,7 @@ export default class WordPicker {
 
     public updateMap(wordMapCounter: Map<string, number>, word: string) : Map<string, number> {
         if (wordMapCounter.has(word)) {
-            let count: number = wordMapCounter.get(word);
+            let count: number = wordMapCounter.get(word)!;
             wordMapCounter.set(word, count+1);
         } else {
             wordMapCounter.set(word, 1);

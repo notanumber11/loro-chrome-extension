@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-class DefaultPopupProps {
+interface DefaultPopupProps {
     callback: (showDefaultPopup: boolean, showFeedbackPopup: boolean) => void;
     guiProxy: GuiProxy
 }

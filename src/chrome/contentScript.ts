@@ -35,7 +35,7 @@ function processBasedOnDifficulty(nlpOrchestrator: NlpOrchestrator, transferendu
             difficulty = "less";
             console.warn("[processDocument] - Problems retrieving difficulty from local store. Using as default value: " + difficulty)
         }
-        nlpOrchestrator.process(document, transferendumConfig.difficultyToNumber.get(difficulty));
+        nlpOrchestrator.process(document, transferendumConfig.difficultyToNumber.get(difficulty)!);
     };
 }
 

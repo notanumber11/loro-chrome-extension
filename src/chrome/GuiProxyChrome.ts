@@ -24,7 +24,7 @@ export default class GuiProxyChrome extends GuiProxy {
     }
 
     reloadCurrentTab() {
-        chrome.tabs.query({active: true}, function (tabs) {
+        chrome.tabs.query({active: true}, function (tabs:Array<any>) {
             let code = 'window.location.reload();';
             chrome.tabs.executeScript(tabs.pop().id, {code: code});
         });

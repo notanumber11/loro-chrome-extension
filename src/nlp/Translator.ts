@@ -26,11 +26,13 @@ export default class Translator {
         return textTranslated;
     }
 
-    private translateWord(wordOriginal: string) {
+    private translateWord(wordOriginal: string):string {
+        // @ts-ignore
         return dictionary[wordOriginal];
     }
 
     public wordExistOnDictionary(wordOriginal: string) : boolean {
+        // @ts-ignore
         return dictionary[wordOriginal] != null;
     }
 }

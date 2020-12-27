@@ -5,9 +5,9 @@
 export default abstract class GuiProxy {
     abstract sendMessage(message: any, responseCallback?: (response: any) => void): void;
 
-    abstract setOnLocalStore(key:string, value:string);
+    abstract setOnLocalStore(key:string, value:string): void;
 
-    abstract getOnLocalStore(key:string, callback:(val:string) => void);
+    abstract getOnLocalStore(key:string, callback:(val:string) => void) : void;
 
-    abstract reloadCurrentTab();
+    abstract reloadCurrentTab(): void;
 }

@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme: Theme) =>
     }),
 );
 
-class FeedbackPopupProps {
+interface FeedbackPopupProps {
     callback:(showDefaultPopup: boolean, showFeedbackPopup: boolean) => void
 }
 
@@ -38,15 +38,15 @@ const ContactPopup = (feedbackPopupProps: FeedbackPopupProps) => {
         showAlertError: false
     });
 
-    const handleTextFieldChange = (e)=> {
+    const handleTextFieldChange = (e: React.ChangeEvent<HTMLInputElement>)=> {
         setState({...state, textFiledValue: e.target.value });
     };
 
-    const handleEmailFieldChange = (e)=> {
+    const handleEmailFieldChange = (e: React.ChangeEvent<HTMLInputElement>)=> {
         setState({...state, emailFiledValue: e.target.value });
     };
 
-    const handleNameFieldChange = (e)=> {
+    const handleNameFieldChange = (e: React.ChangeEvent<HTMLInputElement>)=> {
         setState({...state, nameFiledValue: e.target.value });
     };
 
