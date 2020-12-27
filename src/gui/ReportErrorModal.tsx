@@ -12,6 +12,7 @@ import CloseIcon from "@material-ui/icons/Close";
 import ReportProblemIcon from "@material-ui/icons/ReportProblem";
 import ReportErrorAPI from "../external/reportErrorAPI";
 import Alert from "@material-ui/lab/Alert";
+import {AlertTitle} from "@material-ui/lab";
 
 function getModalStyle() {
     const top = 50;
@@ -106,10 +107,20 @@ const ReportErrorModal = (reportErrorModalProps: ReportErrorModalProps) => {
     const modalContent = (
             <div style={modalStyle} className={classes.paper}>
                 {
-                    state.showAlertSucess &&  <Alert severity="success">Gracias por ayudarnos a mejorar</Alert>
+                    state.showAlertSucess &&
+                    <Alert severity="success">
+                        <AlertTitle>Gracias por ayudarnos a mejorar !</AlertTitle>
+                            Error reportado con éxito :)
+                    </Alert>
                 }
                 {
-                    state.showAlertError && <Alert severity="error">Problemas enviando el reporte :( </Alert>
+                    state.showAlertError &&
+                    <Alert severity="error">
+                        <AlertTitle>
+                            Error
+                        </AlertTitle>
+                        Problemas enviando el reporte :(
+                    </Alert>
                 }
                 <Grid
                     container

@@ -6,6 +6,7 @@ import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 import ReportErrorAPI from "../external/reportErrorAPI";
 import Alert from '@material-ui/lab/Alert';
+import {AlertTitle} from "@material-ui/lab";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -77,10 +78,20 @@ const ContactPopup = (feedbackPopupProps: FeedbackPopupProps) => {
     return (
         <div className={classes.paper}>
             {
-                state.showAlertSucess &&  <Alert severity="success">Mensaje enviado con éxito!</Alert>
+                state.showAlertSucess &&
+                <Alert severity="success">
+                    <AlertTitle>Gracias por contactarnos !</AlertTitle>
+                        Mensaje enviado con éxito.
+                </Alert>
             }
             {
-                state.showAlertError && <Alert severity="error">Error enviando el mensaje </Alert>
+                state.showAlertError &&
+                <Alert severity="error">
+                    <AlertTitle>
+                        Error
+                    </AlertTitle>
+                    Error enviando el mensaje
+                </Alert>
             }
             <Grid
                 container

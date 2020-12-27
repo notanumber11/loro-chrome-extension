@@ -7,7 +7,6 @@
     "outDir": "dist/js",
     "resolveJsonModule": true, // To be able to read jsons
     "skipLibCheck": true,
-    "sourceMap": true, // Useful for debug
     "strict": true,
     "target": "es5"
   },
