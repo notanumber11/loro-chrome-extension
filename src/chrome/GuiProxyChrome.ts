@@ -16,7 +16,7 @@ export default class GuiProxyChrome extends GuiProxy {
         chrome.storage.sync.get([key], function(result) {
             let value  = result[key];
             if (value == null) {
-                console.warn("Problems retrieving from local storage with key=" + key);
+                console.log("Problems retrieving from local storage with key=" + key);
             }
             console.log(`Retrieved with key=${key} and value=${value}`);
             callback(value);
@@ -24,9 +24,9 @@ export default class GuiProxyChrome extends GuiProxy {
     }
 
     reloadCurrentTab() {
-        chrome.tabs.query({active: true}, function (tabs:Array<any>) {
+        chrome.tabs.query({active: true}, ()=> {
             let code = 'window.location.reload();';
-            chrome.tabs.executeScript(tabs.pop().id, {code: code});
+            chrome.tabs.executeScript({code: code});
         });
     }
 }

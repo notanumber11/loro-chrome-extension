@@ -57,13 +57,14 @@ const ReportErrorModal = (reportErrorModalProps: ReportErrorModalProps) => {
     const [state, setState] = React.useState({
         modalStyle: getModalStyle,
         textFiledValue: "",
-        problemChoice: "",
+        problemChoice: "4",
         showAlertSucess: false,
         showAlertError: false,
-        open: false
+        open: false,
+        webpage: window.location.href
     });
 
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setState({...state,
             problemChoice: (event.target as HTMLInputElement).value});
     };
@@ -78,6 +79,10 @@ const ReportErrorModal = (reportErrorModalProps: ReportErrorModalProps) => {
             open: false});
     };
 
+    const handletextFiledValueChange = (e: React.ChangeEvent<HTMLInputElement>)=> {
+        setState({...state, textFiledValue: e.target.value });
+    };
+
     const choicesToTypes : Record<string, string> = {
         "1" : "mispelling",
         "2" : "grammar",
@@ -88,7 +93,7 @@ const ReportErrorModal = (reportErrorModalProps: ReportErrorModalProps) => {
     const send = () => {
         let booleanPromise = reportErrorAPI.reportError({
             translation: reportErrorModalProps.translated,
-            web_page: window.location.href,
+            web_page: state.webpage,
             type: choicesToTypes[state.problemChoice],
             word: reportErrorModalProps.original,
             other_description: state.textFiledValue,
@@ -147,7 +152,7 @@ const ReportErrorModal = (reportErrorModalProps: ReportErrorModalProps) => {
                 </Typography>
                 <br/>
                 <FormControl component="fieldset">
-                    <RadioGroup aria-label="errorOptions" name="errorOptions" onChange={handleChange}>
+                    <RadioGroup aria-label="errorOptions" name="errorOptions" onChange={handleRadioChange} value={state.problemChoice}>
                         <FormControlLabel value="1" control={<Radio color="primary"/>}  label="Error ortográfico" />
                         <FormControlLabel value="2" control={<Radio color="primary"/>}  label="Error gramatical" />
                         <FormControlLabel value="3" control={<Radio color="primary"/>}  label="La traducción no tiene sentido en este contexto" />
@@ -156,7 +161,19 @@ const ReportErrorModal = (reportErrorModalProps: ReportErrorModalProps) => {
                 </FormControl>
                 <TextField
                     id="outlined-full-width"
+                    label="Página web"
+                    fullWidth
+                    margin="normal"
+                    InputProps={{
+                        readOnly: true
+                    }}
+                    variant="outlined"
+                    value = {state.webpage}
+                />
+                <TextField onChange={handletextFiledValueChange}
+                    id="outlined-full-width"
                     placeholder="¿Algun detalle adicional?"
+                    label="Información extra"
                     helperText="Opcional"
                     fullWidth
                     multiline={true}
@@ -165,6 +182,7 @@ const ReportErrorModal = (reportErrorModalProps: ReportErrorModalProps) => {
                         shrink: true,
                     }}
                     variant="outlined"
+                    value = {state.textFiledValue}
                 />
             <br/>
                     <Badge color="primary" className={classes.button} >

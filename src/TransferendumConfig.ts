@@ -13,9 +13,9 @@ export default class TransferendumConfig {
     public static instance = new TransferendumConfig();
 
     public readonly difficultyToNumber:Map<string, number> = new Map([
-        ["less", 2],
-        ["more", 4],
-        ["many", 6]
+        ["less", 1],
+        ["more", 2],
+        ["many", 4]
     ]);
 
 

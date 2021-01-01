@@ -100,7 +100,7 @@ const DefaultPopup = (defaultPopupProps: DefaultPopupProps) => {
                 <Card className={classes.root} variant="outlined">
                     <CardHeader
                         avatar={
-                            <Avatar  alt="loro" src="../icon48-mirror2.png">
+                            <Avatar  alt="loro" src="../icon-default-popup.png">
                                 loro
                             </Avatar>
                         }

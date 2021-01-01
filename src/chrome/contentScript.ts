@@ -16,7 +16,7 @@ function processBasedOnExtensionEnable(conf:TransferendumConfig, nlpOrchestrator
     return (loroSwitch: string) => {
         if (loroSwitch == null) {
             loroSwitch = "true";
-            console.warn("[processDocument] - Problems retrieving loroSwitch from local store. Using as default value: " + loroSwitch);
+            console.log("[processDocument] - Problems retrieving loroSwitch from local store. Using as default value: " + loroSwitch);
         }
         let switchBoolean = loroSwitch == "true";
         if (switchBoolean) {
@@ -33,7 +33,7 @@ function processBasedOnDifficulty(nlpOrchestrator: NlpOrchestrator, transferendu
     return (difficulty: string) => {
         if (difficulty == null) {
             difficulty = "less";
-            console.warn("[processDocument] - Problems retrieving difficulty from local store. Using as default value: " + difficulty)
+            console.log("[processDocument] - Problems retrieving difficulty from local store. Using as default value: " + difficulty)
         }
         nlpOrchestrator.process(document, transferendumConfig.difficultyToNumber.get(difficulty)!);
     };

@@ -19,11 +19,11 @@ const myStyles = makeStyles({
         }
     },
     envelope: {
-        width: "100px",
+        minWidth: "100px",
         zIndex: 1,
         backgroundColor: "white",
         position: "absolute",
-        bottom: "105%"
+        top: "100%"
     },
     t1: {
       fontSize: 20
@@ -31,7 +31,6 @@ const myStyles = makeStyles({
     t2: {
         fontSize: 16
     }
-
 });
 
 
