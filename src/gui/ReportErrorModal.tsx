@@ -173,8 +173,7 @@ const ReportErrorModal = (reportErrorModalProps: ReportErrorModalProps) => {
                 <TextField onChange={handletextFiledValueChange}
                     id="outlined-full-width"
                     placeholder="¿Algun detalle adicional?"
-                    label="Información extra"
-                    helperText="Opcional"
+                    label="Opcional"
                     fullWidth
                     multiline={true}
                     margin="normal"
@@ -185,10 +184,9 @@ const ReportErrorModal = (reportErrorModalProps: ReportErrorModalProps) => {
                     value = {state.textFiledValue}
                 />
             <br/>
-                    <Badge color="primary" className={classes.button} >
-                        <Button variant="contained" fullWidth color="primary" onClick={send}>Enviar</Button>
-                    </Badge>
-
+                <Badge color="primary" className={classes.button} >
+                    <Button variant="contained" fullWidth color="primary" onClick={send}>Enviar</Button>
+                </Badge>
             </div>
     );
 

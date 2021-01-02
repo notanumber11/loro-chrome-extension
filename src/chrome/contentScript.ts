@@ -4,12 +4,22 @@ import NlpOrchestrator from "../nlp/NlpOrchestrator";
 import TransferendumConfig from "../TransferendumConfig";
 
 function processDocument() {
-    console.log("Executing processDocument ...");
-    let nlpOrchestrator = NlpOrchestrator.getInstance();
-    let conf = TransferendumConfig.instance;
-    let guiProxy = conf.guiProxy;
-    // Only process data with the extension if it is enabled
-    guiProxy.getOnLocalStore(TransferendumConfig.LORO_SWITCH_KEY, processBasedOnExtensionEnable(conf, nlpOrchestrator));
+    // This function is here to guarantee that we only run the contentScript once per webpage
+    // The reason for this is that the "chrome.tabs.onUpdated.addListener" used on background.ts
+    // can be triggered several times for a single webpage.
+    (function() {
+        // @ts-ignore
+        if (window.hasRun) return;
+        // @ts-ignore
+        window.hasRun = true;
+        // Rest of code
+        console.log("Executing processDocument ...");
+        let nlpOrchestrator = NlpOrchestrator.getInstance();
+        let conf = TransferendumConfig.instance;
+        let guiProxy = conf.guiProxy;
+        // Only process data with the extension if it is enabled
+        guiProxy.getOnLocalStore(TransferendumConfig.LORO_SWITCH_KEY, processBasedOnExtensionEnable(conf, nlpOrchestrator));
+    })();
 }
 
 function processBasedOnExtensionEnable(conf:TransferendumConfig, nlpOrchestrator: NlpOrchestrator) {

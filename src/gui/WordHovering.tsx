@@ -1,47 +1,52 @@
-import React, {Component} from "react";
-import "./WordHovering.scss";
+import React from 'react';
 import TranslationCard from "./TranslationCard";
+import {createStyles, makeStyles, Theme} from "@material-ui/core/styles";
+
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        hovering: {
+            backgroundColor: "#def8ff",
+            position: "relative",
+            display: "inline-block",
+            cursor: "pointer"
+        }
+    })
+);
 
 type ToolTipProps = {
     original: string
     translated: string
 }
 
-interface IState {
-    isHovering?: boolean;
-}
+const WordHovering = (toolTipProps: ToolTipProps) => {
+    const classes = useStyles();
 
-class WordHovering extends Component<ToolTipProps, IState> {
-    constructor(props: ToolTipProps) {
-        super(props);
-        this.handleMouseHover = this.handleMouseHover.bind(this);
-        this.state = {
-            isHovering: false,
-        };
-    }
+    const [state, setState] = React.useState({
+        isHovering: false
+    });
 
-    handleMouseHover() {
-        this.setState(this.toggleHoverState);
-    }
+    const handleMouseHover = ()=> {
+        setState(toggleHoverState);
+    };
 
-    toggleHoverState(state:IState) {
+    const toggleHoverState = ()=> {
         return {
             isHovering: !state.isHovering,
         };
-    }
+    };
 
-    render() {
-        return <span
-            onMouseEnter={this.handleMouseHover}
-            onMouseLeave={this.handleMouseHover}
-            className="hovering">
-                {this.props.translated}
+    return (
+        <span
+            onMouseEnter={handleMouseHover}
+            onMouseLeave={handleMouseHover}
+            className={classes.hovering}>
+                {toolTipProps.translated}
             {
-                this.state.isHovering &&
-                <TranslationCard original={this.props.original} translated={this.props.translated}/>
+                state.isHovering &&
+                <TranslationCard original={toolTipProps.original} translated={toolTipProps.translated}/>
             }
-          </span>;
-    }
-}
+          </span>
+    );
+};
 
 export default WordHovering;

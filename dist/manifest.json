@@ -3,7 +3,7 @@
     "name": "Loro",
     "description":
         "Aprende un nuevo idioma mientras navegas y sin darte ni cuenta !",
-    "version": "0.0.0.1",
+    "version": "0.0.0.2",
     "browser_action": {
         "default_icon": "icon16.png",
         "default_popup": "popup.html"
@@ -13,10 +13,44 @@
         "48": "icon48.png",
         "128": "icon128.png"
     },
-    "permissions": ["https://transferendum-backend.herokuapp.com/", "storage", "activeTab"],
-    "content_scripts" : [{
-        "matches": ["http://*/*", "https://*/*" ],
-        "exclude_globs": ["*bank*", "*health*", "*banco*", "*salud*", "*government*", "*://*.gob*"],
-        "js" : ["js/contentScript.js"]
-    }]
+    "background": {
+        "scripts": [ "js/background.js" ]
+    },
+    "permissions": ["storage",
+                    "activeTab",
+                    "*://*.yahoo.com/*",
+                    "*://*.twitter.com/*",
+                    "*://*.wikipedia.org/*",
+                    "*://*.marca.com/*",
+                    "*://*.elpais.com/*",
+                    "*://*.publico.es/*",
+                    "*://*.milanuncios.com/*",
+                    "*://*.elmundo.es/*",
+                    "*://*.as.com/*",
+                    "*://*.msn.com/*",
+                    "*://*.idealista.com/*",
+                    "*://*.wordpress.com/*",
+                    "*://*.elconfidencial.com/*",
+                    "*://*.bet365.es/*",
+                    "*://*.pinterest.com/*",
+                    "*://*.lavanguardia.com/*",
+                    "*://*.abc.es/*",
+                    "*://*.booking.com/*",
+                    "*://*.tumblr.com/*",
+                    "*://*.mediamarkt.es/*",
+                    "*://*.forocoches/.com/*",
+                    "*://*.wordreference.com/*",
+                    "*://*.divxtotal.com/*",
+                    "*://*.20minutos.es/*",
+                    "*://*.telecinco.es/*",
+                    "*://*.infojobs.net/*",
+                    "*://*.,eltiempo.es/*",
+                    "*://*.tripadvisor.es/*",
+                    "*://*.elcorteingles/.es/*",
+                    "*://*.netflix.com/*",
+                    "*://*.expansion.com/*",
+                    "*://*.eleconomista.es/*",
+                    "*://*.farodevigo.es/*",
+                    "*://*.lavozdegalicia.es/*"
+    ]
 }

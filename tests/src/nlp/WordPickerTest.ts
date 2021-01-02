@@ -18,13 +18,13 @@ describe('WordPicker tests', () => {
         let wordPicker: WordPicker = new WordPicker( new Translator());
         let words = text;
         let result = wordPicker.chooseWords(words, 100);
-        expect(result.length).to.equal(25);
+        expect(result.length).to.equal(17);
     });
     it('Choose words with special characters', () => {
         let wordPicker: WordPicker = new WordPicker(new Translator());
         let words = "más años adsadasdas";
         let result = wordPicker.chooseWords(words, 100);
-        expect(result.length).to.equal(2);
+        expect(result.length).to.equal(1);
     });
 });
 
