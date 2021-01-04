@@ -34,7 +34,6 @@ export default class DomHandler {
 
     // Replace and mark words with a span label
     public replaceWords(document:Document, originalAndTranslated:OriginalAndTranslated) {
-        console.log("Executing replace words");
         // Go over all nodes
         for (let j = 0; j < this.nodes.length; j++) {
             let node = this.nodes[j];
@@ -49,11 +48,9 @@ export default class DomHandler {
             node.innerHTML = htmlContent;
         }
         this.applyReactOnHover(document, originalAndTranslated);
-        console.log("Finishing replace words");
     }
 
     public applyReactOnHover(document: Document, originalAndTranslated: OriginalAndTranslated) {
-        console.log("Start applyReactOnHover");
         // Iterate over all the words marked
         for (let i = 0; i < originalAndTranslated.originalWords.length; i++) {
             let id = originalAndTranslated.ids[i];
@@ -67,7 +64,6 @@ export default class DomHandler {
                 ReactDOM.render(<WordHovering original={original} translated={translated}/>, node);
             }
         }
-        console.log("Finish applyReactOnHover");
     }
 
     private markWords(htmlContent: string, original: string, translation: string, id:number) :string {

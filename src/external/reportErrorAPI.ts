@@ -15,7 +15,6 @@ export default class ReportErrorAPI {
 
     reportError(reportErrorInputInterface
         :ReportErrorInputInterface) : Promise<boolean>  {
-        console.log("Reporting error...");
         reportErrorInputInterface.user = reportErrorInputInterface.user != null ? reportErrorInputInterface.user : "default";
         reportErrorInputInterface.phrase = reportErrorInputInterface.phrase != null ? reportErrorInputInterface.phrase : "default";
         reportErrorInputInterface.time = reportErrorInputInterface.time != null ? reportErrorInputInterface.time : "2020-11-11T11:11:11.111Z";

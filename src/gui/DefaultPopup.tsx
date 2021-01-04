@@ -60,13 +60,11 @@ const DefaultPopup = (defaultPopupProps: DefaultPopupProps) => {
 
     const retrieveDifficult = (difficulty:string) => {
         difficulty = difficulty != null ? difficulty : "less";
-        console.log("[DefaultPopup] retrieveDifficult= " + difficulty);
         setDifficultyState(difficulty);
     };
 
     const retrieveLoroSwitch = (loroSwitch:string) => {
         let switchBoolean = loroSwitch == null || loroSwitch == "true";
-        console.log("[DefaultPopup] - retrieveLoroSwitch= " + loroSwitch);
         setLoroSwitchState(switchBoolean);
     };
 

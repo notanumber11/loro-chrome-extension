@@ -8,7 +8,6 @@ export default class GuiProxyChrome extends GuiProxy {
 
     setOnLocalStore(key:string, value:string) {
         chrome.storage.sync.set({[key]: value}, function() {
-            console.log(`Saving with key=${key} and value=${value}`);
         });
     }
 
@@ -18,7 +17,6 @@ export default class GuiProxyChrome extends GuiProxy {
             if (value == null) {
                 console.log("Problems retrieving from local storage with key=" + key);
             }
-            console.log(`Retrieved with key=${key} and value=${value}`);
             callback(value);
         });
     }

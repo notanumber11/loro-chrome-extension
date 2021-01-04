@@ -31,7 +31,8 @@
     "webpack-dev-server": "^3.11.0",
     "webpack-merge": "^4.2.2",
     "fetch-mock": "^9.11.0",
-    "terser-webpack-plugin": "^5.0.3"
+    "terser-webpack-plugin": "^5.0.3",
+    "react-visibility-sensor": "^5.1.1"
   },
   "dependencies": {
     "@material-ui/core": "^4.11.2",
