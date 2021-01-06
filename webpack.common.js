@@ -15,7 +15,7 @@ module.exports = {
     rules: [
       {
         exclude: /node_modules/,
-        include: path.resolve(__dirname, 'src'),
+        include: path.resolve(__dirname, './src'),
         test: /\.tsx?$/,
         use: "ts-loader"
       }

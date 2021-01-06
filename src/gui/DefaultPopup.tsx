@@ -58,20 +58,14 @@ const DefaultPopup = (defaultPopupProps: DefaultPopupProps) => {
 
     const [loroSwitchState, setLoroSwitchState] = React.useState(false);
 
-    const retrieveDifficult = (difficulty:string) => {
-        difficulty = difficulty != null ? difficulty : "less";
-        setDifficultyState(difficulty);
-    };
-
-    const retrieveLoroSwitch = (loroSwitch:string) => {
-        let switchBoolean = loroSwitch == null || loroSwitch == "true";
-        setLoroSwitchState(switchBoolean);
-    };
-
     // Run function after component is mounted: https://stackoverflow.com/questions/54792722/on-react-how-can-i-call-a-function-on-component-mount-on-a-functional-stateless
     useEffect(() => {
-        defaultPopupProps.guiProxy.getOnLocalStore(TransferendumConfig.DIFFICULTY_KEY, retrieveDifficult);
-        defaultPopupProps.guiProxy.getOnLocalStore(TransferendumConfig.LORO_SWITCH_KEY, retrieveLoroSwitch);
+        defaultPopupProps.guiProxy.getFromLocalStore(TransferendumConfig.DIFFICULTY_KEY, "less").then(
+            val => setDifficultyState(val.toString())
+        );
+        defaultPopupProps.guiProxy.getFromLocalStore(TransferendumConfig.LORO_SWITCH_KEY, "true").then(
+            val => setLoroSwitchState(val == "true")
+        );
     }, []);
 
     const difficultyChange = (event: React.ChangeEvent<HTMLInputElement>) => {

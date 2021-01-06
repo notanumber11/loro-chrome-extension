@@ -14,23 +14,14 @@ export default class GuiProxyLocal extends GuiProxy {
         console.log(GuiProxyLocal.NAME + `Setting with key=${key} and value=${value}`);
     }
 
-    getOnLocalStore(key: string, callback: (val: string) => void) {
-        console.log(GuiProxyLocal.NAME + "Trying to retrieve with key: " + key);
-        let value:string;
-        if (key == TransferendumConfig.DIFFICULTY_KEY) {
-            value = "less";
-        }
-        else if (key == TransferendumConfig.LORO_SWITCH_KEY) {
-            value ="true";
-        }
-        else {
-            throw new Error("Trying to access local storage with non existent key= " + key);
-        }
-        console.log(GuiProxyLocal.NAME + `Retrieved with key=${key} and value=${value}`);
-        callback(value);
-    }
-
     reloadCurrentTab() :void {
         console.log(GuiProxyLocal.NAME + "does not support reload. Please refresh the webpage manually");
+    }
+
+    getFromLocalStore(sKey: string, defaultVal?: Object): Promise<Object> {
+        return new Promise(function(resolve, reject) {
+            /* missing implementation */
+            resolve(defaultVal);
+        });
     }
 }

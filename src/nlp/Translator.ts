@@ -22,7 +22,6 @@ export default class Translator {
                 textTranslated.ids.push(i);
             }
         }
-        console.log("The number of unique words to translate is: " + textTranslated.ids.length);
         return textTranslated;
     }
 

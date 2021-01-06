@@ -2,6 +2,7 @@ import React from 'react';
 import TranslationCard from "./TranslationCard";
 import {createStyles, makeStyles, Theme} from "@material-ui/core/styles";
 import VisibilitySensor from "react-visibility-sensor";
+import ScopedCssBaseline from "@material-ui/core/ScopedCssBaseline";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -34,7 +35,7 @@ const WordHovering = (toolTipProps: ToolTipProps) => {
 
     const toggleHoverState = ()=> {
         return {
-            isHovering: !state.isHovering,
+            isHovering: !state.isHovering
         };
     };
 
@@ -47,21 +48,21 @@ const WordHovering = (toolTipProps: ToolTipProps) => {
     };
 
     return (
-        // Offset bottom since we want to count the words watched by an user and
-        // people tend to scroll down when they want to read more.
         <VisibilitySensor onChange={onChange} offset={{bottom:100}}>
+            {/*Offset bottom since we want to count the words watched by an user.
+            Words on the bottom of the screen are normally not read by users (they scroll first if
+            they are interested on them.*/}
             <span
                 onMouseEnter={handleMouseHover}
                 onMouseLeave={handleMouseHover}
                 className={classes.hovering}>
-                    {toolTipProps.translated}
+                {toolTipProps.translated}
                 {
                     state.isHovering &&
                     <TranslationCard original={toolTipProps.original} translated={toolTipProps.translated}/>
                 }
-              </span>
+          </span>
         </VisibilitySensor>
-
     );
 };
 

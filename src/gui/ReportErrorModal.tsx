@@ -17,7 +17,6 @@ import {AlertTitle} from "@material-ui/lab";
 function getModalStyle() {
     const top = 50;
     const left = 50;
-
     return {
         top: `${top}%`,
         left: `${left}%`,
@@ -27,7 +26,7 @@ function getModalStyle() {
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
-        paper: {
+        paper_981: {
             position: 'absolute',
             width: 380,
             maxWidth: 380,
@@ -37,15 +36,29 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         button: {
             width: '100%'
-        }
+        },
+        titleTypography: {
+            fontSize: 24,
+        },
+        bodyTypography: {
+            fontSize: 16,
+        },
+        labelTypography: {
+            fontSize: 8,
+        },
+        largeButton: {
+            width: "100%"
+        },
+        largeIcon: {
+            scale: 1,
+            fontSize: "1.33em!important" as any
+        },
     }),
 );
 
 type ReportErrorModalProps = {
     original: string,
-    translated: string,
-    reportError?: boolean,
-    feedback?: boolean
+    translated: string
 }
 
 const ReportErrorModal = (reportErrorModalProps: ReportErrorModalProps) => {
@@ -110,7 +123,7 @@ const ReportErrorModal = (reportErrorModalProps: ReportErrorModalProps) => {
     };
 
     const modalContent = (
-            <div style={modalStyle} className={classes.paper}>
+            <div style={modalStyle} className={classes.paper_981}>
                 {
                     state.showAlertSucess &&
                     <Alert severity="success">
@@ -133,7 +146,7 @@ const ReportErrorModal = (reportErrorModalProps: ReportErrorModalProps) => {
                     alignItems="center"
                 >
                     <Grid item xs={11} >
-                        <Typography variant="h5" color="primary">
+                        <Typography variant="h5" color="primary" className={classes.titleTypography}>
                             Informa de un error
                         </Typography>
                     </Grid>
@@ -147,16 +160,16 @@ const ReportErrorModal = (reportErrorModalProps: ReportErrorModalProps) => {
                 </Grid>
                 <Divider variant="fullWidth" />
                 <br/>
-                <Typography variant="body1">
+                <Typography variant="body1" className={classes.bodyTypography}>
                     Por favor ayudanos a mejorar dandonos más datos del problema.
                 </Typography>
                 <br/>
                 <FormControl component="fieldset">
                     <RadioGroup aria-label="errorOptions" name="errorOptions" onChange={handleRadioChange} value={state.problemChoice}>
-                        <FormControlLabel value="1" control={<Radio color="primary"/>}  label="Error ortográfico" />
-                        <FormControlLabel value="2" control={<Radio color="primary"/>}  label="Error gramatical" />
-                        <FormControlLabel value="3" control={<Radio color="primary"/>}  label="La traducción no tiene sentido en este contexto" />
-                        <FormControlLabel value="4" control={<Radio color="primary"/>}  label="Otros" />
+                        <FormControlLabel value="1" control={<Radio color="primary"/>}  label={<Typography className={classes.bodyTypography} variant="body1">Error ortográfico </Typography>} />
+                        <FormControlLabel value="2" control={<Radio color="primary"/>}  label={<Typography className={classes.bodyTypography} variant="body1">Error gramatical </Typography>}/>
+                        <FormControlLabel value="3" control={<Radio color="primary"/>}  label={<Typography className={classes.bodyTypography} variant="body1">La traducción no tiene sentido en este contexto </Typography>}/>
+                        <FormControlLabel value="4" control={<Radio color="primary"/>}  label={<Typography className={classes.bodyTypography} variant="body1">Otros </Typography>}/>
                     </RadioGroup>
                 </FormControl>
                 <TextField
@@ -165,7 +178,10 @@ const ReportErrorModal = (reportErrorModalProps: ReportErrorModalProps) => {
                     fullWidth
                     margin="normal"
                     InputProps={{
-                        readOnly: true
+                        readOnly: true,
+                        classes: {
+                            input: classes.bodyTypography
+                        }
                     }}
                     variant="outlined"
                     value = {state.webpage}
@@ -173,12 +189,17 @@ const ReportErrorModal = (reportErrorModalProps: ReportErrorModalProps) => {
                 <TextField onChange={handletextFiledValueChange}
                     id="outlined-full-width"
                     placeholder="¿Algun detalle adicional?"
-                    label="Opcional"
+                    label={<Typography className={classes.bodyTypography} variant="body1">Opcional </Typography>}
                     fullWidth
                     multiline={true}
                     margin="normal"
                     InputLabelProps={{
-                        shrink: true,
+                        shrink: true
+                    }}
+                    InputProps={{
+                        classes: {
+                            input: classes.bodyTypography
+                        }
                     }}
                     variant="outlined"
                     value = {state.textFiledValue}
@@ -193,9 +214,8 @@ const ReportErrorModal = (reportErrorModalProps: ReportErrorModalProps) => {
     return (
         <div>
             {
-                reportErrorModalProps.reportError &&
-                <IconButton  size="small" title="Report error" onClick={handleOpen}>
-                    <ReportProblemIcon color="primary" />
+                <IconButton  className={classes.largeButton} size="small" title="Report error" onClick={handleOpen}>
+                    <ReportProblemIcon className={classes.largeIcon} color="primary" />
                 </IconButton>
             }
             <Modal

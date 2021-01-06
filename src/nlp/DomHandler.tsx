@@ -60,7 +60,6 @@ export default class DomHandler {
             let nodes = document.getElementsByClassName(this.IDENTIFIER + id);
             for (let j = 0; j < nodes.length; j++) {
                 let node = nodes[j];
-                // TODO: Check how to do it faster
                 ReactDOM.render(<WordHovering original={original} translated={translated}/>, node);
             }
         }

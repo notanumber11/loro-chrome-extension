@@ -7,7 +7,7 @@ export default abstract class GuiProxy {
 
     abstract setOnLocalStore(key:string, value:string): void;
 
-    abstract getOnLocalStore(key:string, callback:(val:string) => void) : void;
-
     abstract reloadCurrentTab(): void;
+
+    abstract getFromLocalStore(sKey:string, defaultVal?:Object):Promise<Object>
 }

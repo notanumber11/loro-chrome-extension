@@ -68,7 +68,7 @@ export default class WordPicker {
                 break;
             }
         }
-        console.log(`The map contains ${wordMapCounter.set.length} different unique words`);
+        console.log(`The map contains ${wordMapCounter.size} different unique words`);
         console.log(`The difficulty is: ${difficulty} and we expect to replace at min ${numberOfWordsToReplace}/${numberOfWordsInWholeText} words.`)
         console.log(`We are translating ${numberOfUniqueWords} unique words and replacing ${numberOfReplacedWords}/${numberOfWordsInWholeText} words`);
         return chosenWordsToTranslate;

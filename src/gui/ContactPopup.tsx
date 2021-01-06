@@ -10,7 +10,7 @@ import {AlertTitle} from "@material-ui/lab";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
-        paper: {
+        paper_981: {
             minWidth: 350,
             maxWidth: 350,
             backgroundColor: theme.palette.background.paper,
@@ -76,7 +76,7 @@ const ContactPopup = (feedbackPopupProps: FeedbackPopupProps) => {
     };
 
     return (
-        <div className={classes.paper}>
+        <div className={classes.paper_981}>
             {
                 state.showAlertSucess &&
                 <Alert severity="success">

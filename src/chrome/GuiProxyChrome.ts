@@ -8,16 +8,26 @@ export default class GuiProxyChrome extends GuiProxy {
 
     setOnLocalStore(key:string, value:string) {
         chrome.storage.sync.set({[key]: value}, function() {
+            if (chrome.runtime.lastError) {
+                console.error(`Problems for storing for key=${key} value=${value}`);
+                console.error(chrome.runtime.lastError.message);
+            }
         });
     }
 
-    getOnLocalStore(key:string, callback:(value:string) => void) {
-        chrome.storage.sync.get([key], function(result) {
-            let value  = result[key];
-            if (value == null) {
-                console.log("Problems retrieving from local storage with key=" + key);
-            }
-            callback(value);
+    getFromLocalStore(sKey:string, defaultVal?:Object):Promise<Object> {
+        return new Promise(function(resolve, reject) {
+            chrome.storage.sync.get([sKey], function(result) {
+                if (chrome.runtime.lastError) {
+                    console.log("Problems retrieving from chrome storage with key=" + sKey);
+                    console.error(chrome.runtime.lastError.message);
+                    console.error(`Returning for key=${sKey} value=${defaultVal}`);
+                    resolve(defaultVal);
+                } else {
+                    let val = result[sKey] != null ? result[sKey] : defaultVal;
+                    resolve(val);
+                }
+            });
         });
     }
 
