@@ -3,6 +3,7 @@ import TranslationCard from "./TranslationCard";
 import {createStyles, makeStyles, Theme} from "@material-ui/core/styles";
 import VisibilitySensor from "react-visibility-sensor";
 import ScopedCssBaseline from "@material-ui/core/ScopedCssBaseline";
+import DemoFrame from "./DemoFrame";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -11,6 +12,13 @@ const useStyles = makeStyles((theme: Theme) =>
             position: "relative",
             display: "inline-block",
             cursor: "pointer"
+        },
+        // Name needs to be unique since it can collide with other in the webpage
+        containerFrame173: {
+            display: "inline",
+            position: "relative",
+            overflow: "hidden",
+            paddingTop: "56.25%"
         }
     })
 );
@@ -23,45 +31,46 @@ type ToolTipProps = {
 const WordHovering = (toolTipProps: ToolTipProps) => {
     const classes = useStyles();
 
-    let hasBeenSeen = false;
-
     const [state, setState] = React.useState({
         isHovering: false
     });
 
-    const handleMouseHover = ()=> {
-        setState(toggleHoverState);
-    };
-
-    const toggleHoverState = ()=> {
-        return {
-            isHovering: !state.isHovering
-        };
+    const turnOn = ()=> {
+        setState({
+            isHovering: true
+        });
     };
 
     const onChange = (isVisible:boolean) => {
-        if (!hasBeenSeen){
-            // console.log('Element %s is now %s', toolTipProps.translated,  isVisible ? 'visible' : 'hidden');
-            hasBeenSeen = true;
+        if(isVisible) {
+            console.log("Element visible: " + toolTipProps.translated);
         }
-        // Save to local storage
     };
 
+        const turnOff = ()=> {
+        setState({
+            isHovering: false
+        });
+    };
+
+    // Based on: https://blog.theodo.com/2018/01/responsive-iframes-css-trick/
     return (
         <VisibilitySensor onChange={onChange} offset={{bottom:100}}>
-            {/*Offset bottom since we want to count the words watched by an user.
-            Words on the bottom of the screen are normally not read by users (they scroll first if
-            they are interested on them.*/}
-            <span
-                onMouseEnter={handleMouseHover}
-                onMouseLeave={handleMouseHover}
-                className={classes.hovering}>
-                {toolTipProps.translated}
-                {
-                    state.isHovering &&
-                    <TranslationCard original={toolTipProps.original} translated={toolTipProps.translated}/>
-                }
-          </span>
+            <span className={classes.containerFrame173}>
+                &nbsp;
+                <span
+                    onMouseEnter={turnOn}
+                    onMouseLeave={turnOff}
+                    className={classes.hovering}>
+                         {toolTipProps.translated}
+                    {
+                        state.isHovering &&
+                        <DemoFrame>
+                            <TranslationCard original={toolTipProps.original} translated={toolTipProps.translated}/>
+                        </DemoFrame>
+                    }
+                  </span>
+            </span>
         </VisibilitySensor>
     );
 };

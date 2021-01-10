@@ -6,13 +6,8 @@ import Typography from '@material-ui/core/Typography';
 import Box from "@material-ui/core/Box";
 import Divider from "@material-ui/core/Divider";
 import ReportErrorModal from "./ReportErrorModal";
-import ScopedCssBaseline from "@material-ui/core/ScopedCssBaseline";
 
 const myStyles = makeStyles({
-    root: {
-        minWidth: 120,
-        paddingBottom: 0
-    },
     cardContent: {
         paddingBottom: 0,
         "&:last-child": {
@@ -20,17 +15,9 @@ const myStyles = makeStyles({
         }
     },
     envelope: {
-        minWidth: "100px",
-        zIndex: 1,
-        backgroundColor: "white",
-        position: "absolute",
-        top: "100%",
-    },
-    t1: {
-      fontSize: 20
-    },
-    t2: {
-        fontSize: 16
+        width: 140,
+        minWidth: 140,
+        maxWidth: 140,
     }
 });
 
@@ -43,29 +30,23 @@ type TranslationCardProps = {
 const TranslationCard = ({original, translated}: TranslationCardProps) => {
     const classes = myStyles();
     return (
-        <ScopedCssBaseline>
-            <div className={classes.envelope}>
-                <Box>
-                    <Card className={classes.root}>
-                        <CardContent className={classes.cardContent}>
-                            <Typography variant="h5" component="span" className={classes.t1}>
-                                {original}
-                            </Typography>
-                            <Divider variant="fullWidth" />
-                            <Typography color="textSecondary" component="span" variant="h6" className={classes.t2}>
-                                {translated}
-                            </Typography>
-                        </CardContent>
-                            <Box display="flex" flexDirection="row-reverse">
-                                <Box p={1}>
-                                    <ReportErrorModal original={original} translated={translated}/>
-                                </Box>
-                            </Box>
-                    </Card>
-                </Box>
-            </div>
-        </ScopedCssBaseline>
-
+                <Card className={classes.envelope}>
+                    <CardContent className={classes.cardContent}>
+                        <Typography variant="h5" component="span">
+                            {original}
+                        </Typography>
+                        <Divider variant="fullWidth"/>
+                        <Typography color="textSecondary" component="span" variant="h6"
+                                    className="testCssNotAffectShadowDom">
+                            {translated}
+                        </Typography>
+                    </CardContent>
+                    <Box display="flex" flexDirection="row-reverse">
+                        <Box p={1}>
+                            <ReportErrorModal original={original} translated={translated}/>
+                        </Box>
+                    </Box>
+                </Card>
     );
 };
 

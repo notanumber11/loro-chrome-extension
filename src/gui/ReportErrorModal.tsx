@@ -36,23 +36,7 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         button: {
             width: '100%'
-        },
-        titleTypography: {
-            fontSize: 24,
-        },
-        bodyTypography: {
-            fontSize: 16,
-        },
-        labelTypography: {
-            fontSize: 8,
-        },
-        largeButton: {
-            width: "100%"
-        },
-        largeIcon: {
-            scale: 1,
-            fontSize: "1.33em!important" as any
-        },
+        }
     }),
 );
 
@@ -146,7 +130,7 @@ const ReportErrorModal = (reportErrorModalProps: ReportErrorModalProps) => {
                     alignItems="center"
                 >
                     <Grid item xs={11} >
-                        <Typography variant="h5" color="primary" className={classes.titleTypography}>
+                        <Typography variant="h5" color="primary">
                             Informa de un error
                         </Typography>
                     </Grid>
@@ -160,16 +144,16 @@ const ReportErrorModal = (reportErrorModalProps: ReportErrorModalProps) => {
                 </Grid>
                 <Divider variant="fullWidth" />
                 <br/>
-                <Typography variant="body1" className={classes.bodyTypography}>
+                <Typography variant="body1">
                     Por favor ayudanos a mejorar dandonos más datos del problema.
                 </Typography>
                 <br/>
                 <FormControl component="fieldset">
                     <RadioGroup aria-label="errorOptions" name="errorOptions" onChange={handleRadioChange} value={state.problemChoice}>
-                        <FormControlLabel value="1" control={<Radio color="primary"/>}  label={<Typography className={classes.bodyTypography} variant="body1">Error ortográfico </Typography>} />
-                        <FormControlLabel value="2" control={<Radio color="primary"/>}  label={<Typography className={classes.bodyTypography} variant="body1">Error gramatical </Typography>}/>
-                        <FormControlLabel value="3" control={<Radio color="primary"/>}  label={<Typography className={classes.bodyTypography} variant="body1">La traducción no tiene sentido en este contexto </Typography>}/>
-                        <FormControlLabel value="4" control={<Radio color="primary"/>}  label={<Typography className={classes.bodyTypography} variant="body1">Otros </Typography>}/>
+                        <FormControlLabel value="1" control={<Radio color="primary"/>}  label={<Typography variant="body1">Error ortográfico </Typography>} />
+                        <FormControlLabel value="2" control={<Radio color="primary"/>}  label={<Typography variant="body1">Error gramatical </Typography>}/>
+                        <FormControlLabel value="3" control={<Radio color="primary"/>}  label={<Typography variant="body1">La traducción no tiene sentido en este contexto </Typography>}/>
+                        <FormControlLabel value="4" control={<Radio color="primary"/>}  label={<Typography variant="body1">Otros </Typography>}/>
                     </RadioGroup>
                 </FormControl>
                 <TextField
@@ -178,10 +162,7 @@ const ReportErrorModal = (reportErrorModalProps: ReportErrorModalProps) => {
                     fullWidth
                     margin="normal"
                     InputProps={{
-                        readOnly: true,
-                        classes: {
-                            input: classes.bodyTypography
-                        }
+                        readOnly: true
                     }}
                     variant="outlined"
                     value = {state.webpage}
@@ -189,17 +170,12 @@ const ReportErrorModal = (reportErrorModalProps: ReportErrorModalProps) => {
                 <TextField onChange={handletextFiledValueChange}
                     id="outlined-full-width"
                     placeholder="¿Algun detalle adicional?"
-                    label={<Typography className={classes.bodyTypography} variant="body1">Opcional </Typography>}
+                    label={<Typography variant="body1">Opcional </Typography>}
                     fullWidth
                     multiline={true}
                     margin="normal"
                     InputLabelProps={{
                         shrink: true
-                    }}
-                    InputProps={{
-                        classes: {
-                            input: classes.bodyTypography
-                        }
                     }}
                     variant="outlined"
                     value = {state.textFiledValue}
@@ -214,8 +190,8 @@ const ReportErrorModal = (reportErrorModalProps: ReportErrorModalProps) => {
     return (
         <div>
             {
-                <IconButton  className={classes.largeButton} size="small" title="Report error" onClick={handleOpen}>
-                    <ReportProblemIcon className={classes.largeIcon} color="primary" />
+                <IconButton  size="small" title="Report error" onClick={handleOpen}>
+                    <ReportProblemIcon color="primary" />
                 </IconButton>
             }
             <Modal

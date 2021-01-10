@@ -3,6 +3,9 @@ import {OriginalAndTranslated} from "./Translator";
 import WordHovering from "../gui/WordHovering";
 import React from 'react';
 import ReactDOM from 'react-dom';
+/*import WordHoveringWrapper from "../gui/WordHoveringWrapper";
+// @ts-ignore
+import retargetEvents from 'react-shadow-dom-retarget-events';*/
 
 // Interface containing a piece of text of the webpage that is suitable to be translated
 export interface TextCandidate {
@@ -58,9 +61,22 @@ export default class DomHandler {
             let translated = originalAndTranslated.translatedWords[i];
             // Find all the nodes replaced for a given word
             let nodes = document.getElementsByClassName(this.IDENTIFIER + id);
+
+            let useShadowDom = false;
+
             for (let j = 0; j < nodes.length; j++) {
                 let node = nodes[j];
-                ReactDOM.render(<WordHovering original={original} translated={translated}/>, node);
+                if (useShadowDom) {
+/*                    const mountPoint = document.createElement('span');
+                    const shadowRoot = node.attachShadow({ mode: 'open' });
+                    shadowRoot.appendChild(mountPoint);
+                    ReactDOM.render(
+                        <WordHoveringWrapper original={original} translated={translated} node={mountPoint}/>,
+                        mountPoint);
+                        retargetEvents(shadowRoot);*/
+                } else {
+                    ReactDOM.render(<WordHovering original={original} translated={translated}/>, node);
+                }
             }
         }
     }
@@ -68,7 +84,9 @@ export default class DomHandler {
     private markWords(htmlContent: string, original: string, translation: string, id:number) :string {
         const regEx = new RegExp(" " + original + " ", "g"); // g replaces all occurrences
         // htmlContent = htmlContent.replace(regEx, " <span class='" + this.IDENTIFIER + id + "'" + "style='background-color:blue'" + ">" +  translation.toUpperCase() + "</span> ");
-        htmlContent = htmlContent.replace(regEx, " <span class='" + this.IDENTIFIER + id + "'" + ">" +  translation + "</span> ");
+        htmlContent = htmlContent.replace(regEx, "<span class='" + this.IDENTIFIER + id + "'" + ">" +  translation + "</span>  <style>" +
+            ".testCssNotAffectShadowDom {background-color: red;}" +
+            "</style>");
         return htmlContent;
     }
 }
