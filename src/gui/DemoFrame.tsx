@@ -3,24 +3,10 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { create } from "jss";
-import { withStyles, jssPreset } from "@material-ui/core/styles";
+import { jssPreset } from "@material-ui/core/styles";
 import { StylesProvider } from "@material-ui/styles";
 import NoSsr from "@material-ui/core/NoSsr";
-// import rtl from "jss-rtl";
 import Frame from "react-frame-component";
-
-const styles = theme => ({
-    root: {
-        border: "none",
-        boxShadow: theme.shadows[1],
-        zIndex: 1,
-        // Based on: https://blog.theodo.com/2018/01/responsive-iframes-css-trick/
-        position: "absolute",
-        overflow: "hidden",
-        top: "100%",
-        left: "0%"
-    }
-});
 
 class DemoFrame extends React.Component {
     state = {
@@ -41,7 +27,7 @@ class DemoFrame extends React.Component {
         this.setState({
             ready: true,
             jss: create({
-                plugins: [...jssPreset().plugins, /*rtl()*/],
+                plugins: [...jssPreset().plugins],
                 insertionPoint: this.contentWindow["demo-frame-jss"]
             }),
             sheetsManager: new Map(),
@@ -49,9 +35,12 @@ class DemoFrame extends React.Component {
         });
     };
 
+    // https://www.tutorialrepublic.com/faq/automatically-adjust-iframe-height-according-to-its-contents-using-javascript.php#:~:text=Answer%3A%20Use%20the%20contentWindow%20Property,no%20vertical%20scrollbar%20will%20appear.
     applyCssOverrides() {
         let fr = this.span.current.getElementsByTagName("iframe")[0];
+        // Remove default 8px margin that chrome applies to the new <body> under the <iframe>
         fr.contentDocument.getElementsByTagName("body")[0].setAttribute("style", "margin:0px");
+        // Adjust automatically the size of the frame
         let width  = fr.contentWindow.document.body.scrollWidth;
         let height = fr.contentWindow.document.body.scrollHeight;
         fr.width = width;
@@ -61,12 +50,11 @@ class DemoFrame extends React.Component {
     }
 
     onContentDidUpdate = () => {
-        this.contentDocument.body.dir = this.props.theme.direction;
         this.applyCssOverrides();
     };
 
     render() {
-        const { children, classes } = this.props;
+        const { children } = this.props;
 
         // NoSsr fixes a strange concurrency issue with iframe and quick React mount/unmount
         return (
@@ -74,10 +62,8 @@ class DemoFrame extends React.Component {
                 <NoSsr>
                     <Frame
                         ref={this.handleRef}
-                        className={classes.root}
                         scrolling="no"
-                        // The default size should be 0 so it can be overriden according to the inside content
-                        style={{width: "0px", height: "0px", maxWidth: "fit-content", maxHeight: "fit-content"}}
+                        style={this.props.frameStyles}
                         onLoad={()=> this.applyCssOverrides()}
                         contentDidMount={this.onContentDidMount}
                         contentDidUpdate={this.onContentDidUpdate}
@@ -102,8 +88,7 @@ class DemoFrame extends React.Component {
 
 DemoFrame.propTypes = {
     children: PropTypes.node.isRequired,
-    classes: PropTypes.object.isRequired,
-    theme: PropTypes.object.isRequired
+    frameStyles: PropTypes.any
 };
 
-export default withStyles(styles, { withTheme: true })(DemoFrame);
+export default DemoFrame;

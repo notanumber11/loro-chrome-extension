@@ -5,7 +5,8 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Box from "@material-ui/core/Box";
 import Divider from "@material-ui/core/Divider";
-import ReportErrorModal from "./ReportErrorModal";
+import IconButton from "@material-ui/core/IconButton";
+import ReportProblemIcon from "@material-ui/icons/ReportProblem";
 
 const myStyles = makeStyles({
     cardContent: {
@@ -24,10 +25,11 @@ const myStyles = makeStyles({
 
 type TranslationCardProps = {
     original: string,
-    translated: string
+    translated: string,
+    updateModal: (val:boolean)=>void
 }
 
-const TranslationCard = ({original, translated}: TranslationCardProps) => {
+const TranslationCard = ({original, translated, updateModal}: TranslationCardProps) => {
     const classes = myStyles();
     return (
                 <Card className={classes.envelope}>
@@ -43,7 +45,9 @@ const TranslationCard = ({original, translated}: TranslationCardProps) => {
                     </CardContent>
                     <Box display="flex" flexDirection="row-reverse">
                         <Box p={1}>
-                            <ReportErrorModal original={original} translated={translated}/>
+                            <IconButton  size="small" title="Report error" onClick={()=>updateModal(true)}>
+                                <ReportProblemIcon color="primary" />
+                            </IconButton>
                         </Box>
                     </Box>
                 </Card>

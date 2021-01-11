@@ -1,24 +1,18 @@
 import React from 'react';
 import TranslationCard from "./TranslationCard";
-import {createStyles, makeStyles, Theme} from "@material-ui/core/styles";
+import {createStyles, makeStyles} from "@material-ui/core/styles";
 import VisibilitySensor from "react-visibility-sensor";
-import ScopedCssBaseline from "@material-ui/core/ScopedCssBaseline";
 import DemoFrame from "./DemoFrame";
+import shadows from "@material-ui/core/styles/shadows";
+import ModalEnvelope from "./ModalEnvelope";
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles(() =>
     createStyles({
         hovering: {
             backgroundColor: "#def8ff",
             position: "relative",
             display: "inline-block",
             cursor: "pointer"
-        },
-        // Name needs to be unique since it can collide with other in the webpage
-        containerFrame173: {
-            display: "inline",
-            position: "relative",
-            overflow: "hidden",
-            paddingTop: "56.25%"
         }
     })
 );
@@ -31,48 +25,57 @@ type ToolTipProps = {
 const WordHovering = (toolTipProps: ToolTipProps) => {
     const classes = useStyles();
 
-    const [state, setState] = React.useState({
-        isHovering: false
-    });
+    const [isModalOpen, setModalOpenStatus] = React.useState(false);
 
-    const turnOn = ()=> {
-        setState({
-            isHovering: true
-        });
-    };
+    const [isHovering, setHovering] = React.useState(false);
 
-    const onChange = (isVisible:boolean) => {
-        if(isVisible) {
+    const wordSeenListener = (isVisible: boolean) => {
+        if (isVisible) {
             console.log("Element visible: " + toolTipProps.translated);
         }
     };
 
-        const turnOff = ()=> {
-        setState({
-            isHovering: false
-        });
+    const setModalVisibilityCallback = (val: boolean) => {
+        setModalOpenStatus(val);
+    };
+
+    const frameStyles = {
+        width: "0px",
+        height: "0px",
+        border: "none",
+        padding: "none",
+        boxShadow: shadows[1],
+        zIndex: 1,
+        // Based on: https://blog.theodo.com/2018/01/responsive-iframes-css-trick/
+        position: "absolute",
+        top: "100%",
+        left: "0%",
+        maxWidth: "fit-content",
+        maxHeight: "fit-content"
     };
 
     // Based on: https://blog.theodo.com/2018/01/responsive-iframes-css-trick/
-    return (
-        <VisibilitySensor onChange={onChange} offset={{bottom:100}}>
-            <span className={classes.containerFrame173}>
-                &nbsp;
+    // Offset of 100 since people has not seen what is in the bottom of the street while reading.
+    return <VisibilitySensor onChange={wordSeenListener} offset={{bottom: 100}}>
+            <span>
                 <span
-                    onMouseEnter={turnOn}
-                    onMouseLeave={turnOff}
+                    onMouseEnter={() => setHovering(true)}
+                    onMouseLeave={() => setHovering(false)}
                     className={classes.hovering}>
-                         {toolTipProps.translated}
+                        {toolTipProps.translated}
                     {
-                        state.isHovering &&
-                        <DemoFrame>
-                            <TranslationCard original={toolTipProps.original} translated={toolTipProps.translated}/>
+                        isHovering &&
+                        // @ts-ignore
+                        <DemoFrame frameStyles={frameStyles}>
+                            <TranslationCard original={toolTipProps.original} translated={toolTipProps.translated}
+                                             updateModal={setModalVisibilityCallback}/>
                         </DemoFrame>
                     }
                   </span>
+                <ModalEnvelope isOpen={isModalOpen} closeCallback={setModalVisibilityCallback}
+                               original={toolTipProps.original} translated={toolTipProps.translated}/>
             </span>
-        </VisibilitySensor>
-    );
+    </VisibilitySensor>;
 };
 
 export default WordHovering;

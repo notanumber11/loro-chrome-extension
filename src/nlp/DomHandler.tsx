@@ -84,7 +84,7 @@ export default class DomHandler {
     private markWords(htmlContent: string, original: string, translation: string, id:number) :string {
         const regEx = new RegExp(" " + original + " ", "g"); // g replaces all occurrences
         // htmlContent = htmlContent.replace(regEx, " <span class='" + this.IDENTIFIER + id + "'" + "style='background-color:blue'" + ">" +  translation.toUpperCase() + "</span> ");
-        htmlContent = htmlContent.replace(regEx, "<span class='" + this.IDENTIFIER + id + "'" + ">" +  translation + "</span>  <style>" +
+        htmlContent = htmlContent.replace(regEx, " <span class='" + this.IDENTIFIER + id + "'" + ">" +  translation + "</span>  <style>" +
             ".testCssNotAffectShadowDom {background-color: red;}" +
             "</style>");
         return htmlContent;
