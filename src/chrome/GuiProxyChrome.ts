@@ -37,4 +37,8 @@ export default class GuiProxyChrome extends GuiProxy {
             chrome.tabs.executeScript({code: code});
         });
     }
+
+    getWebAccessibleResource(name: string): string {
+        return chrome.runtime.getURL(name);
+    }
 }

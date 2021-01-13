@@ -24,4 +24,9 @@ export default class GuiProxyLocal extends GuiProxy {
             resolve(defaultVal);
         });
     }
+
+    getWebAccessibleResource(name: string): string {
+        return "randomStringSinceWeAreRunningLocally";
+    }
+
 }

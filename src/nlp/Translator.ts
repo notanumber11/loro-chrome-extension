@@ -1,6 +1,6 @@
 // Responsability: Translate the selected words by word picker
 import {TextToTranslate} from "./WordPicker";
-import dictionary from './dictionary_3000_es_en.json'; // This import style requires "esModuleInterop", see "side notes"
+import dictionary from './dictionary_500_es_en.json'; // This import style requires "esModuleInterop" on tsconfig
 
 
 export interface OriginalAndTranslated {

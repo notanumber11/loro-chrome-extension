@@ -16,6 +16,9 @@
     "background": {
         "scripts": [ "js/background.js" ]
     },
+    "web_accessible_resources": [
+      "icon-card.png"
+    ],
     "permissions": ["storage",
                     "activeTab",
                     "*://*.yahoo.com/*",

@@ -10,4 +10,6 @@ export default abstract class GuiProxy {
     abstract reloadCurrentTab(): void;
 
     abstract getFromLocalStore(sKey:string, defaultVal?:Object):Promise<Object>
+
+    abstract getWebAccessibleResource(name:string): string
 }

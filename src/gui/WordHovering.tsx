@@ -31,7 +31,8 @@ const WordHovering = (toolTipProps: ToolTipProps) => {
 
     const wordSeenListener = (isVisible: boolean) => {
         if (isVisible) {
-            console.log("Element visible: " + toolTipProps.translated);
+            // TODO: Store which words the user has seen
+            // console.log("Element visible: " + toolTipProps.translated);
         }
     };
 
@@ -44,7 +45,7 @@ const WordHovering = (toolTipProps: ToolTipProps) => {
         height: "0px",
         border: "none",
         padding: "none",
-        boxShadow: shadows[1],
+        boxShadow: shadows[3],
         zIndex: 1,
         // Based on: https://blog.theodo.com/2018/01/responsive-iframes-css-trick/
         position: "absolute",

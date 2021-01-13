@@ -7,6 +7,9 @@ import Box from "@material-ui/core/Box";
 import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
 import ReportProblemIcon from "@material-ui/icons/ReportProblem";
+import shadows from "@material-ui/core/styles/shadows";
+import TransferendumConfig from "../TransferendumConfig";
+
 
 const myStyles = makeStyles({
     cardContent: {
@@ -16,9 +19,14 @@ const myStyles = makeStyles({
         }
     },
     envelope: {
-        width: 140,
-        minWidth: 140,
-        maxWidth: 140,
+        minWidth: 120,
+        minHeight: 120
+    },
+    loroIcon: {
+        position: "fixed",
+        bottom: "0",
+        width: "38px",
+        height: "32px"
     }
 });
 
@@ -33,17 +41,18 @@ const TranslationCard = ({original, translated, updateModal}: TranslationCardPro
     const classes = myStyles();
     return (
                 <Card className={classes.envelope}>
+                    <img className={classes.loroIcon} src={TransferendumConfig.instance.guiProxy.getWebAccessibleResource("icon-card.png")}/>
                     <CardContent className={classes.cardContent}>
-                        <Typography variant="h5" component="span">
+                        <Typography variant="h6" component="span">
                             {original}
                         </Typography>
                         <Divider variant="fullWidth"/>
-                        <Typography color="textSecondary" component="span" variant="h6"
+                        <Typography color="textSecondary" component="span" variant="body1"
                                     className="testCssNotAffectShadowDom">
                             {translated}
                         </Typography>
                     </CardContent>
-                    <Box display="flex" flexDirection="row-reverse">
+                    <Box display="flex" flexDirection="row-reverse" align-items="flex-end">
                         <Box p={1}>
                             <IconButton  size="small" title="Report error" onClick={()=>updateModal(true)}>
                                 <ReportProblemIcon color="primary" />

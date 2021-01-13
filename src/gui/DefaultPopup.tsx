@@ -9,7 +9,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Divider from '@material-ui/core/Divider';
-import {Button, Grid} from "@material-ui/core";
+import {Button, Grid, Link} from "@material-ui/core";
 import Switch from "@material-ui/core/Switch";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
@@ -194,9 +194,11 @@ const DefaultPopup = (defaultPopupProps: DefaultPopupProps) => {
                     </CardContent>
                     <Box display="flex" flexDirection="row-reverse">
                         <Box p={1}>
-                            <Button size="small" color="primary" onClick={showFeedback} >
-                                Contacto
-                            </Button>
+                            <Typography variant="h6" style={{marginRight: "1em"}}>
+                                <Link href="https://forms.gle/BRDx93xoxfVjQ8x1A" target="_blank">
+                                    Contacto
+                                </Link>
+                            </Typography>
                         </Box>
                     </Box>
                 </Card>

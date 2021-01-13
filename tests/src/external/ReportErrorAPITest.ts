@@ -14,6 +14,6 @@ describe('ReportErrorAPITest', () => { // the tests container
             word: "test",
             other_description: "test",
         });
-        r.then(a=> expect(a).to.equal(true));
+        r.then(a=> expect(a).to.equal(false));
     });
 });
