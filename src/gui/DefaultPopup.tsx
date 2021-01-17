@@ -9,7 +9,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Divider from '@material-ui/core/Divider';
-import {Button, Grid, Link} from "@material-ui/core";
+import {Grid, InputLabel, Link, MenuItem, Select} from "@material-ui/core";
 import Switch from "@material-ui/core/Switch";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
@@ -43,8 +43,11 @@ const useStyles = makeStyles((theme) => ({
     grid: {
         flexGrow: 1,
     },
-    switchText: {
-    }
+    formChooseLanguage: {
+        margin: theme.spacing(1),
+        minWidth: 120,
+    },
+    switchText: {}
 }));
 
 interface DefaultPopupProps {
@@ -55,6 +58,8 @@ interface DefaultPopupProps {
 const DefaultPopup = (defaultPopupProps: DefaultPopupProps) => {
     const classes = useStyles();
     const [difficultyState, setDifficultyState] = React.useState("many");
+    const [languageState, setLanguageState] = React.useState("english");
+
 
     const [loroSwitchState, setLoroSwitchState] = React.useState(false);
 
@@ -69,14 +74,14 @@ const DefaultPopup = (defaultPopupProps: DefaultPopupProps) => {
     }, []);
 
     const difficultyChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setDifficultyState((event.target as HTMLInputElement).value );
+        setDifficultyState((event.target as HTMLInputElement).value);
         defaultPopupProps.guiProxy.setOnLocalStore(TransferendumConfig.DIFFICULTY_KEY, (event.target as HTMLInputElement).value);
         defaultPopupProps.guiProxy.reloadCurrentTab();
     };
 
     const toucanSwitchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setLoroSwitchState(event.target.checked);
-        defaultPopupProps.guiProxy.setOnLocalStore(TransferendumConfig.LORO_SWITCH_KEY,event.target.checked.toString());
+        defaultPopupProps.guiProxy.setOnLocalStore(TransferendumConfig.LORO_SWITCH_KEY, event.target.checked.toString());
         defaultPopupProps.guiProxy.reloadCurrentTab();
     };
 
@@ -84,7 +89,25 @@ const DefaultPopup = (defaultPopupProps: DefaultPopupProps) => {
         window.close();
     };
 
-    const showFeedback = ()=> defaultPopupProps.callback(false, true);
+    const onLanguageChange = (event: React.ChangeEvent<{ name?: string; value: unknown }>) => {
+        let value = event.target.value as string;
+        value = value.toLowerCase();
+        console.log("The value is: " + value);
+        setLanguageState(value);
+    };
+
+/*    const [state, setState] = React.useState<{ age: string | number; name: string }>({
+        age: '',
+        name: 'hai',
+    });
+
+    const handleChange = (event: React.ChangeEvent<{ name?: string; value: unknown }>) => {
+        const name = event.target.name as keyof typeof state;
+        setState({
+            ...state,
+            [name]: event.target.value,
+        });
+    };*/
 
     return (
         <div>
@@ -92,46 +115,70 @@ const DefaultPopup = (defaultPopupProps: DefaultPopupProps) => {
                 <Card className={classes.root} variant="outlined">
                     <CardHeader
                         avatar={
-                            <Avatar  alt="loro" src="../icon-default-popup.png">
+                            <Avatar alt="loro" src="../icon-default-popup.png">
                                 loro
                             </Avatar>
                         }
                         action={
                             <IconButton aria-label="close" onClick={handleClose}>
-                                <CloseIcon color="primary" />
+                                <CloseIcon color="primary"/>
                             </IconButton>
                         }
                         title="Aprende un new lenguage"
                         subheader="Sin darte cuenta :)"
                     />
-                    <Divider variant="middle" />
+                    <Divider variant="middle"/>
                     <CardContent>
                         <FormControl component="fieldset" className={classes.formControl}>
                             <Typography variant="body1" color="primary">
                                 Escoge dificultad:
                             </Typography>
-                            <RadioGroup aria-label="difficultOptions" name="difficultOptions" onChange={difficultyChange}>
+                            <RadioGroup aria-label="difficultOptions" name="difficultOptions"
+                                        onChange={difficultyChange}>
                                 <FormControlLabel
-                                    control={<Radio color = "primary" />}
+                                    control={<Radio color="primary"/>}
                                     value="less"
                                     checked={difficultyState == "less"}
                                     label="Menos (Pocas y sútiles)"
                                 />
                                 <FormControlLabel
-                                    control={<Radio color = "primary" />}
+                                    control={<Radio color="primary"/>}
                                     value="more"
                                     checked={difficultyState == "more"}
                                     label="Más (Frequentes y obvias)"
                                 />
                                 <FormControlLabel
-                                    control={<Radio color = "primary" />}
+                                    control={<Radio color="primary"/>}
                                     value="many"
                                     checked={difficultyState == "many"}
                                     label="Muchas (Muchas y abundantes)"
                                 />
                             </RadioGroup>
+                            <br/>
                         </FormControl>
-                        <Divider variant="middle" />
+                        <Divider variant="middle"/>
+                        <Box display="flex" alignItems="center" justifyContent="flex-start">
+                            <Box p={1}>
+                                <Typography variant="body1" color="primary">
+                                    Escoge idioma:
+                                </Typography>
+                            </Box>
+                            <Box p={1}>
+                                <FormControl variant="outlined" className={classes.formChooseLanguage}>
+                                    <Select
+                                        onChange={onLanguageChange}
+                                        labelId="demo-simple-select-outlined-label"
+                                        id="demo-simple-select-outlined"
+                                        value={languageState}
+                                    >
+                                        <MenuItem value={"english"}>English</MenuItem>
+                                        <MenuItem value={"italian"}>Italian</MenuItem>
+                                        <MenuItem value={"germany"}>Germany</MenuItem>
+                                    </Select>
+                                </FormControl>
+                            </Box>
+                        </Box>
+                        <Divider variant="middle"/>
                         <div className={classes.grid}>
                             <Grid container
                                   direction="row"
@@ -140,16 +187,16 @@ const DefaultPopup = (defaultPopupProps: DefaultPopupProps) => {
                                 <Grid item xs={12}>
                                     <br/>
                                 </Grid>
-                                <Grid item xs={3} >
+                                <Grid item xs={3}>
                                     <Switch
                                         color="primary"
                                         checked={loroSwitchState}
                                         onChange={toucanSwitchChange}
                                         name="toucanSwitch"
-                                        inputProps={{ 'aria-label': 'secondary checkbox' }}
+                                        inputProps={{'aria-label': 'secondary checkbox'}}
                                     />
                                 </Grid>
-                                <Grid item  xs={9}>
+                                <Grid item xs={9}>
                                     <Grid container
                                           direction="row"
                                           justify="flex-start"
@@ -179,7 +226,7 @@ const DefaultPopup = (defaultPopupProps: DefaultPopupProps) => {
                                         }
                                         {
                                             !loroSwitchState &&
-                                            <Typography variant="subtitle2" >
+                                            <Typography variant="subtitle2">
                                                 Enciende Loro para ver traducciones de nuevo :)
                                             </Typography>
                                         }
@@ -190,7 +237,7 @@ const DefaultPopup = (defaultPopupProps: DefaultPopupProps) => {
                                 </Grid>
                             </Grid>
                         </div>
-                        <Divider variant="middle" />
+                        <Divider variant="middle"/>
                     </CardContent>
                     <Box display="flex" flexDirection="row-reverse">
                         <Box p={1}>

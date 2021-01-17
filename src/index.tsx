@@ -9,7 +9,7 @@ import WordHovering from "./gui/WordHovering";
 ReactDOM.render(<Popup/>, document.getElementById('popup'));
 
 /*
-ReactDOM.render(<TranslationCard original="hello" translated="hola"/>, document.getElementById('popup'));
+ReactDOM.render(<TranslationCard original="hello" translated="hola" updateModal={()=> true}/>, document.getElementById('popup'));
 */
 
 /*

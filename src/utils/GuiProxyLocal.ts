@@ -26,7 +26,7 @@ export default class GuiProxyLocal extends GuiProxy {
     }
 
     getWebAccessibleResource(name: string): string {
-        return "randomStringSinceWeAreRunningLocally";
+        return "loro.svg";
     }
 
 }

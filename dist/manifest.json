@@ -17,7 +17,7 @@
         "scripts": [ "js/background.js" ]
     },
     "web_accessible_resources": [
-      "icon-card.png"
+      "loro.svg"
     ],
     "permissions": ["storage",
                     "activeTab",

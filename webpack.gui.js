@@ -10,7 +10,8 @@ module.exports = merge(common, {
   mode: "development",
   devtool: "inline-source-map",
   devServer: {
-    contentBase: './dist/js',
+    publicPath: 'http://localhost:8080/',
+    contentBase: path.join(__dirname, 'dist'),
   },
   plugins: [
     new CleanWebpackPlugin({ cleanStaleWebpackAssets: false }),

@@ -7,9 +7,9 @@ import Box from "@material-ui/core/Box";
 import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
 import ReportProblemIcon from "@material-ui/icons/ReportProblem";
-import shadows from "@material-ui/core/styles/shadows";
 import TransferendumConfig from "../TransferendumConfig";
-
+import SettingsIcon from '@material-ui/icons/Settings';
+import {CardActions} from "@material-ui/core";
 
 const myStyles = makeStyles({
     cardContent: {
@@ -17,6 +17,11 @@ const myStyles = makeStyles({
         "&:last-child": {
             padding: 0,
         }
+    },
+    cardActions: {
+        display: "flex",
+        justifyContent: "flex-end",
+        alignItems: "flex-end"
     },
     envelope: {
         minWidth: 120,
@@ -26,7 +31,9 @@ const myStyles = makeStyles({
         position: "fixed",
         bottom: "0",
         width: "38px",
-        height: "32px"
+        height: "32px",
+        transform: "scale(-2, 2)",
+        margin: "-0% -0% -8% -15%"
     }
 });
 
@@ -40,8 +47,8 @@ type TranslationCardProps = {
 const TranslationCard = ({original, translated, updateModal}: TranslationCardProps) => {
     const classes = myStyles();
     return (
-                <Card className={classes.envelope}>
-                    <img className={classes.loroIcon} src={TransferendumConfig.instance.guiProxy.getWebAccessibleResource("icon-card.png")}/>
+                <Card className={classes.envelope} >
+                    <img className={classes.loroIcon} src={TransferendumConfig.instance.guiProxy.getWebAccessibleResource("loro.svg")}/>
                     <CardContent className={classes.cardContent}>
                         <Typography variant="h6" component="span">
                             {original}
@@ -52,13 +59,28 @@ const TranslationCard = ({original, translated, updateModal}: TranslationCardPro
                             {translated}
                         </Typography>
                     </CardContent>
-                    <Box display="flex" flexDirection="row-reverse" align-items="flex-end">
-                        <Box p={1}>
-                            <IconButton  size="small" title="Report error" onClick={()=>updateModal(true)}>
-                                <ReportProblemIcon color="primary" />
+                    <CardActions disableSpacing className={classes.cardActions} >
+                        <IconButton  size="small" title="Ajustes" onClick={()=>updateModal(true)}>
+                            <SettingsIcon />
+                        </IconButton>
+                        <IconButton  size="small" title="Reportar error" onClick={()=>updateModal(true)}>
+                            <ReportProblemIcon />
+                        </IconButton>
+                    </CardActions>
+{/*
+                    <Box display="flex" justifyContent="flex-end" alignItems="flex-end" flexDirection="row">
+                        <Box>
+                            <IconButton  size="small" title="Ajustes" onClick={()=>updateModal(true)}>
+                                <SettingsIcon />
+                            </IconButton>
+                        </Box>
+                        <Box>
+                            <IconButton  size="small" title="Reportar error" onClick={()=>updateModal(true)}>
+                                <ReportProblemIcon />
                             </IconButton>
                         </Box>
                     </Box>
+*/}
                 </Card>
     );
 };
