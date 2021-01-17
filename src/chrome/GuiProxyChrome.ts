@@ -32,10 +32,19 @@ export default class GuiProxyChrome extends GuiProxy {
     }
 
     reloadCurrentTab() {
-        chrome.tabs.query({active: true}, ()=> {
-            let code = 'window.location.reload();';
-            chrome.tabs.executeScript({code: code});
-        });
+        // If is called by the background script we need to ask google chrome to reload
+        // using the chrome APIs
+        if (chrome.tabs != null) {
+            chrome.tabs.query({active: true}, ()=> {
+                let code = 'window.location.reload();';
+                chrome.tabs.executeScript({code: code});
+            });
+        }
+        // When calling from content script we should use plain js to trigger page reload
+        else {
+            window.location.reload();
+        }
+
     }
 
     getWebAccessibleResource(name: string): string {

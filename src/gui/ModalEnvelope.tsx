@@ -40,7 +40,6 @@ export default function ModalEnvelope(props: ModalEnvelopeProps) {
     };
 
     // @ts-ignore
-    // @ts-ignore
     return (
         <div style={{position: "relative", display: "inline"}}>
             <Modal open={props.isOpen}

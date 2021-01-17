@@ -8,12 +8,16 @@ import { StylesProvider } from "@material-ui/styles";
 import NoSsr from "@material-ui/core/NoSsr";
 import Frame from "react-frame-component";
 
-class DemoFrame extends React.Component {
+type DemoFrameProps = {
+    frameStyles: any,
+}
+
+class DemoFrame extends React.Component<DemoFrameProps> {
     state = {
         ready: false
     };
 
-    constructor(props) {
+    constructor(props:DemoFrameProps) {
         super(props);
         this.span = React.createRef();
     }
@@ -43,6 +47,7 @@ class DemoFrame extends React.Component {
         // Adjust automatically the size of the frame
         let width  = fr.contentWindow.document.body.scrollWidth;
         let height = fr.contentWindow.document.body.scrollHeight;
+        // console.log(`The size is: ${width} x ${height}`);
         fr.width = width;
         fr.height = height;
         fr.style.width = `${width}px`;

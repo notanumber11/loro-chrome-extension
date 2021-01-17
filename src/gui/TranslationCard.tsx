@@ -41,10 +41,11 @@ const myStyles = makeStyles({
 type TranslationCardProps = {
     original: string,
     translated: string,
-    updateModal: (val:boolean)=>void
+    updateModal: (val:boolean)=>void,
+    updateSettings: (val:boolean)=>void
 }
 
-const TranslationCard = ({original, translated, updateModal}: TranslationCardProps) => {
+const TranslationCard = ({original, translated, updateModal, updateSettings}: TranslationCardProps) => {
     const classes = myStyles();
     return (
                 <Card className={classes.envelope} >
@@ -60,27 +61,13 @@ const TranslationCard = ({original, translated, updateModal}: TranslationCardPro
                         </Typography>
                     </CardContent>
                     <CardActions disableSpacing className={classes.cardActions} >
-                        <IconButton  size="small" title="Ajustes" onClick={()=>updateModal(true)}>
-                            <SettingsIcon />
-                        </IconButton>
                         <IconButton  size="small" title="Reportar error" onClick={()=>updateModal(true)}>
                             <ReportProblemIcon />
                         </IconButton>
+                        <IconButton  size="small" title="Ajustes" onClick={()=>updateSettings(true)}>
+                            <SettingsIcon />
+                        </IconButton>
                     </CardActions>
-{/*
-                    <Box display="flex" justifyContent="flex-end" alignItems="flex-end" flexDirection="row">
-                        <Box>
-                            <IconButton  size="small" title="Ajustes" onClick={()=>updateModal(true)}>
-                                <SettingsIcon />
-                            </IconButton>
-                        </Box>
-                        <Box>
-                            <IconButton  size="small" title="Reportar error" onClick={()=>updateModal(true)}>
-                                <ReportProblemIcon />
-                            </IconButton>
-                        </Box>
-                    </Box>
-*/}
                 </Card>
     );
 };

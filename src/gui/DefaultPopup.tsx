@@ -51,42 +51,35 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface DefaultPopupProps {
-    callback: (showDefaultPopup: boolean, showFeedbackPopup: boolean) => void;
-    guiProxy: GuiProxy
+    closeCallback: () => void;
 }
 
 const DefaultPopup = (defaultPopupProps: DefaultPopupProps) => {
     const classes = useStyles();
     const [difficultyState, setDifficultyState] = React.useState("many");
     const [languageState, setLanguageState] = React.useState("english");
-
-
     const [loroSwitchState, setLoroSwitchState] = React.useState(false);
-
+    const guiProxy = TransferendumConfig.instance.guiProxy;
     // Run function after component is mounted: https://stackoverflow.com/questions/54792722/on-react-how-can-i-call-a-function-on-component-mount-on-a-functional-stateless
     useEffect(() => {
-        defaultPopupProps.guiProxy.getFromLocalStore(TransferendumConfig.DIFFICULTY_KEY, "less").then(
+        guiProxy.getFromLocalStore(TransferendumConfig.DIFFICULTY_KEY, "less").then(
             val => setDifficultyState(val.toString())
         );
-        defaultPopupProps.guiProxy.getFromLocalStore(TransferendumConfig.LORO_SWITCH_KEY, "true").then(
+        guiProxy.getFromLocalStore(TransferendumConfig.LORO_SWITCH_KEY, "true").then(
             val => setLoroSwitchState(val == "true")
         );
     }, []);
 
     const difficultyChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setDifficultyState((event.target as HTMLInputElement).value);
-        defaultPopupProps.guiProxy.setOnLocalStore(TransferendumConfig.DIFFICULTY_KEY, (event.target as HTMLInputElement).value);
-        defaultPopupProps.guiProxy.reloadCurrentTab();
+        guiProxy.setOnLocalStore(TransferendumConfig.DIFFICULTY_KEY, (event.target as HTMLInputElement).value);
+        guiProxy.reloadCurrentTab();
     };
 
     const toucanSwitchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setLoroSwitchState(event.target.checked);
-        defaultPopupProps.guiProxy.setOnLocalStore(TransferendumConfig.LORO_SWITCH_KEY, event.target.checked.toString());
-        defaultPopupProps.guiProxy.reloadCurrentTab();
-    };
-
-    const handleClose = () => {
-        window.close();
+        guiProxy.setOnLocalStore(TransferendumConfig.LORO_SWITCH_KEY, event.target.checked.toString());
+        guiProxy.reloadCurrentTab();
     };
 
     const onLanguageChange = (event: React.ChangeEvent<{ name?: string; value: unknown }>) => {
@@ -96,31 +89,18 @@ const DefaultPopup = (defaultPopupProps: DefaultPopupProps) => {
         setLanguageState(value);
     };
 
-/*    const [state, setState] = React.useState<{ age: string | number; name: string }>({
-        age: '',
-        name: 'hai',
-    });
-
-    const handleChange = (event: React.ChangeEvent<{ name?: string; value: unknown }>) => {
-        const name = event.target.name as keyof typeof state;
-        setState({
-            ...state,
-            [name]: event.target.value,
-        });
-    };*/
-
     return (
         <div>
             {
                 <Card className={classes.root} variant="outlined">
                     <CardHeader
                         avatar={
-                            <Avatar alt="loro" src="../icon-default-popup.png">
+                            <Avatar alt="loro" src={TransferendumConfig.instance.guiProxy.getWebAccessibleResource("icon-default-popup.png")}>
                                 loro
                             </Avatar>
                         }
                         action={
-                            <IconButton aria-label="close" onClick={handleClose}>
+                            <IconButton aria-label="close" onClick={defaultPopupProps.closeCallback}>
                                 <CloseIcon color="primary"/>
                             </IconButton>
                         }
