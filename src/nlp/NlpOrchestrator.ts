@@ -15,10 +15,10 @@ export default class NlpOrchestrator {
         this.translator = translator;
     }
 
-    public process(document:Document, difficulty:number) {
+    public process(document:Document, difficulty:number, language:string) {
         let textSuitableToTranslate = this.domHandler.obtainTextCandidate(document);
-        let textToTranslate = this.wordPicker.getWordsForTranslation(textSuitableToTranslate, difficulty);
-        let textTranslated = this.translator.translate(textToTranslate);
+        let textToTranslate = this.wordPicker.getWordsForTranslation(textSuitableToTranslate, difficulty, language);
+        let textTranslated = this.translator.translate(textToTranslate, language, difficulty);
         this.domHandler.replaceWords(document, textTranslated);
     }
 

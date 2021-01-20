@@ -42,6 +42,7 @@ const useStyles = makeStyles((theme) => ({
     },
     grid: {
         flexGrow: 1,
+        padding: "10px"
     },
     formChooseLanguage: {
         margin: theme.spacing(1),
@@ -57,7 +58,7 @@ interface DefaultPopupProps {
 const DefaultPopup = (defaultPopupProps: DefaultPopupProps) => {
     const classes = useStyles();
     const [difficultyState, setDifficultyState] = React.useState("many");
-    const [languageState, setLanguageState] = React.useState("english");
+    const [languageState, setLanguageState] = React.useState("en");
     const [loroSwitchState, setLoroSwitchState] = React.useState(false);
     const guiProxy = TransferendumConfig.instance.guiProxy;
     // Run function after component is mounted: https://stackoverflow.com/questions/54792722/on-react-how-can-i-call-a-function-on-component-mount-on-a-functional-stateless
@@ -67,6 +68,9 @@ const DefaultPopup = (defaultPopupProps: DefaultPopupProps) => {
         );
         guiProxy.getFromLocalStore(TransferendumConfig.LORO_SWITCH_KEY, "true").then(
             val => setLoroSwitchState(val == "true")
+        );
+        guiProxy.getFromLocalStore(TransferendumConfig.LANGUAGE_KEY, "en").then(
+            val => setLanguageState(val.toString())
         );
     }, []);
 
@@ -84,9 +88,9 @@ const DefaultPopup = (defaultPopupProps: DefaultPopupProps) => {
 
     const onLanguageChange = (event: React.ChangeEvent<{ name?: string; value: unknown }>) => {
         let value = event.target.value as string;
-        value = value.toLowerCase();
-        console.log("The value is: " + value);
         setLanguageState(value);
+        guiProxy.setOnLocalStore(TransferendumConfig.LANGUAGE_KEY, value);
+        guiProxy.reloadCurrentTab();
     };
 
     return (
@@ -119,19 +123,19 @@ const DefaultPopup = (defaultPopupProps: DefaultPopupProps) => {
                                     control={<Radio color="primary"/>}
                                     value="less"
                                     checked={difficultyState == "less"}
-                                    label="Menos (Pocas y sútiles)"
+                                    label="Menos (Pocas y fáciles)"
                                 />
                                 <FormControlLabel
                                     control={<Radio color="primary"/>}
                                     value="more"
                                     checked={difficultyState == "more"}
-                                    label="Más (Frequentes y obvias)"
+                                    label="Más (Frequentes y más difíciles)"
                                 />
                                 <FormControlLabel
                                     control={<Radio color="primary"/>}
                                     value="many"
                                     checked={difficultyState == "many"}
-                                    label="Muchas (Muchas y abundantes)"
+                                    label="Muchas (Abundantes y complicadas)"
                                 />
                             </RadioGroup>
                             <br/>
@@ -140,7 +144,7 @@ const DefaultPopup = (defaultPopupProps: DefaultPopupProps) => {
                         <Box display="flex" alignItems="center" justifyContent="flex-start">
                             <Box p={1}>
                                 <Typography variant="body1" color="primary">
-                                    Escoge idioma:
+                                    Quiero aprender:
                                 </Typography>
                             </Box>
                             <Box p={1}>
@@ -151,9 +155,9 @@ const DefaultPopup = (defaultPopupProps: DefaultPopupProps) => {
                                         id="demo-simple-select-outlined"
                                         value={languageState}
                                     >
-                                        <MenuItem value={"english"}>English</MenuItem>
-                                        <MenuItem value={"italian"}>Italian</MenuItem>
-                                        <MenuItem value={"germany"}>Germany</MenuItem>
+                                        <MenuItem value={"en"}>English</MenuItem>
+                                        <MenuItem value={"pl"}>Polski</MenuItem>
+                                        <MenuItem value={"es"}>Español</MenuItem>
                                     </Select>
                                 </FormControl>
                             </Box>
@@ -164,9 +168,6 @@ const DefaultPopup = (defaultPopupProps: DefaultPopupProps) => {
                                   direction="row"
                                   justify="flex-start"
                                   alignItems="flex-start">
-                                <Grid item xs={12}>
-                                    <br/>
-                                </Grid>
                                 <Grid item xs={3}>
                                     <Switch
                                         color="primary"
@@ -197,7 +198,7 @@ const DefaultPopup = (defaultPopupProps: DefaultPopupProps) => {
                                             }
                                         </Grid>
                                     </Grid>
-                                    <Grid item xs={9}>
+                                    <Grid item xs={12}>
                                         {
                                             loroSwitchState &&
                                             <Typography variant="subtitle2">
@@ -211,9 +212,6 @@ const DefaultPopup = (defaultPopupProps: DefaultPopupProps) => {
                                             </Typography>
                                         }
                                     </Grid>
-                                </Grid>
-                                <Grid item xs={12}>
-                                    <br/>
                                 </Grid>
                             </Grid>
                         </div>

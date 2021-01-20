@@ -4,20 +4,20 @@ import GuiProxy from "./gui/GuiProxy";
 
 export default class TransferendumConfig {
 
-    public static readonly  DIFFICULTY_KEY = "difficulty";
+    public static readonly  DIFFICULTY_KEY = "loroDifficulty";
     public static readonly LORO_SWITCH_KEY = "loroSwitchKey";
+    public static readonly LANGUAGE_KEY = "loroLanguageKey";
 
-    public readonly guiProxy:GuiProxy;
-    public readonly isLocal:boolean;
-
-    public static instance = new TransferendumConfig();
-
-    public readonly difficultyToNumber:Map<string, number> = new Map([
+    public static readonly difficultyToNumber:Map<string, number> = new Map([
         ["less", 1],
         ["more", 2],
         ["many", 4]
     ]);
 
+    public static instance = new TransferendumConfig();
+
+    public readonly guiProxy:GuiProxy;
+    public readonly isLocal:boolean;
 
     private constructor() {
         if (process.env.isChrome == "true") {
