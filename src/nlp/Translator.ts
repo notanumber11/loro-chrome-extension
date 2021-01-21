@@ -9,6 +9,9 @@ import esEn1000_1500 from "./esEn/es_en_translations_1000_1500.json"
 import esPl500 from "./esPl/es_pl_translations_0_500.json"
 import esPl500_1000 from "./esPl/es_pl_translations_500_1000.json"
 import esPl1000_1500 from "./esPl/es_pl_translations_1000_1500.json"
+import esPt500 from "./esPt/es_pt_translations_0_500.json"
+import esPt500_1000 from "./esPt/es_pt_translations_500_1000.json"
+import esPt1000_1500 from "./esPt/es_pt_translations_1000_1500.json"
 import plEs500 from "./plEs/pl_es_translations_0_500.json"
 import plEs500_1000 from "./plEs/pl_es_translations_500_1000.json"
 import plEs1000_1500 from "./plEs/pl_es_translations_1000_1500.json"
@@ -85,6 +88,11 @@ export default class Translator {
             "less": [esPl500],
             "more": [esPl500, esPl500_1000],
             "many": [esPl500_1000, esPl1000_1500]
+        },
+        "pt": {
+            "less": [esPt500],
+            "more": [esPt500, esPt500_1000],
+            "many": [esPt500_1000, esPt1000_1500]
         },
         "es": {
             "less": [plEs500],

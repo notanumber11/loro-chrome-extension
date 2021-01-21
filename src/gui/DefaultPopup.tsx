@@ -157,6 +157,7 @@ const DefaultPopup = (defaultPopupProps: DefaultPopupProps) => {
                                     >
                                         <MenuItem value={"en"}>English</MenuItem>
                                         <MenuItem value={"pl"}>Polski</MenuItem>
+                                        <MenuItem value={"pt"}>Portuguese</MenuItem>
                                         <MenuItem value={"es"}>Español</MenuItem>
                                     </Select>
                                 </FormControl>
