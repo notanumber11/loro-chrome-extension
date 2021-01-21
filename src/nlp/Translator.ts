@@ -12,6 +12,13 @@ import esPl1000_1500 from "./esPl/es_pl_translations_1000_1500.json"
 import esPt500 from "./esPt/es_pt_translations_0_500.json"
 import esPt500_1000 from "./esPt/es_pt_translations_500_1000.json"
 import esPt1000_1500 from "./esPt/es_pt_translations_1000_1500.json"
+import esIt500 from "./esIt/es_it_translations_0_500.json"
+import esIt500_1000 from "./esIt/es_it_translations_500_1000.json"
+import esIt1000_1500 from "./esIt/es_it_translations_1000_1500.json"
+import esFr500 from "./esFr/es_fr_translations_0_500.json"
+import esFr500_1000 from "./esFr/es_fr_translations_500_1000.json"
+import esFr1000_1500 from "./esFr/es_fr_translations_1000_1500.json"
+// Special case por polish to spanish
 import plEs500 from "./plEs/pl_es_translations_0_500.json"
 import plEs500_1000 from "./plEs/pl_es_translations_500_1000.json"
 import plEs1000_1500 from "./plEs/pl_es_translations_1000_1500.json"
@@ -94,6 +101,17 @@ export default class Translator {
             "more": [esPt500, esPt500_1000],
             "many": [esPt500_1000, esPt1000_1500]
         },
+        "it": {
+            "less": [esIt500],
+            "more": [esIt500, esIt500_1000],
+            "many": [esIt500_1000, esIt1000_1500]
+        },
+        "fr": {
+            "less": [esFr500],
+            "more": [esFr500, esFr500_1000],
+            "many": [esFr500_1000, esFr1000_1500]
+        },
+        // Polish to spanish special case
         "es": {
             "less": [plEs500],
             "more": [plEs500, plEs500_1000],
