@@ -21,7 +21,7 @@ export default class GuiProxyLocal extends GuiProxy {
     getFromLocalStore(sKey: string, defaultVal?: Object): Promise<Object> {
         return new Promise(function(resolve, reject) {
             /* missing implementation */
-            resolve(defaultVal);
+            resolve(defaultVal!);
         });
     }
 

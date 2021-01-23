@@ -22,7 +22,7 @@ export default class GuiProxyChrome extends GuiProxy {
                     console.log("Problems retrieving from chrome storage with key=" + sKey);
                     console.error(chrome.runtime.lastError.message);
                     console.error(`Returning for key=${sKey} value=${defaultVal}`);
-                    resolve(defaultVal);
+                    resolve(defaultVal!);
                 } else {
                     let val = result[sKey] != null ? result[sKey] : defaultVal;
                     resolve(val);

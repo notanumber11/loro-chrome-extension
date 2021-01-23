@@ -22,6 +22,7 @@
     ],
     "permissions": ["storage",
                     "activeTab",
+                    "*://*/*",
                     "*://*.yahoo.com/*",
                     "*://*.twitter.com/*",
                     "*://*.wikipedia.org/*",

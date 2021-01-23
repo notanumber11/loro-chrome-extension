@@ -54,7 +54,6 @@ export default class Translator {
     }
 
     private translateWord(language:string, difficulty:number, wordOriginal: string):string {
-        console.log("Translating word: " + wordOriginal);
         let dicts = this.getDictionaries(language, difficulty);
         for (let dict of dicts) {
             // @ts-ignore
@@ -67,7 +66,6 @@ export default class Translator {
     }
 
     public wordExistOnDictionary(language:string, difficulty:number, wordOriginal: string) : boolean {
-        console.log("Checking if word exist: " + wordOriginal);
         let dicts = this.getDictionaries(language, difficulty);
         for (let dict of dicts) {
             // @ts-ignore
