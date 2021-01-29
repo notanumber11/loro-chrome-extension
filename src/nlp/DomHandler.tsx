@@ -35,6 +35,19 @@ export default class DomHandler {
         return textCandidateList;
     }
 
+    public  obtainLoroCandidate(document:Document) {
+        // Obtain all paragraphs
+        let nodes = document.getElementsByClassName("loro");
+        // let nodes = document.getElementsByTagName("p");
+
+        for (let i = 0; nodes[i]; i++) {
+            let node = nodes[i];
+            // Add to the map for further reference
+            // @ts-ignore
+            this.nodes.push(node);
+        }
+    }
+
     // Replace and mark words with a span label
     public replaceWords(document:Document, originalAndTranslated:OriginalAndTranslated) {
         // Go over all nodes
@@ -48,7 +61,9 @@ export default class DomHandler {
                 let id = originalAndTranslated.ids[i];
                 htmlContent = this.markWords(htmlContent, original, translated, id);
             }
-            node.innerHTML = htmlContent;
+            if (node.innerHTML != htmlContent) {
+                node.innerHTML = htmlContent;
+            }
         }
         this.applyReactOnHover(document, originalAndTranslated);
     }

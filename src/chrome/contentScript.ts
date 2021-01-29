@@ -12,6 +12,11 @@ async function processDocument() {
     await processBasedOnExtensionEnable(isExtensionEnabled == "true", conf, nlpOrchestrator);
 }
 
+function processLoroContent() {
+    let nlpOrchestrator = NlpOrchestrator.getInstance();
+    nlpOrchestrator.processLoro(document);
+}
+
 async function processBasedOnExtensionEnable(isExtensionEnabled:boolean, conf:TransferendumConfig, nlpOrchestrator: NlpOrchestrator) {
     if (isExtensionEnabled) {
         let difficultyString = (await conf.guiProxy.getFromLocalStore(TransferendumConfig.DIFFICULTY_KEY, "less")).toString();
@@ -33,6 +38,8 @@ if (!TransferendumConfig.instance.isLocal) {
         window.hasRun = true;
         // Rest of code
         processDocument();
+        // Add special listener that will run on the loro webpage as part of the tutorial
+        window.addEventListener("loro", ()=> processLoroContent());
     })();
 
 }

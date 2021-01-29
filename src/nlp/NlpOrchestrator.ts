@@ -25,6 +25,16 @@ export default class NlpOrchestrator {
         console.log("[LORO EXTENSION] process took " + (t1 - t0) + " milliseconds.")
     }
 
+    public processLoro(document:Document) {
+        this.domHandler.obtainLoroCandidate(document);
+        let textTranslated = {
+            originalWords: ["palabras", "nuevo", "raton", "azul", "traduccion", "ajustes", "palabra", "traducida"],
+            translatedWords: ["words", "new", "mouse", "blue", "translation", "settings", "word", "translated"],
+            ids: [1, 2, 3, 4, 5, 6, 7, 8]
+        };
+        this.domHandler.replaceWords(document, textTranslated);
+    }
+
     public static getInstance() {
         let translator = new Translator();
         return new NlpOrchestrator(new DomHandler(), new WordPicker(translator), translator);

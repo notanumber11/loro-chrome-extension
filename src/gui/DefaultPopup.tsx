@@ -9,13 +9,12 @@ import CloseIcon from '@material-ui/icons/Close';
 import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Divider from '@material-ui/core/Divider';
-import {Grid, InputLabel, Link, MenuItem, Select} from "@material-ui/core";
+import {Button, Grid, Link, MenuItem, Select} from "@material-ui/core";
 import Switch from "@material-ui/core/Switch";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
-import GuiProxy from "./GuiProxy";
 import TransferendumConfig from "../TransferendumConfig";
 
 const useStyles = makeStyles((theme) => ({
@@ -48,7 +47,12 @@ const useStyles = makeStyles((theme) => ({
         margin: theme.spacing(1),
         minWidth: 120,
     },
-    switchText: {}
+    smallTitle: {
+        fontSize: "1.1rem"
+    },
+    webpage: {
+        color: theme.palette.primary.main
+    }
 }));
 
 interface DefaultPopupProps {
@@ -58,6 +62,7 @@ interface DefaultPopupProps {
 const DefaultPopup = (defaultPopupProps: DefaultPopupProps) => {
     const classes = useStyles();
     const [difficultyState, setDifficultyState] = React.useState("many");
+    const [webpageState, setWebpage] = React.useState("webpage");
     const [languageState, setLanguageState] = React.useState("en");
     const [loroSwitchState, setLoroSwitchState] = React.useState(false);
     const guiProxy = TransferendumConfig.instance.guiProxy;
@@ -72,6 +77,7 @@ const DefaultPopup = (defaultPopupProps: DefaultPopupProps) => {
         guiProxy.getFromLocalStore(TransferendumConfig.LANGUAGE_KEY, "en").then(
             val => setLanguageState(val.toString())
         );
+        obtainUrl();
     }, []);
 
     const difficultyChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -93,13 +99,43 @@ const DefaultPopup = (defaultPopupProps: DefaultPopupProps) => {
         guiProxy.reloadCurrentTab();
     };
 
+    const obtainUrl = () => {
+        let currentUrl = null;
+        if (chrome.tabs) {
+            chrome?.tabs?.query({active: true, lastFocusedWindow: true}, tabs => {
+                currentUrl = tabs?.[0]?.url;
+                if (currentUrl) {
+                    currentUrl = formatUrl(currentUrl);
+                    setWebpage(currentUrl);
+                }
+            });
+        }
+        else {
+            currentUrl = window.location.href;
+            currentUrl = formatUrl(currentUrl);
+            if (currentUrl) {
+                setWebpage(currentUrl);
+            }
+        }
+    };
+    
+    function formatUrl(url:string) {
+        url = url.replace("http://", "");
+        url = url.replace("https://", "");
+        url = url.replace("www.", "");
+        let endIndex = url.indexOf("/");
+        url = url.substring(0, endIndex);
+        return url;
+    }
+
     return (
         <div>
             {
                 <Card className={classes.root} variant="outlined">
                     <CardHeader
                         avatar={
-                            <Avatar alt="loro" src={TransferendumConfig.instance.guiProxy.getWebAccessibleResource("icon-default-popup.png")}>
+                            <Avatar alt="loro"
+                                    src={TransferendumConfig.instance.guiProxy.getWebAccessibleResource("icon-default-popup.png")}>
                                 loro
                             </Avatar>
                         }
@@ -123,19 +159,19 @@ const DefaultPopup = (defaultPopupProps: DefaultPopupProps) => {
                                     control={<Radio color="primary"/>}
                                     value="less"
                                     checked={difficultyState == "less"}
-                                    label="Menos (Pocas y fáciles)"
+                                    label="Facil (Pocas y fáciles)"
                                 />
                                 <FormControlLabel
                                     control={<Radio color="primary"/>}
                                     value="more"
                                     checked={difficultyState == "more"}
-                                    label="Más (Frequentes y más difíciles)"
+                                    label="Medio (Frequentes y más difíciles)"
                                 />
                                 <FormControlLabel
                                     control={<Radio color="primary"/>}
                                     value="many"
                                     checked={difficultyState == "many"}
-                                    label="Muchas (Abundantes y complicadas)"
+                                    label="Dificil (Abundantes y complicadas)"
                                 />
                             </RadioGroup>
                             <br/>
@@ -185,19 +221,19 @@ const DefaultPopup = (defaultPopupProps: DefaultPopupProps) => {
                                           direction="row"
                                           justify="flex-start"
                                           alignItems="flex-start">
-                                        <Grid item xs={5}>
-                                            <Typography variant="h6">
-                                                Loro esta:&nbsp;
+                                        <Grid item xs={4}>
+                                            <Typography className={classes.smallTitle}>
+                                                Loro esta:
                                             </Typography>
                                         </Grid>
-                                        <Grid item xs={4}>
+                                        <Grid item xs={5}>
                                             {
                                                 loroSwitchState &&
-                                                <Typography color="primary" variant="h6">ON</Typography>
+                                                <Typography color="primary" className={classes.smallTitle}>ON</Typography>
                                             }
                                             {
                                                 !loroSwitchState &&
-                                                <Typography color="primary" variant="h6">OFF</Typography>
+                                                <Typography color="primary" className={classes.smallTitle}>OFF</Typography>
                                             }
                                         </Grid>
                                     </Grid>
@@ -212,6 +248,49 @@ const DefaultPopup = (defaultPopupProps: DefaultPopupProps) => {
                                             !loroSwitchState &&
                                             <Typography variant="subtitle2">
                                                 Enciende Loro para ver traducciones de nuevo :)
+                                            </Typography>
+                                        }
+                                    </Grid>
+                                </Grid>
+                            </Grid>
+                        </div>
+                        <div className={classes.grid}>
+                            <Grid container
+                                  direction="row"
+                                  justify="flex-start"
+                                  alignItems="flex-start">
+                                <Grid item xs={3}>
+                                    <Switch
+                                        color="primary"
+                                        checked={loroSwitchState}
+                                        onChange={toucanSwitchChange}
+                                        name="toucanSwitch"
+                                        inputProps={{'aria-label': 'secondary checkbox'}}
+                                    />
+                                </Grid>
+                                <Grid item xs={9}>
+                                    <Grid container
+                                          direction="row"
+                                          justify="flex-start"
+                                          alignItems="flex-start">
+                                        <Grid item xs={12}>
+                                            <Typography className={classes.smallTitle}>
+                                                Permitir en <span className={classes.webpage}>{webpageState}</span>
+                                            </Typography>
+
+                                        </Grid>
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                        {
+                                            loroSwitchState &&
+                                            <Typography variant="subtitle2">
+                                                Las traducciones apareceran en esta pagina.
+                                            </Typography>
+                                        }
+                                        {
+                                            !loroSwitchState &&
+                                            <Typography variant="subtitle2">
+                                                Las traducciones no apareceran en esta pagina.
                                             </Typography>
                                         }
                                     </Grid>
