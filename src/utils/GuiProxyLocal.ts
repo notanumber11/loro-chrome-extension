@@ -10,7 +10,7 @@ export default class GuiProxyLocal extends GuiProxy {
         console.log(GuiProxyLocal.NAME + "Sending message: " + message);
     }
 
-    setOnLocalStore(key: string, value: string) {
+    setOnLocalStore(key: string, value: object) {
         console.log(GuiProxyLocal.NAME + `Setting with key=${key} and value=${value}`);
     }
 

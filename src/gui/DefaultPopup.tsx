@@ -65,8 +65,24 @@ const DefaultPopup = (defaultPopupProps: DefaultPopupProps) => {
     const [webpageState, setWebpage] = React.useState("webpage");
     const [languageState, setLanguageState] = React.useState("en");
     const [loroSwitchState, setLoroSwitchState] = React.useState(false);
+    const [runningOnWebpageSwitchState, setRunningOnWebpageSwitchState] = React.useState(false);
     const guiProxy = TransferendumConfig.instance.guiProxy;
-    // Run function after component is mounted: https://stackoverflow.com/questions/54792722/on-react-how-can-i-call-a-function-on-component-mount-on-a-functional-stateless
+
+    function updateIsRunningWebpageSwitchState(currentUrl: string) {
+        guiProxy.getFromLocalStore(TransferendumConfig.DENIED_USER_WEBPAGES, []).then((val) => {
+                // @ts-ignore
+                let urls: Array<string> = val;
+                let index = urls.indexOf(currentUrl);
+                if (index == -1) {
+                    setRunningOnWebpageSwitchState(true);
+                } else {
+                    setRunningOnWebpageSwitchState(false);
+                }
+            }
+        );
+    }
+
+// Run function after component is mounted: https://stackoverflow.com/questions/54792722/on-react-how-can-i-call-a-function-on-component-mount-on-a-functional-stateless
     useEffect(() => {
         guiProxy.getFromLocalStore(TransferendumConfig.DIFFICULTY_KEY, "less").then(
             val => setDifficultyState(val.toString())
@@ -86,9 +102,38 @@ const DefaultPopup = (defaultPopupProps: DefaultPopupProps) => {
         guiProxy.reloadCurrentTab();
     };
 
-    const toucanSwitchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const loroSwitchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setLoroSwitchState(event.target.checked);
         guiProxy.setOnLocalStore(TransferendumConfig.LORO_SWITCH_KEY, event.target.checked.toString());
+        guiProxy.reloadCurrentTab();
+    };
+
+    const runningOnWebpageSwitchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        let isAllowed = event.target.checked;
+        setRunningOnWebpageSwitchState(isAllowed);
+        guiProxy.getFromLocalStore(TransferendumConfig.DENIED_USER_WEBPAGES, []).then((val)=>
+            {
+                let currentUrl = webpageState;
+                // @ts-ignore
+                let urls:Array<string> = val;
+                if (currentUrl) {
+                    if (isAllowed) {
+                        // Remove url
+                        let index = urls.indexOf(currentUrl);
+                        if (index != -1) {
+                            urls.splice(index, 1);
+                        }
+                    }
+                    else {
+                        // Append url
+                        urls.push(currentUrl);
+                    }
+                    if (urls.length>0) {
+                        guiProxy.setOnLocalStore(TransferendumConfig.DENIED_USER_WEBPAGES, urls);
+                    }
+                }
+            }
+        );
         guiProxy.reloadCurrentTab();
     };
 
@@ -105,28 +150,22 @@ const DefaultPopup = (defaultPopupProps: DefaultPopupProps) => {
             chrome?.tabs?.query({active: true, lastFocusedWindow: true}, tabs => {
                 currentUrl = tabs?.[0]?.url;
                 if (currentUrl) {
-                    currentUrl = formatUrl(currentUrl);
+                    currentUrl = TransferendumConfig.formatUrl(currentUrl);
                     setWebpage(currentUrl);
+                    updateIsRunningWebpageSwitchState(currentUrl);
                 }
             });
         }
         else {
             currentUrl = window.location.href;
-            currentUrl = formatUrl(currentUrl);
+            currentUrl = TransferendumConfig.formatUrl(currentUrl);
             if (currentUrl) {
                 setWebpage(currentUrl);
+                updateIsRunningWebpageSwitchState(currentUrl);
             }
         }
+        return currentUrl
     };
-    
-    function formatUrl(url:string) {
-        url = url.replace("http://", "");
-        url = url.replace("https://", "");
-        url = url.replace("www.", "");
-        let endIndex = url.indexOf("/");
-        url = url.substring(0, endIndex);
-        return url;
-    }
 
     return (
         <div>
@@ -196,7 +235,6 @@ const DefaultPopup = (defaultPopupProps: DefaultPopupProps) => {
                                         <MenuItem value={"pt"}>Português</MenuItem>
                                         <MenuItem value={"it"}>Italiano</MenuItem>
                                         <MenuItem value={"fr"}>Français</MenuItem>
-                                        <MenuItem value={"es"}>Español</MenuItem>
                                     </Select>
                                 </FormControl>
                             </Box>
@@ -211,8 +249,8 @@ const DefaultPopup = (defaultPopupProps: DefaultPopupProps) => {
                                     <Switch
                                         color="primary"
                                         checked={loroSwitchState}
-                                        onChange={toucanSwitchChange}
-                                        name="toucanSwitch"
+                                        onChange={loroSwitchChange}
+                                        name="loroSwitch"
                                         inputProps={{'aria-label': 'secondary checkbox'}}
                                     />
                                 </Grid>
@@ -262,9 +300,9 @@ const DefaultPopup = (defaultPopupProps: DefaultPopupProps) => {
                                 <Grid item xs={3}>
                                     <Switch
                                         color="primary"
-                                        checked={loroSwitchState}
-                                        onChange={toucanSwitchChange}
-                                        name="toucanSwitch"
+                                        checked={runningOnWebpageSwitchState}
+                                        onChange={runningOnWebpageSwitchChange}
+                                        name="runningOnWebpageSwitch"
                                         inputProps={{'aria-label': 'secondary checkbox'}}
                                     />
                                 </Grid>
@@ -282,13 +320,13 @@ const DefaultPopup = (defaultPopupProps: DefaultPopupProps) => {
                                     </Grid>
                                     <Grid item xs={12}>
                                         {
-                                            loroSwitchState &&
+                                            runningOnWebpageSwitchState &&
                                             <Typography variant="subtitle2">
                                                 Las traducciones apareceran en esta pagina.
                                             </Typography>
                                         }
                                         {
-                                            !loroSwitchState &&
+                                            !runningOnWebpageSwitchState &&
                                             <Typography variant="subtitle2">
                                                 Las traducciones no apareceran en esta pagina.
                                             </Typography>

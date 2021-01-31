@@ -65,6 +65,11 @@ export default class Translator {
         throw Error(`The word ${wordOriginal} is not in the dictionary`);
     }
 
+    public translateSingleWord(language:string, wordOriginal: string):string {
+        this.numberToDifficulty.keys()
+        return this.translateWord(language, 4, wordOriginal);
+    }
+
     public wordExistOnDictionary(language:string, difficulty:number, wordOriginal: string) : boolean {
         let dicts = this.getDictionaries(language, difficulty);
         for (let dict of dicts) {

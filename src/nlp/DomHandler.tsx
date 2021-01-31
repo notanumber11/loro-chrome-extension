@@ -3,9 +3,6 @@ import {OriginalAndTranslated} from "./Translator";
 import WordHovering from "../gui/WordHovering";
 import React from 'react';
 import ReactDOM from 'react-dom';
-/*import WordHoveringWrapper from "../gui/WordHoveringWrapper";
-// @ts-ignore
-import retargetEvents from 'react-shadow-dom-retarget-events';*/
 
 // Interface containing a piece of text of the webpage that is suitable to be translated
 export interface TextCandidate {

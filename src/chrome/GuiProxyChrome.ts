@@ -6,7 +6,7 @@ export default class GuiProxyChrome extends GuiProxy {
         chrome.runtime.sendMessage(message);
     }
 
-    setOnLocalStore(key:string, value:string) {
+    setOnLocalStore(key:string, value:object) {
         chrome.storage.sync.set({[key]: value}, function() {
             if (chrome.runtime.lastError) {
                 console.error(`Problems for storing for key=${key} value=${value}`);

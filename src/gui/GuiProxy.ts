@@ -5,11 +5,11 @@
 export default abstract class GuiProxy {
     abstract sendMessage(message: any, responseCallback?: (response: any) => void): void;
 
-    abstract setOnLocalStore(key:string, value:string): void;
+    abstract setOnLocalStore(key: string, value: Object): void;
 
     abstract reloadCurrentTab(): void;
 
-    abstract getFromLocalStore(sKey:string, defaultVal?:Object):Promise<Object>
+    abstract getFromLocalStore(sKey: string, defaultVal?: Object): Promise<Object>
 
-    abstract getWebAccessibleResource(name:string): string
+    abstract getWebAccessibleResource(name: string): string
 }

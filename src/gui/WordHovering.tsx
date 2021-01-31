@@ -122,7 +122,7 @@ class WordHovering extends React.Component<ToolTipProps, ToolTipState> {
     // @ts-ignore
     render() {
         const {classes} = this.props;
-        return (<VisibilitySensor onChange={this.wordSeenListener} offset={{bottom: 100}}>
+        return (
             <span>
                 <span
                     onMouseEnter={() => this.setHovering(true)}
@@ -142,7 +142,7 @@ class WordHovering extends React.Component<ToolTipProps, ToolTipState> {
                                closeCallback={this.setReportErrorModalOpenStatus}
                                original={this.props.original} translated={this.props.translated}/>
             </span>
-        </VisibilitySensor>)
+        )
     }
 };
 

@@ -2,19 +2,26 @@
 // https://developer.chrome.com/docs/extensions/mv2/content_scripts/
 import NlpOrchestrator from "../nlp/NlpOrchestrator";
 import TransferendumConfig from "../TransferendumConfig";
+import onBoarding from "../gui/onBoarding/Caller";
+
+
+async function canRunInThisWebpage(conf:TransferendumConfig) {
+    // @ts-ignore
+    let urls:Array<string> = (await conf.guiProxy.getFromLocalStore(TransferendumConfig.DENIED_USER_WEBPAGES, []));
+    let currentUrl = TransferendumConfig.formatUrl(window.location.href);
+    let result = urls.indexOf(currentUrl) == -1 && urls.length != 0;
+    return result;
+}
 
 async function processDocument() {
     let nlpOrchestrator = NlpOrchestrator.getInstance();
     let conf = TransferendumConfig.instance;
     let guiProxy = conf.guiProxy;
     // Only process data with the extension if it is enabled
-    let isExtensionEnabled = await guiProxy.getFromLocalStore(TransferendumConfig.LORO_SWITCH_KEY, "true");
-    await processBasedOnExtensionEnable(isExtensionEnabled == "true", conf, nlpOrchestrator);
-}
+    let isExtensionEnabled = (await guiProxy.getFromLocalStore(TransferendumConfig.LORO_SWITCH_KEY, "true")) == "true";
 
-function processLoroContent() {
-    let nlpOrchestrator = NlpOrchestrator.getInstance();
-    nlpOrchestrator.processLoro(document);
+    let canRunOnThisWebpage = await canRunInThisWebpage(conf);
+    await processBasedOnExtensionEnable(isExtensionEnabled && canRunOnThisWebpage , conf, nlpOrchestrator);
 }
 
 async function processBasedOnExtensionEnable(isExtensionEnabled:boolean, conf:TransferendumConfig, nlpOrchestrator: NlpOrchestrator) {
@@ -37,9 +44,7 @@ if (!TransferendumConfig.instance.isLocal) {
         // @ts-ignore
         window.hasRun = true;
         // Rest of code
+        onBoarding();
         processDocument();
-        // Add special listener that will run on the loro webpage as part of the tutorial
-        window.addEventListener("loro", ()=> processLoroContent());
     })();
-
 }

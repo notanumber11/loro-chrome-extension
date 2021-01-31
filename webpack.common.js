@@ -4,8 +4,8 @@ module.exports = {
    entry: {
     popup: path.join(__dirname, "src/index.tsx"),
     background: path.join(__dirname, "src/chrome/background.ts"),
-    contentScript: path.join(__dirname, "src/chrome/contentScript.ts")
-  },
+    contentScript: path.join(__dirname, "src/chrome/contentScript.ts"),
+   },
   target: "node",
   output: {
     path: path.join(__dirname, "dist/js"),
