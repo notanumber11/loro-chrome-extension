@@ -9,7 +9,25 @@ export default class TransferendumConfig {
     public static readonly LANGUAGE_KEY = "loroLanguageKey";
     public static readonly LORO_JUST_INSTALLED = "loroJustInstalled";
     public static readonly DENIED_USER_WEBPAGES = "loroDeniedWebpages";
-
+    public static readonly DISALLOW_WEBPAGES = [
+        "facebook",
+        "instagram",
+        "whatsapp",
+        "telegram",
+        "signal",
+        "messenger",
+        "mail",
+        "gmail",
+        "tiktok",
+        "twitter",
+        "bank",
+        "banco",
+        "banca",
+        "revolut",
+        "paypal",
+        "bbva",
+        "ing"
+    ];
 
     public static readonly difficultyToNumber:Map<string, number> = new Map([
         ["less", 1],
@@ -28,6 +46,7 @@ export default class TransferendumConfig {
         url = url.replace("www.", "");
         let endIndex = url.indexOf("/");
         url = url.substring(0, endIndex);
+        url = url.toLowerCase();
         return url;
     }
 

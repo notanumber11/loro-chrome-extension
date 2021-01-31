@@ -8,14 +8,15 @@ import IconButton from "@material-ui/core/IconButton";
 import ReportProblemIcon from "@material-ui/icons/ReportProblem";
 import TransferendumConfig from "../TransferendumConfig";
 import SettingsIcon from '@material-ui/icons/Settings';
-import {CardActions} from "@material-ui/core";
+import {CardActions, Tooltip} from "@material-ui/core";
 
 const myStyles = makeStyles({
     cardContent: {
         paddingBottom: 0,
         "&:last-child": {
             padding: 0,
-        }
+        },
+        maxWidth:240
     },
     cardActions: {
         display: "flex",
@@ -24,7 +25,9 @@ const myStyles = makeStyles({
     },
     envelope: {
         minWidth: 120,
-        minHeight: 120
+        maxWidth:240,
+        minHeight: 120,
+        display: "inline-grid",
     },
     loroIcon: {
         position: "fixed",
@@ -32,7 +35,7 @@ const myStyles = makeStyles({
         width: "38px",
         height: "32px",
         transform: "scale(-2, 2)",
-        margin: "-0% -0% -8% -15%"
+        margin: "-0px -0px -15px -30px"
     }
 });
 
@@ -48,8 +51,8 @@ const TranslationCard = ({original, translated, updateModal, updateSettings}: Tr
     const classes = myStyles();
     return (
                 <Card className={classes.envelope} >
-                    <img className={classes.loroIcon} src={TransferendumConfig.instance.guiProxy.getWebAccessibleResource("loro.svg")}/>
                     <CardContent className={classes.cardContent}>
+                        <img className={classes.loroIcon} src={TransferendumConfig.instance.guiProxy.getWebAccessibleResource("loro.svg")}/>
                         <Typography variant="h6" component="span">
                             {original}
                         </Typography>
@@ -60,7 +63,7 @@ const TranslationCard = ({original, translated, updateModal, updateSettings}: Tr
                         </Typography>
                     </CardContent>
                     <CardActions disableSpacing className={classes.cardActions} >
-                        <IconButton  size="small" title="Reportar error" onClick={()=>updateModal(true)}>
+                        <IconButton size="small" title="Reportar error" onClick={()=>updateModal(true)}>
                             <ReportProblemIcon />
                         </IconButton>
                         <IconButton  size="small" title="Ajustes" onClick={()=>updateSettings(true)}>

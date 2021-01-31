@@ -10,7 +10,7 @@ ReactDOM.render(<FrameOnBoardingModal closeCallback={()=>(console.log("Calling c
 */
 
 /*
-ReactDOM.render(<WordHovering original="hello" translated="hola"/>, document.getElementById('popup'));
+ReactDOM.render(<WordHovering original="resultado" translated="wynik"/>, document.getElementById('popup'));
 */
 
 

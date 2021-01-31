@@ -4,11 +4,15 @@ import NlpOrchestrator from "../nlp/NlpOrchestrator";
 import TransferendumConfig from "../TransferendumConfig";
 import onBoarding from "../gui/onBoarding/Caller";
 
-
 async function canRunInThisWebpage(conf:TransferendumConfig) {
+    let currentUrl = TransferendumConfig.formatUrl(window.location.href);
+    for(let disallowUrl of TransferendumConfig.DISALLOW_WEBPAGES) {
+        if(currentUrl.includes(disallowUrl)) {
+            return false;
+        }
+    }
     // @ts-ignore
     let urls:Array<string> = (await conf.guiProxy.getFromLocalStore(TransferendumConfig.DENIED_USER_WEBPAGES, []));
-    let currentUrl = TransferendumConfig.formatUrl(window.location.href);
     let result = urls.indexOf(currentUrl) == -1 && urls.length != 0;
     return result;
 }
@@ -21,7 +25,9 @@ async function processDocument() {
     let isExtensionEnabled = (await guiProxy.getFromLocalStore(TransferendumConfig.LORO_SWITCH_KEY, "true")) == "true";
 
     let canRunOnThisWebpage = await canRunInThisWebpage(conf);
-    await processBasedOnExtensionEnable(isExtensionEnabled && canRunOnThisWebpage , conf, nlpOrchestrator);
+    let canRun = isExtensionEnabled && canRunOnThisWebpage;
+    console.log("The extension is allowed: " + canRun);
+    await processBasedOnExtensionEnable(canRun , conf, nlpOrchestrator);
 }
 
 async function processBasedOnExtensionEnable(isExtensionEnabled:boolean, conf:TransferendumConfig, nlpOrchestrator: NlpOrchestrator) {

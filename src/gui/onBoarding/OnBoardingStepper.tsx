@@ -152,6 +152,7 @@ export default function OnBoardingStepper(props: OnBoardingStepperProps) {
                             <MenuItem value={"it"}>Italiano</MenuItem>
                             <MenuItem value={"fr"}>Français</MenuItem>
                             <MenuItem value={"pl"}>Polski</MenuItem>
+                            <MenuItem value={"es"}>Hiszpański</MenuItem>
                         </Select>
                     </FormControl>
                 </Box>
@@ -165,12 +166,12 @@ export default function OnBoardingStepper(props: OnBoardingStepperProps) {
             </Typography>
             <Typography variant="h6">
                 <p>
-                    <span className="loro">Accede a los ajustes desde el {t("icono", "icon")} </span>
+                    <span className="loro">Accede a los ajustes desde el {t("icono")} </span>
                     <IconButton size="small" title="Ajustes">
                         <SettingsIcon/>
                     </IconButton>
                     <span className="loro">
-                    al pasar el ratón por encima de alguna {t("palabra", "word")} traducida.
+                    al pasar el ratón por encima de alguna {t("palabra")} traducida.
                     Tambien puedes acceder a los ajustes desde el menu de extensiones de chrome.</span>
                 </p>
             </Typography>
@@ -190,8 +191,12 @@ export default function OnBoardingStepper(props: OnBoardingStepperProps) {
         window.dispatchEvent(event);
     };
 
-    function t(original:string, translated:string) {
-        translated = translator.translateSingleWord(languageState, original);
+    function t(original:string) {
+        // If user wants to learn spanish from polish that does not have instructions support yet
+        if (languageState == "es") {
+            return;
+        }
+        let translated = translator.translateSingleWord(languageState, original);
         return <WordHovering original={original} translated={translated}/>
     }
 
@@ -202,11 +207,12 @@ export default function OnBoardingStepper(props: OnBoardingStepperProps) {
             </Typography>
             <Typography variant="h6">
                 <p className="loro">
-                    Mientras navegas la web Loro traducira algunas palabras para que puedas aprender un {t("nuevo", "new")} idioma sin
+                    Mientras navegas la web Loro traducira algunas palabras para que puedas aprender un {t("nuevo")} idioma sin
                     esfuerzo.
                     Fijate en las palabras con fondo azul y veras que estan en otro idioma. Pasa el ratón por encima de
-                    ellas para ver la {t("traducción", "translation")} al castellano.
+                    ellas para ver la {t("traducción")} al castellano.
                 </p>
+                <br/>
             </Typography>
         </div>
 
@@ -215,8 +221,14 @@ export default function OnBoardingStepper(props: OnBoardingStepperProps) {
     });
 
     const handleNext = () => {
+        console.log("Handling next with language: " + languageState);
         guiProxy.setOnLocalStore(TransferendumConfig.LANGUAGE_KEY, languageState);
-        setActiveStep((prevActiveStep) => prevActiveStep + 1);
+        // If user wants to learn spanish from polish that does not have instructions support yet
+        if (languageState == "es") {
+            guiProxy.reloadCurrentTab();
+        } else {
+            setActiveStep((prevActiveStep) => prevActiveStep + 1);
+        }
     };
 
     const handleBack = () => {

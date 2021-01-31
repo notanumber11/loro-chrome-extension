@@ -3,7 +3,7 @@
     "name": "Loro",
     "description":
         "Aprende un nuevo idioma mientras navegas y sin darte ni cuenta !",
-    "version": "0.0.0.2",
+    "version": "0.0.0.3",
     "browser_action": {
         "default_icon": "icon16.png",
         "default_popup": "popup.html"

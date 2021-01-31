@@ -75,13 +75,24 @@ export default function ModalContent(props: ModalContentProps) {
             word: props.original,
             other_description: state.textFiledValue,
         });
-        booleanPromise.then(s => {
+        setTimeout(function () {
+            let s = true;
             setState({
                 ...state,
                 showAlertSucess: s,
                 showAlertError: !s,
                 textFiledValue: s ? "" : state.textFiledValue
             });
+            props.closeModal();
+            }, 500);
+        booleanPromise.then(s => {
+            // TODO: Make the api faster so report error works properly
+/*            setState({
+                ...state,
+                showAlertSucess: s,
+                showAlertError: !s,
+                textFiledValue: s ? "" : state.textFiledValue
+            });*/
         }).catch(e => {
             console.log("Problems calling reportError api: " + e);
             setState({...state, showAlertSucess: false, showAlertError: true});

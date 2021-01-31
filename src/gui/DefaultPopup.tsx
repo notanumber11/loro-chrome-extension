@@ -210,7 +210,7 @@ const DefaultPopup = (defaultPopupProps: DefaultPopupProps) => {
                                     control={<Radio color="primary"/>}
                                     value="many"
                                     checked={difficultyState == "many"}
-                                    label="Dificil (Abundantes y complicadas)"
+                                    label="Dificil (Muchas y complicadas)"
                                 />
                             </RadioGroup>
                             <br/>
@@ -235,6 +235,7 @@ const DefaultPopup = (defaultPopupProps: DefaultPopupProps) => {
                                         <MenuItem value={"pt"}>Português</MenuItem>
                                         <MenuItem value={"it"}>Italiano</MenuItem>
                                         <MenuItem value={"fr"}>Français</MenuItem>
+                                        <MenuItem value={"es"}>Hiszpański</MenuItem>
                                     </Select>
                                 </FormControl>
                             </Box>
