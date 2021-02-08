@@ -16,6 +16,9 @@ import Box from "@material-ui/core/Box";
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import TransferendumConfig from "../TransferendumConfig";
+import { useTranslation } from 'react-i18next';
+import i18n from "../i18n"
+console.log(i18n);
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -60,6 +63,7 @@ interface DefaultPopupProps {
 }
 
 const DefaultPopup = (defaultPopupProps: DefaultPopupProps) => {
+    const { t, i18n } = useTranslation();
     const classes = useStyles();
     const [difficultyState, setDifficultyState] = React.useState("many");
     const [webpageState, setWebpage] = React.useState("webpage");
@@ -183,14 +187,14 @@ const DefaultPopup = (defaultPopupProps: DefaultPopupProps) => {
                                 <CloseIcon color="primary"/>
                             </IconButton>
                         }
-                        title="Aprende un new lenguage"
-                        subheader="Sin darte cuenta :)"
+                        title={t("Learn a new language")}
+                        subheader={t("Without releasing")}
                     />
                     <Divider variant="middle"/>
                     <CardContent>
                         <FormControl component="fieldset" className={classes.formControl}>
                             <Typography variant="body1" color="primary">
-                                Escoge dificultad:
+                                {t("Choose difficulty")}
                             </Typography>
                             <RadioGroup aria-label="difficultOptions" name="difficultOptions"
                                         onChange={difficultyChange}>
@@ -198,19 +202,19 @@ const DefaultPopup = (defaultPopupProps: DefaultPopupProps) => {
                                     control={<Radio color="primary"/>}
                                     value="less"
                                     checked={difficultyState == "less"}
-                                    label="Facil (Pocas y fáciles)"
+                                    label={t('Easy')}
                                 />
                                 <FormControlLabel
                                     control={<Radio color="primary"/>}
                                     value="more"
                                     checked={difficultyState == "more"}
-                                    label="Medio (Frequentes y más difíciles)"
+                                    label={t("Middle")}
                                 />
                                 <FormControlLabel
                                     control={<Radio color="primary"/>}
                                     value="many"
                                     checked={difficultyState == "many"}
-                                    label="Dificil (Muchas y complicadas)"
+                                    label={t("Hard")}
                                 />
                             </RadioGroup>
                             <br/>
@@ -219,7 +223,7 @@ const DefaultPopup = (defaultPopupProps: DefaultPopupProps) => {
                         <Box display="flex" alignItems="center" justifyContent="flex-start">
                             <Box p={1}>
                                 <Typography variant="body1" color="primary">
-                                    Quiero aprender:
+                                    {t("I want to learn")}
                                 </Typography>
                             </Box>
                             <Box p={1}>
@@ -262,7 +266,7 @@ const DefaultPopup = (defaultPopupProps: DefaultPopupProps) => {
                                           alignItems="flex-start">
                                         <Grid item xs={4}>
                                             <Typography className={classes.smallTitle}>
-                                                Loro esta:
+                                                {t("Loro is")}
                                             </Typography>
                                         </Grid>
                                         <Grid item xs={5}>
@@ -280,13 +284,13 @@ const DefaultPopup = (defaultPopupProps: DefaultPopupProps) => {
                                         {
                                             loroSwitchState &&
                                             <Typography variant="subtitle2">
-                                                Necesitas apagar las traducciones un rato? Prueba apagando Loro :)
+                                                {t("Turn off translations")}
                                             </Typography>
                                         }
                                         {
                                             !loroSwitchState &&
                                             <Typography variant="subtitle2">
-                                                Enciende Loro para ver traducciones de nuevo :)
+                                                {t("Turn on loro")}
                                             </Typography>
                                         }
                                     </Grid>
@@ -314,7 +318,7 @@ const DefaultPopup = (defaultPopupProps: DefaultPopupProps) => {
                                           alignItems="flex-start">
                                         <Grid item xs={12}>
                                             <Typography className={classes.smallTitle}>
-                                                Permitir en <span className={classes.webpage}>{webpageState}</span>
+                                                {t("Allow in")} <span className={classes.webpage}>{webpageState}</span>
                                             </Typography>
 
                                         </Grid>
@@ -323,13 +327,13 @@ const DefaultPopup = (defaultPopupProps: DefaultPopupProps) => {
                                         {
                                             runningOnWebpageSwitchState &&
                                             <Typography variant="subtitle2">
-                                                Las traducciones apareceran en esta pagina.
+                                                {t("Allow translations")}
                                             </Typography>
                                         }
                                         {
                                             !runningOnWebpageSwitchState &&
                                             <Typography variant="subtitle2">
-                                                Las traducciones no apareceran en esta pagina.
+                                                {t("Disallow translations")}
                                             </Typography>
                                         }
                                     </Grid>

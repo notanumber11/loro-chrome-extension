@@ -7,6 +7,7 @@ export default class TransferendumConfig {
     public static readonly  DIFFICULTY_KEY = "loroDifficulty";
     public static readonly LORO_SWITCH_KEY = "loroSwitchKey";
     public static readonly LANGUAGE_KEY = "loroLanguageKey";
+    public static readonly MOTHER_TONGUE = "loroMotherTongue";
     public static readonly LORO_JUST_INSTALLED = "loroJustInstalled";
     public static readonly DENIED_USER_WEBPAGES = "loroDeniedWebpages";
     public static readonly DISALLOW_WEBPAGES = [

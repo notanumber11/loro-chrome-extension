@@ -66,11 +66,13 @@ export default class Translator {
     }
 
     public translateSingleWord(language:string, wordOriginal: string):string {
+        console.log(`Translating the word=${wordOriginal} from es to ${language}`);
         let max:number = 0;
         this.numberToDifficulty.forEach((value: string, key: number) => {
             max = key < max ? max : key;
         });
-        return this.translateWord(language, max, wordOriginal);
+        return "translated";
+        // return this.translateWord(language, max, wordOriginal);
     }
 
     public wordExistOnDictionary(language:string, difficulty:number, wordOriginal: string) : boolean {

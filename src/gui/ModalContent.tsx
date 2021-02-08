@@ -11,6 +11,7 @@ import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Radio from "@material-ui/core/Radio";
 import ReportErrorAPI from "../external/reportErrorAPI";
+import {useTranslation} from "react-i18next";
 
 const useStyles = makeStyles((theme:Theme) => ({
     paper: {
@@ -33,6 +34,7 @@ interface ModalContentProps {
 }
 
 export default function ModalContent(props: ModalContentProps) {
+    const { t, i18n } = useTranslation();
     const classes = useStyles();
 
     const onModalClose = () => {
@@ -83,7 +85,6 @@ export default function ModalContent(props: ModalContentProps) {
                 showAlertError: !s,
                 textFiledValue: s ? "" : state.textFiledValue
             });
-            props.closeModal();
             }, 500);
         booleanPromise.then(s => {
             // TODO: Make the api faster so report error works properly
@@ -105,8 +106,8 @@ export default function ModalContent(props: ModalContentProps) {
                 {
                     state.showAlertSucess &&
                     <Alert severity="success">
-                        <AlertTitle>Gracias por ayudarnos a mejorar !</AlertTitle>
-                        Error reportado con éxito :)
+                        <AlertTitle>{t("Thanks report")}</AlertTitle>
+                        {t("Error reported")}
                     </Alert>
                 }
                 {
@@ -115,7 +116,7 @@ export default function ModalContent(props: ModalContentProps) {
                         <AlertTitle>
                             Error
                         </AlertTitle>
-                        Problemas enviando el reporte :(
+                        {t("Problems sending report")}
                     </Alert>
                 }
                 <Grid
@@ -125,7 +126,7 @@ export default function ModalContent(props: ModalContentProps) {
                 >
                     <Grid item xs={11}>
                         <Typography variant="h5" color="primary">
-                            Informa de un error
+                            {t("Inform about an error")}
                         </Typography>
                     </Grid>
                     <Grid item xs={1}>
@@ -139,21 +140,20 @@ export default function ModalContent(props: ModalContentProps) {
                 <Divider variant="fullWidth"/>
                 <br/>
                 <Typography variant="body1">
-                    Por favor ayudanos a mejorar dandonos más datos del problema.
+                    {t("Help us to improve")}
                 </Typography>
                 <br/>
                 <FormControl component="fieldset">
                     <RadioGroup aria-label="errorOptions" name="errorOptions" onChange={handleRadioChange}
                                 value={state.problemChoice}>
                         <FormControlLabel value="1" control={<Radio color="primary"/>}
-                                          label={<Typography variant="body1">Error ortográfico </Typography>}/>
+                                          label={<Typography variant="body1">{t("Orthographic error")} </Typography>}/>
                         <FormControlLabel value="2" control={<Radio color="primary"/>}
-                                          label={<Typography variant="body1">Error gramatical </Typography>}/>
+                                          label={<Typography variant="body1">{t("Grammatical error")}</Typography>}/>
                         <FormControlLabel value="3" control={<Radio color="primary"/>}
-                                          label={<Typography variant="body1">La traducción no tiene sentido en este
-                                              contexto </Typography>}/>
+                                          label={<Typography variant="body1">{t("Context error")} </Typography>}/>
                         <FormControlLabel value="4" control={<Radio color="primary"/>}
-                                          label={<Typography variant="body1">Otros </Typography>}/>
+                                          label={<Typography variant="body1">{t("Other")} </Typography>}/>
                     </RadioGroup>
                 </FormControl>
                 <TextField
@@ -182,7 +182,7 @@ export default function ModalContent(props: ModalContentProps) {
                 />
                 <br/>
                 <Badge color="primary" className={classes.button}>
-                    <Button variant="contained" fullWidth color="primary" onClick={send}>Enviar</Button>
+                    <Button variant="contained" fullWidth color="primary" onClick={send}>{t("Send")}</Button>
                 </Badge>
             </div>
         </div>

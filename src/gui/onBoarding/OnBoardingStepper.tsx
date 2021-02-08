@@ -6,11 +6,12 @@ import StepLabel from '@material-ui/core/StepLabel';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import TransferendumConfig from "../../TransferendumConfig";
+import replaceJSX from "react-string-replace"
 
 import {
     Box,
     FormControl,
-    FormControlLabel, Grid,
+    FormControlLabel,
     IconButton,
     MenuItem,
     Paper,
@@ -25,6 +26,10 @@ import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import CloseIcon from "@material-ui/icons/Close";
 import WordHovering from "../WordHovering";
 import Translator from "../../nlp/Translator";
+import { useTranslation } from 'react-i18next';
+import i18n from "../../i18n"
+import i18next from "i18next";
+console.log(i18n);
 
 const useStyles = makeStyles((theme: Theme) => {
         return createStyles({
@@ -63,42 +68,71 @@ const useStyles = makeStyles((theme: Theme) => {
 );
 
 function getSteps() {
-    return [0, 1, 2];
+    return [0, 1, 2, 4];
 }
 
 type OnBoardingStepperProps = {
     callbackCloseModal: () => void
 }
+
 export default function OnBoardingStepper(props: OnBoardingStepperProps) {
+    const { t, i18n } = useTranslation();
     const classes = useStyles();
     const [activeStep, setActiveStep] = React.useState(0);
     const steps = getSteps();
     const iconSrc = TransferendumConfig.instance.guiProxy.getWebAccessibleResource("loro.svg");
     const guiProxy = TransferendumConfig.instance.guiProxy;
+    const [motherTongueState, setMotherTongue] = React.useState("es");
     const [languageState, setLanguageState] = React.useState("en");
     const translator = new Translator();
+    const  learnWhileYouBrowseMap:Map<string, Array<string>> = new Map([
+        ["es", ["nuevo", "traducción"]],
+        ["en", ["new", "translation"]]
+    ]);
+
+    const settingsStep1Map:Map<string, Array<string>> = new Map([
+        ["es", ["icono"]],
+        ["en", ["icon"]]
+    ]);
+
+    const settingsStep2Map:Map<string, Array<string>> = new Map([
+        ["es", ["palabra"]],
+        ["en", ["word"]]
+    ]);
 
     useEffect(() => {
         guiProxy.getFromLocalStore(TransferendumConfig.LANGUAGE_KEY, "en").then(
             val => setLanguageState(val.toString())
         );
+        dispatchLoroEvent();
     }, []);
+
+    const event = new Event('loro', {bubbles: true});
+
+    const dispatchLoroEvent = () => {
+        window.dispatchEvent(event);
+    };
 
     const getStepContent = (stepIndex: number) => {
         switch (stepIndex) {
-/*            case 0:
-                return mainLanguage;*/
             case 0:
-                return chooseLanguage;
+                return mainLanguage;
             case 1:
-                return learnWhileYourBrowse;
+                return chooseLanguage;
             case 2:
-                return settings;
+                return learnWhileYourBrowse;
             case 3:
+                return settings;
+            case 4:
                 return everythingReady;
             default:
                 return 'Unknown stepIndex';
         }
+    };
+
+    const handleMotherTongueChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        let value = event.target.value as string;
+        setMotherTongue(value);
     };
 
     const onLanguageChange = (event: React.ChangeEvent<{ name?: string; value: unknown }>) => {
@@ -113,30 +147,36 @@ export default function OnBoardingStepper(props: OnBoardingStepperProps) {
             </Typography>
             <Box display="flex" justifyContent="center" alignItems="center" m={1} p={1}>
                 <FormControl component="fieldset">
-                    <RadioGroup aria-label="gender" name="gender1" value={"female"} onChange={() => {
-                    }}>
-                        <FormControlLabel value="Castellano" control={<Radio/>}
+                    <RadioGroup aria-label="mainLanguage" name="mainLanguage" value={motherTongueState}
+                                onChange={handleMotherTongueChange}>
+                        <FormControlLabel value="es" control={<Radio color="primary"/>}
+                                          color="primary"
                                           label={<Typography variant="body1">Mi lengua materna es el
                                               castellano</Typography>}/>
-                        <FormControlLabel value="Polski" control={<Radio/>}
+                        <FormControlLabel value="en" control={<Radio color="primary"/>}
+                                          color="primary"
+                                          label={<Typography variant="body1">My mother tongue is
+                                              English</Typography>}/>
+                        <FormControlLabel value="pl" control={<Radio color="primary"/>}
+                                          color="primary"
                                           label={<Typography variant="body1">Mój język ojczysty to
                                               polski</Typography>}/>
                     </RadioGroup>
                 </FormControl>
             </Box>
-        </div>
+        </div>;
 
     const chooseLanguage =
         <div>
             <Box p={1}>
                 <Typography variant="h4" color="primary">
-                    Bienvenido a Loro
+                    {t("Wellcome to Loro")}
                 </Typography>
             </Box>
             <Box display="flex" alignItems="center" justifyContent="center">
                 <Box p={1}>
                     <Typography variant="h6">
-                        Quiero aprender:
+                        {t("I want to learn")}
                     </Typography>
                 </Box>
                 <Box p={1}>
@@ -152,77 +192,83 @@ export default function OnBoardingStepper(props: OnBoardingStepperProps) {
                             <MenuItem value={"it"}>Italiano</MenuItem>
                             <MenuItem value={"fr"}>Français</MenuItem>
                             <MenuItem value={"pl"}>Polski</MenuItem>
-                            <MenuItem value={"es"}>Hiszpański</MenuItem>
                         </Select>
                     </FormControl>
                 </Box>
             </Box>
-        </div>
-
-    const settings =
-        <div>
-            <Typography variant="h4" color="primary">
-                Ajustes
-            </Typography>
-            <Typography variant="h6">
-                <p>
-                    <span className="loro">Accede a los ajustes desde el {t("icono")} </span>
-                    <IconButton size="small" title="Ajustes">
-                        <SettingsIcon/>
-                    </IconButton>
-                    <span className="loro">
-                    al pasar el ratón por encima de alguna {t("palabra")} traducida.
-                    Tambien puedes acceder a los ajustes desde el menu de extensiones de chrome.</span>
-                </p>
-            </Typography>
-        </div>
-
-    const everythingReady = <div>
-        <Typography variant="h4" color="primary">
-            Loro esta listo !
-        </Typography>
-        <Typography variant="h6" className={classes.instructions}> Ya puedes cerrar esta ventana y continuar navegando y
-            aprendiendo.</Typography>
-    </div>
-
-    const event = new Event('loro', {bubbles: true});
-
-    const dispatchLoroEvent = () => {
-        window.dispatchEvent(event);
-    };
-
-    function t(original:string) {
-        // If user wants to learn spanish from polish that does not have instructions support yet
-        if (languageState == "es") {
-            return;
-        }
-        let translated = translator.translateSingleWord(languageState, original);
-        return <WordHovering original={original} translated={translated}/>
-    }
+        </div>;
 
     const learnWhileYourBrowse =
         <div>
             <Typography variant="h4" color="primary">
-                Como funciona
+                {t("How it works")}
             </Typography>
             <Typography variant="h6">
                 <p className="loro">
-                    Mientras navegas la web Loro traducira algunas palabras para que puedas aprender un {t("nuevo")} idioma sin
-                    esfuerzo.
-                    Fijate en las palabras con fondo azul y veras que estan en otro idioma. Pasa el ratón por encima de
-                    ellas para ver la {t("traducción")} al castellano.
+                    {
+                        adaptContentToLanguage(learnWhileYouBrowseMap.get(motherTongueState)!, t("How it works step"))
+                    }
                 </p>
                 <br/>
             </Typography>
-        </div>
+        </div>;
 
-    useEffect(() => {
-        dispatchLoroEvent();
-    });
+    const settings =
+        <div>
+            <Typography variant="h4" color="primary">
+                {t("Settings")}
+            </Typography>
+            <Typography variant="h6">
+                <p>
+                    <span className="loro">
+                        {
+                            adaptContentToLanguage(settingsStep1Map.get(motherTongueState)!, t("Settings step 1"))
+                        }
+                    </span>
+                    <IconButton size="small" title="Ajustes">
+                        <SettingsIcon/>
+                    </IconButton>
+                    <span className="loro">
+                        {
+                            adaptContentToLanguage(settingsStep2Map.get(motherTongueState)!, t("Settings step 2"))
+                        }
+                    </span>
+                </p>
+            </Typography>
+        </div>;
+
+    const everythingReady = <div>
+        <Typography variant="h4" color="primary">
+            {t("Loro is ready")}
+        </Typography>
+        <Typography variant="h6" className={classes.instructions}>{t("Loro is ready step")}</Typography>
+    </div>;
+
+    function adaptContentToLanguage(arrayOfWords: Array<string>, content: string) {
+        console.log("The mother tongue is: " + motherTongueState);
+        console.log("The language to learn is: " + languageState);
+        let r = content;
+        let count = 1; // Without this react warned me about using same key in components.
+        for (let i=0; i<arrayOfWords.length; i++)
+        {
+            let word = arrayOfWords[i];
+            let translated = translator.translateSingleWord(languageState, word);
+            let regEx = new RegExp('('+ word +')','gi');
+            // @ts-ignore
+            r = replaceJSX(r, regEx, (match, i) => {
+                count += 1;
+                return <WordHovering key={count + i} original={match} translated={translated}/>
+            });
+        }
+        return r;
+    }
 
     const handleNext = () => {
+        console.log("Handling next with mother tongue: " + motherTongueState);
         console.log("Handling next with language: " + languageState);
+        i18next.changeLanguage(motherTongueState);
         guiProxy.setOnLocalStore(TransferendumConfig.LANGUAGE_KEY, languageState);
+        guiProxy.setOnLocalStore(TransferendumConfig.MOTHER_TONGUE, motherTongueState);
         // If user wants to learn spanish from polish that does not have instructions support yet
         if (languageState == "es") {
             guiProxy.reloadCurrentTab();
@@ -239,7 +285,7 @@ export default function OnBoardingStepper(props: OnBoardingStepperProps) {
     return (
         <Paper className={classes.paper} elevation={3}>
             <Box display="flex" flexDirection="row-reverse">
-                <IconButton aria-label="close" onClick={()=>props.callbackCloseModal()}>
+                <IconButton aria-label="close" onClick={() => props.callbackCloseModal()}>
                     <CloseIcon color="primary"/>
                 </IconButton>
             </Box>
@@ -275,7 +321,6 @@ export default function OnBoardingStepper(props: OnBoardingStepperProps) {
                     </div>
                 </div>
             </div>
-
         </Paper>
     );
 }

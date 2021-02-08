@@ -11,7 +11,7 @@ function processLoroContent() {
 }
 
 function startOnboarding(val:string) {
-    if (val=="true") {
+    if (val=="true" || 1 == 1) {
         // Add special listener that will run on the loro on-boarding process as part of the tutorial
         window.addEventListener("loro", ()=> processLoroContent());
         let node = document.createElement("div");
