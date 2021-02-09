@@ -87,17 +87,20 @@ export default function OnBoardingStepper(props: OnBoardingStepperProps) {
     const translator = new Translator();
     const  learnWhileYouBrowseMap:Map<string, Array<string>> = new Map([
         ["es", ["nuevo", "traducción"]],
-        ["en", ["new", "translation"]]
+        ["en", ["new", "translation"]],
+        ["pl", ["nowego", "tłumaczenie"]]
     ]);
 
     const settingsStep1Map:Map<string, Array<string>> = new Map([
         ["es", ["icono"]],
-        ["en", ["icon"]]
+        ["en", ["icon"]],
+        ["pl", ["ikonę"]]
     ]);
 
     const settingsStep2Map:Map<string, Array<string>> = new Map([
         ["es", ["palabra"]],
-        ["en", ["word"]]
+        ["en", ["word"]],
+        ["pl", ["słowo"]]
     ]);
 
     useEffect(() => {
@@ -166,6 +169,15 @@ export default function OnBoardingStepper(props: OnBoardingStepperProps) {
             </Box>
         </div>;
 
+    function getAvailableLanguages() {
+        const items = [];
+        for(let el of TransferendumConfig.AVAILABLE_LANGUAGES.get(motherTongueState)!) {
+            let languageLong = TransferendumConfig.LANGUAGE_CODE_TO_LANGUAGE.get(el);
+            items.push(<MenuItem value={el}>{languageLong}</MenuItem>)
+        }
+        return items;
+    }
+
     const chooseLanguage =
         <div>
             <Box p={1}>
@@ -187,11 +199,7 @@ export default function OnBoardingStepper(props: OnBoardingStepperProps) {
                             id="demo-simple-select-outlined"
                             value={languageState}
                         >
-                            <MenuItem value={"en"}>English</MenuItem>
-                            <MenuItem value={"pt"}>Português</MenuItem>
-                            <MenuItem value={"it"}>Italiano</MenuItem>
-                            <MenuItem value={"fr"}>Français</MenuItem>
-                            <MenuItem value={"pl"}>Polski</MenuItem>
+                            {getAvailableLanguages()}
                         </Select>
                     </FormControl>
                 </Box>
@@ -245,36 +253,38 @@ export default function OnBoardingStepper(props: OnBoardingStepperProps) {
     </div>;
 
     function adaptContentToLanguage(arrayOfWords: Array<string>, content: string) {
-        console.log("The mother tongue is: " + motherTongueState);
-        console.log("The language to learn is: " + languageState);
-        let r = content;
-        let count = 1; // Without this react warned me about using same key in components.
-        for (let i=0; i<arrayOfWords.length; i++)
-        {
-            let word = arrayOfWords[i];
-            let translated = translator.translateSingleWord(languageState, word);
-            let regEx = new RegExp('('+ word +')','gi');
-            // @ts-ignore
-            r = replaceJSX(r, regEx, (match, i) => {
-                count += 1;
-                return <WordHovering key={count + i} original={match} translated={translated}/>
-            });
+        // In order to translate we need to know first the mother tongue and the language that the
+        // user wants to learn
+        if (activeStep > 1) {
+            console.log(`From lang=${motherTongueState} to lang=${languageState}`);
+            let r = content;
+            let count = 1; // Without this react warned me about using same key in components.
+            for (let i=0; i<arrayOfWords.length; i++)
+            {
+                let word = arrayOfWords[i];
+                let translated = translator.translateSingleWord(motherTongueState, languageState, word);
+                let regEx = new RegExp('('+ word +')','gi');
+                // @ts-ignore
+                r = replaceJSX(r, regEx, (match, i) => {
+                    count += 1;
+                    return <WordHovering key={count + i} original={match} translated={translated}/>
+                });
+            }
+            return r;
         }
-        return r;
     }
 
     const handleNext = () => {
-        console.log("Handling next with mother tongue: " + motherTongueState);
-        console.log("Handling next with language: " + languageState);
         i18next.changeLanguage(motherTongueState);
         guiProxy.setOnLocalStore(TransferendumConfig.LANGUAGE_KEY, languageState);
-        guiProxy.setOnLocalStore(TransferendumConfig.MOTHER_TONGUE, motherTongueState);
-        // If user wants to learn spanish from polish that does not have instructions support yet
-        if (languageState == "es") {
-            guiProxy.reloadCurrentTab();
-        } else {
-            setActiveStep((prevActiveStep) => prevActiveStep + 1);
+        guiProxy.setOnLocalStore(TransferendumConfig.MOTHER_TONGUE_KEY, motherTongueState);
+        // Never show as option to learn one that is not available
+        let availableLanguages = TransferendumConfig.AVAILABLE_LANGUAGES.get(motherTongueState)!;
+        if (!availableLanguages.includes(languageState)) {
+            // We put the first language available as default
+            setLanguageState(availableLanguages[0]);
         }
+        setActiveStep((prevActiveStep) => prevActiveStep + 1);
     };
 
     const handleBack = () => {

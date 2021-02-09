@@ -9,6 +9,9 @@ import ReportProblemIcon from "@material-ui/icons/ReportProblem";
 import TransferendumConfig from "../TransferendumConfig";
 import SettingsIcon from '@material-ui/icons/Settings';
 import {CardActions, Tooltip} from "@material-ui/core";
+import {useTranslation} from "react-i18next";
+import i18n from "../i18n"
+console.log(i18n);
 
 const myStyles = makeStyles({
     cardContent: {
@@ -48,6 +51,7 @@ type TranslationCardProps = {
 }
 
 const TranslationCard = ({original, translated, updateModal, updateSettings}: TranslationCardProps) => {
+    const { t, i18n } = useTranslation();
     const classes = myStyles();
     return (
                 <Card className={classes.envelope} >
@@ -63,10 +67,10 @@ const TranslationCard = ({original, translated, updateModal, updateSettings}: Tr
                         </Typography>
                     </CardContent>
                     <CardActions disableSpacing className={classes.cardActions} >
-                        <IconButton size="small" title="Reportar error" onClick={()=>updateModal(true)}>
+                        <IconButton size="small" title={t("Report error")} onClick={()=>updateModal(true)}>
                             <ReportProblemIcon />
                         </IconButton>
-                        <IconButton  size="small" title="Ajustes" onClick={()=>updateSettings(true)}>
+                        <IconButton  size="small" title={t("Settings")} onClick={()=>updateSettings(true)}>
                             <SettingsIcon />
                         </IconButton>
                     </CardActions>

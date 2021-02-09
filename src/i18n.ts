@@ -45,7 +45,9 @@ const resources = {
                     `,
             "Settings step 1": "Accede a los ajustes desde el icono",
             "Settings step 2": "al pasar el ratón por encima de alguna palabra traducida. Tambien puedes acceder a los ajustes desde el menu de extensiones de chrome.",
-            "Loro is ready step": "Ya puedes cerrar esta ventana y continuar navegando y aprendiendo."
+            "Loro is ready step": "Ya puedes cerrar esta ventana y continuar navegando y aprendiendo.",
+            // Translation card
+            "Report error": "Reportar error",
         }
     },
     en: {
@@ -89,7 +91,53 @@ const resources = {
                     `,
             "Settings step 1": "You can access settings by clicking the icon",
             "Settings step 2": "when you are hovering the mouse over a translated word. You can also access settings from the chrome extensions menu.",
-            "Loro is ready step": "Now you can close this popup and start learning :)"
+            "Loro is ready step": "Now you can close this popup and start learning :)",
+            // Translation card
+            "Report error": "Report error",
+        }
+    },
+    pl: {
+        translation: {
+            // DefaultPopup
+            "Learn a new language": "Ucz się nowego języka",
+            "Without releasing": "Nawet nie zdając sobie sprawy z tego :)",
+            "Choose difficulty": "Wybierz poziom trudności",
+            "Easy": "Łatwy (kilka i łatwe)",
+            "Middle": "Średni (często i średnio trune)",
+            "Hard": "Trudny (wiele i skomplikowane)",
+            "I want to learn:": "Chcę się uczyć:",
+            "Loro is": "Loro jest:",
+            "Turn off translations": "Potrzebujesz wyłączyć tłumaczenie na trochę? Spróbuj wyłączyć wtyczkę Loro :)",
+            "Turn on loro": "Włącz Loro, aby znowu widzieć tłumaczenia :)",
+            "Allow in": "Pozwolenia",
+            "Allow translations": "Pokazuj tłumaczenia na tej stronie.",
+            "Disallow translations": "Nie pokazuj tłumaczeń na tej stronie.",
+            "Contact": "Kontakt",
+            // Report an error
+            "Thanks report": "Dziękujemy za pomoc w ulepszaniu aplikacji!",
+            "Error reported": "Błąd zgłoszony pomyślnie :)",
+            "Problems sending report": "Problem z wysyłaniem raportu :(",
+            "Help us to improve": "Pomoż nam i podaj więcej szczegółów na temat problemu.",
+            "Orthographic  error": "Błąd ortograficzny",
+            "Grammatical error": "Błąd gramatyczny",
+            "Context error": "Błąd kontekstu",
+            "Other": "Inny",
+            "Send": "Wyślij",
+            // On boarding
+            "Wellcome to Loro": "Witaj w Loro",
+            "I want to learn": "Chcę się uczyć:",
+            "How it works": "Jak to działa",
+            "Settings": "Ustawienia",
+            "Loro is ready": "Loro jest gotowe!",
+            "How it works step": `
+                          Podczas surfowania w internecie, Loro przetłumaczy niektóre słowa, tak abyś mógł się uczyć nowego języka bez wysiłku.
+                          Spójrz na słowa w niebieskiej ramce, są one w innym języku. Przesuń myszką na słowo, aby zobaczyć ich tłumaczenie.
+                          `,
+            "Settings step 1": "Możesz przejść do ustawień klikając w ikonę,",
+            "Settings step 2": "kiedy najeżdzasz kursorem na przetłumaczone słowo. Możesz również przejść do ustawień z poziomu menu wtyczki.",
+            "Loro is ready step": "Możesz już zamknąć to okienko i zacząć naukę :)",
+            // Translation card
+            "Report error": "zgłoś błąd",
         }
     }
 };

@@ -15,11 +15,11 @@ export default class NlpOrchestrator {
         this.translator = translator;
     }
 
-    public process(document:Document, difficulty:number, language:string) {
+    public process(document:Document, difficulty:number, from:string, to:string) {
         let t0 = performance.now();
         let textSuitableToTranslate = this.domHandler.obtainTextCandidate(document);
-        let textToTranslate = this.wordPicker.getWordsForTranslation(textSuitableToTranslate, difficulty, language);
-        let textTranslated = this.translator.translate(textToTranslate, language, difficulty);
+        let textToTranslate = this.wordPicker.getWordsForTranslation(textSuitableToTranslate, difficulty, from, to);
+        let textTranslated = this.translator.translate(textToTranslate, from, to, difficulty);
         this.domHandler.replaceWords(document, textTranslated);
         let t1 = performance.now();
         console.log("[LORO EXTENSION] process took " + (t1 - t0) + " milliseconds.")

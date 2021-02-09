@@ -14,9 +14,9 @@ export default class WordPicker {
         this.translator = translator;
     }
 
-    public getWordsForTranslation(textCandidateList: Array<TextCandidate>, difficulty:number, language:string) : TextToTranslate {
+    public getWordsForTranslation(textCandidateList: Array<TextCandidate>, difficulty:number,from:string, to:string) : TextToTranslate {
         let fullText = this.getFullText(textCandidateList);
-        let wordsToTranslate = this.chooseWords(fullText, difficulty, language);
+        let wordsToTranslate = this.chooseWords(fullText, difficulty, from, to);
         return {originalWords: wordsToTranslate};
     }
 
@@ -29,7 +29,7 @@ export default class WordPicker {
         return fullText;
     }
 
-    public chooseWords(fullText: string, difficulty:number, language:string) : Array<string> {
+    public chooseWords(fullText: string, difficulty:number, from:string, to:string) : Array<string> {
         const regEx = new RegExp("^[a-zà-úñ]+$");
         let words: string[] = fullText.split(" ");
         let wordMapCounter:Map<string, number> = new Map();
@@ -43,7 +43,7 @@ export default class WordPicker {
             }
             // Do not process the word if is not in the local dictionary
             // for the specific language and difficulty
-            if (!this.isInDictionary(language, difficulty, word)) {
+            if (!this.isInDictionary(from, to, difficulty, word)) {
                 continue;
             }
             // Update the map with the occurrences of each word
@@ -75,8 +75,8 @@ export default class WordPicker {
         return chosenWordsToTranslate;
     }
 
-    private isInDictionary(language:string, difficulty: number ,word: string) : boolean {
-        return this.translator.wordExistOnDictionary(language, difficulty, word);
+    private isInDictionary(from:string, to:string, difficulty: number ,word: string) : boolean {
+        return this.translator.wordExistOnDictionary(from, to, difficulty, word);
     }
 
     /* Randomize array in-place using Durstenfeld shuffle algorithm */

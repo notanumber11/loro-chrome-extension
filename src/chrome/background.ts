@@ -19,6 +19,6 @@ chrome.tabs.onUpdated.addListener((tabId: number, changeInfo: TabChangeInfo, tab
 });
 
 chrome.runtime.onInstalled.addListener(function() {
-    TransferendumConfig.instance.guiProxy.setOnLocalStore(TransferendumConfig.LORO_JUST_INSTALLED, "true");
-    TransferendumConfig.instance.guiProxy.setOnLocalStore(TransferendumConfig.DENIED_USER_WEBPAGES, ["bancosantander.es"]);
+    TransferendumConfig.instance.guiProxy.setOnLocalStore(TransferendumConfig.LORO_JUST_INSTALLED_KEY, "true");
+    TransferendumConfig.instance.guiProxy.setOnLocalStore(TransferendumConfig.DENIED_USER_WEBPAGES_KEY, ["bancosantander.es"]);
 });

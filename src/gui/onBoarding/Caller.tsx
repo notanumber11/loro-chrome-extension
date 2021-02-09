@@ -11,18 +11,18 @@ function processLoroContent() {
 }
 
 function startOnboarding(val:string) {
-    if (val=="true" || 1 == 1) {
+    if (val=="true") {
         // Add special listener that will run on the loro on-boarding process as part of the tutorial
         window.addEventListener("loro", ()=> processLoroContent());
         let node = document.createElement("div");
         document.body.appendChild(node);
         console.log(document);
         ReactDOM.render(<FrameOnBoardingModal closeCallback={()=>(console.log("Calling close!"))} isOpen={true}/>, node);
-        TransferendumConfig.instance.guiProxy.setOnLocalStore(TransferendumConfig.LORO_JUST_INSTALLED, "false");
+        TransferendumConfig.instance.guiProxy.setOnLocalStore(TransferendumConfig.LORO_JUST_INSTALLED_KEY, "false");
     }
 }
 
 export default function onBoarding() {
-    TransferendumConfig.instance.guiProxy.getFromLocalStore(TransferendumConfig.LORO_JUST_INSTALLED, "false")
+    TransferendumConfig.instance.guiProxy.getFromLocalStore(TransferendumConfig.LORO_JUST_INSTALLED_KEY, "false")
         .then(val=> startOnboarding(val.toString()));
 }

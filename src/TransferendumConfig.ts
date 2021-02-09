@@ -4,13 +4,13 @@ import GuiProxy from "./gui/GuiProxy";
 
 export default class TransferendumConfig {
 
-    public static readonly  DIFFICULTY_KEY = "loroDifficulty";
+    public static readonly DIFFICULTY_KEY = "loroDifficulty";
     public static readonly LORO_SWITCH_KEY = "loroSwitchKey";
     public static readonly LANGUAGE_KEY = "loroLanguageKey";
-    public static readonly MOTHER_TONGUE = "loroMotherTongue";
-    public static readonly LORO_JUST_INSTALLED = "loroJustInstalled";
-    public static readonly DENIED_USER_WEBPAGES = "loroDeniedWebpages";
-    public static readonly DISALLOW_WEBPAGES = [
+    public static readonly MOTHER_TONGUE_KEY = "loroMotherTongue";
+    public static readonly LORO_JUST_INSTALLED_KEY = "loroJustInstalled";
+    public static readonly DENIED_USER_WEBPAGES_KEY = "loroDeniedWebpages";
+    public static readonly DISALLOW_WEBPAGES_KEY = [
         "facebook",
         "instagram",
         "whatsapp",
@@ -30,18 +30,34 @@ export default class TransferendumConfig {
         "ing"
     ];
 
-    public static readonly difficultyToNumber:Map<string, number> = new Map([
+    public static readonly DIFFICULTY_TO_PERCENTAGE: Map<string, number> = new Map([
         ["less", 1],
         ["more", 2],
         ["many", 4]
     ]);
 
+    public static readonly AVAILABLE_LANGUAGES: Map<string, Array<string>> = new Map([
+        ["es", ["en", "fr", "it", "pl", "pt"]],
+        ["en", ["de", "es", "fr"]],
+        ["pl", ["de", "es", "en"]],
+    ]);
+
+    public static readonly LANGUAGE_CODE_TO_LANGUAGE: Map<string, string> = new Map([
+        ["es", "Español"],
+        ["en", "English"],
+        ["fr", "Français"],
+        ["it", "Italiano"],
+        ["de", "Deutsch"],
+        ["pl", "Polski"],
+        ["pt", "Português"]
+    ]);
+
     public static instance = new TransferendumConfig();
 
-    public readonly guiProxy:GuiProxy;
-    public readonly isLocal:boolean;
+    public readonly guiProxy: GuiProxy;
+    public readonly isLocal: boolean;
 
-    public static  formatUrl(url:string) {
+    public static formatUrl(url: string) {
         url = url.replace("http://", "");
         url = url.replace("https://", "");
         url = url.replace("www.", "");
@@ -55,8 +71,7 @@ export default class TransferendumConfig {
         if (process.env.isChrome == "true") {
             this.guiProxy = new GuiProxyChrome();
             this.isLocal = false;
-        }
-        else if (process.env.isChrome == "false") {
+        } else if (process.env.isChrome == "false") {
             this.guiProxy = new GuiProxyLocal();
             this.isLocal = true;
         } else {

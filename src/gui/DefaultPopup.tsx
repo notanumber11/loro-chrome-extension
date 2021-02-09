@@ -72,8 +72,18 @@ const DefaultPopup = (defaultPopupProps: DefaultPopupProps) => {
     const [runningOnWebpageSwitchState, setRunningOnWebpageSwitchState] = React.useState(false);
     const guiProxy = TransferendumConfig.instance.guiProxy;
 
+    async function getAvailableLanguages() {
+        let motherTongue = (await guiProxy.getFromLocalStore(TransferendumConfig.MOTHER_TONGUE_KEY, "en")).toString();
+        const items = [];
+        for (let el of TransferendumConfig.AVAILABLE_LANGUAGES.get(motherTongue)!) {
+            let languageLong = TransferendumConfig.LANGUAGE_CODE_TO_LANGUAGE.get(el);
+            items.push(<MenuItem value={el}>{languageLong}</MenuItem>)
+        }
+        return items;
+    }
+
     function updateIsRunningWebpageSwitchState(currentUrl: string) {
-        guiProxy.getFromLocalStore(TransferendumConfig.DENIED_USER_WEBPAGES, []).then((val) => {
+        guiProxy.getFromLocalStore(TransferendumConfig.DENIED_USER_WEBPAGES_KEY, []).then((val) => {
                 // @ts-ignore
                 let urls: Array<string> = val;
                 let index = urls.indexOf(currentUrl);
@@ -115,7 +125,7 @@ const DefaultPopup = (defaultPopupProps: DefaultPopupProps) => {
     const runningOnWebpageSwitchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         let isAllowed = event.target.checked;
         setRunningOnWebpageSwitchState(isAllowed);
-        guiProxy.getFromLocalStore(TransferendumConfig.DENIED_USER_WEBPAGES, []).then((val)=>
+        guiProxy.getFromLocalStore(TransferendumConfig.DENIED_USER_WEBPAGES_KEY, []).then((val)=>
             {
                 let currentUrl = webpageState;
                 // @ts-ignore
@@ -133,7 +143,7 @@ const DefaultPopup = (defaultPopupProps: DefaultPopupProps) => {
                         urls.push(currentUrl);
                     }
                     if (urls.length>0) {
-                        guiProxy.setOnLocalStore(TransferendumConfig.DENIED_USER_WEBPAGES, urls);
+                        guiProxy.setOnLocalStore(TransferendumConfig.DENIED_USER_WEBPAGES_KEY, urls);
                     }
                 }
             }
@@ -234,12 +244,7 @@ const DefaultPopup = (defaultPopupProps: DefaultPopupProps) => {
                                         id="demo-simple-select-outlined"
                                         value={languageState}
                                     >
-                                        <MenuItem value={"en"}>English</MenuItem>
-                                        <MenuItem value={"pl"}>Polski</MenuItem>
-                                        <MenuItem value={"pt"}>Português</MenuItem>
-                                        <MenuItem value={"it"}>Italiano</MenuItem>
-                                        <MenuItem value={"fr"}>Français</MenuItem>
-                                        <MenuItem value={"es"}>Hiszpański</MenuItem>
+                                        {getAvailableLanguages()}
                                     </Select>
                                 </FormControl>
                             </Box>
