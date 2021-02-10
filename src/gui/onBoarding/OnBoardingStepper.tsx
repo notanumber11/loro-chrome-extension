@@ -47,6 +47,9 @@ const useStyles = makeStyles((theme: Theme) => {
             backButton: {
                 marginRight: theme.spacing(1),
             },
+            forwardButton: {
+                backgroundColor: theme.palette.primary.main,
+            },
             instructions: {
                 marginTop: theme.spacing(1),
                 marginBottom: theme.spacing(1),
@@ -317,14 +320,14 @@ export default function OnBoardingStepper(props: OnBoardingStepperProps) {
                             disabled={activeStep === 0}
                             onClick={handleBack}
                             className={classes.backButton}
-                        >
+                    >
                             <ArrowBackIcon style={{color: 'black'}}/>
                         </Button>
                         {activeStep === steps.length ? (
                             <div>
                             </div>
                         ) : (
-                            <Button variant="contained" color="primary" onClick={handleNext}>
+                            <Button style={{backgroundColor: "#3f51b5"}} onClick={handleNext}>
                                 <ArrowForwardIcon style={{color: 'white'}}/>
                             </Button>
                         )}
