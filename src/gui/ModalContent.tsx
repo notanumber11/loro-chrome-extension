@@ -6,10 +6,6 @@ import {Badge, Box, Button, Grid, TextField, Typography} from "@material-ui/core
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 import Divider from "@material-ui/core/Divider";
-import FormControl from "@material-ui/core/FormControl";
-import RadioGroup from "@material-ui/core/RadioGroup";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Radio from "@material-ui/core/Radio";
 import ReportErrorAPI from "../external/reportErrorAPI";
 import {useTranslation} from "react-i18next";
 
@@ -24,6 +20,12 @@ const useStyles = makeStyles((theme:Theme) => ({
     },
     button: {
         width: '100%'
+    },
+    spanPrimary: {
+        color: theme.palette.primary.main
+    },
+    words: {
+        fontSize: "1.2em"
     }
 }));
 
@@ -45,35 +47,20 @@ export default function ModalContent(props: ModalContentProps) {
 
     const [state, setState] = React.useState({
         textFiledValue: "",
-        problemChoice: "4",
         showAlertSucess: false,
         showAlertError: false,
         webpage: window.location.href
     });
 
-    const handleRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setState({
-            ...state,
-            problemChoice: (event.target as HTMLInputElement).value
-        });
-    };
-
     const handletextFiledValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setState({...state, textFiledValue: e.target.value});
-    };
-
-    const choicesToTypes: Record<string, string> = {
-        "1": "mispelling",
-        "2": "grammar",
-        "3": "translation",
-        "4": "other"
     };
 
     const send = () => {
         let booleanPromise = reportErrorAPI.reportError({
             translation: props.translated,
             web_page: state.webpage,
-            type: choicesToTypes[state.problemChoice],
+            type: "removedFromGUI",
             word: props.original,
             other_description: state.textFiledValue,
         });
@@ -143,34 +130,20 @@ export default function ModalContent(props: ModalContentProps) {
                     {t("Help us to improve")}
                 </Typography>
                 <br/>
-                <FormControl component="fieldset">
-                    <RadioGroup aria-label="errorOptions" name="errorOptions" onChange={handleRadioChange}
-                                value={state.problemChoice}>
-                        <FormControlLabel value="1" control={<Radio color="primary"/>}
-                                          label={<Typography variant="body1">{t("Orthographic error")} </Typography>}/>
-                        <FormControlLabel value="2" control={<Radio color="primary"/>}
-                                          label={<Typography variant="body1">{t("Grammatical error")}</Typography>}/>
-                        <FormControlLabel value="3" control={<Radio color="primary"/>}
-                                          label={<Typography variant="body1">{t("Context error")} </Typography>}/>
-                        <FormControlLabel value="4" control={<Radio color="primary"/>}
-                                          label={<Typography variant="body1">{t("Other")} </Typography>}/>
-                    </RadioGroup>
-                </FormControl>
+                <Typography className={classes.words} variant="body1">{t("Original")} <span className={classes.spanPrimary}>{props.original}</span></Typography>
+                <Typography className={classes.words}  variant="body1">{t("Translated word")} <span className={classes.spanPrimary}>{props.translated}</span></Typography>
                 <TextField
                     id="outlined-full-width"
-                    label="Página web"
+                    label={t("webpage")}
                     fullWidth
                     margin="normal"
-                    InputProps={{
-                        readOnly: true
-                    }}
                     variant="outlined"
                     value={state.webpage}
                 />
                 <TextField onChange={handletextFiledValueChange}
                            id="outlined-full-width"
-                           placeholder="¿Algun detalle adicional?"
-                           label={<Typography variant="body1">Opcional </Typography>}
+                           placeholder={t("Additional details")}
+                           label={<Typography variant="body1">{t("Optional")} </Typography>}
                            fullWidth
                            multiline={true}
                            margin="normal"

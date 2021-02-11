@@ -51,7 +51,8 @@ const useStyles = makeStyles((theme) => ({
         minWidth: 120,
     },
     smallTitle: {
-        fontSize: "1.1rem"
+        fontSize: "1.1rem",
+        color: theme.palette.primary.main
     },
     webpage: {
         color: theme.palette.primary.main
@@ -70,14 +71,33 @@ const DefaultPopup = (defaultPopupProps: DefaultPopupProps) => {
     const [languageState, setLanguageState] = React.useState("en");
     const [loroSwitchState, setLoroSwitchState] = React.useState(false);
     const [runningOnWebpageSwitchState, setRunningOnWebpageSwitchState] = React.useState(false);
+    const [items, setItems] = React.useState([<MenuItem key={-1}></MenuItem>]);
     const guiProxy = TransferendumConfig.instance.guiProxy;
 
-    async function getAvailableLanguages() {
-        let motherTongue = (await guiProxy.getFromLocalStore(TransferendumConfig.MOTHER_TONGUE_KEY, "en")).toString();
+    // Run function after component is mounted: https://stackoverflow.com/questions/54792722/on-react-how-can-i-call-a-function-on-component-mount-on-a-functional-stateless
+    useEffect(() => {
+        guiProxy.getFromLocalStore(TransferendumConfig.DIFFICULTY_KEY, "less").then(
+            val => setDifficultyState(val.toString())
+        );
+        guiProxy.getFromLocalStore(TransferendumConfig.LORO_SWITCH_KEY, "true").then(
+            val => setLoroSwitchState(val == "true")
+        );
+        guiProxy.getFromLocalStore(TransferendumConfig.MOTHER_TONGUE_KEY, "en").then(
+            val => setItems(getAvailableLanguages(val.toString()))
+        );
+        guiProxy.getFromLocalStore(TransferendumConfig.LANGUAGE_KEY, "es").then(
+            val => setLanguageState(val.toString())
+        );
+        obtainUrl();
+    }, []);
+
+    function getAvailableLanguages(motherTongue:string) {
         const items = [];
+        let val = 0;
         for (let el of TransferendumConfig.AVAILABLE_LANGUAGES.get(motherTongue)!) {
             let languageLong = TransferendumConfig.LANGUAGE_CODE_TO_LANGUAGE.get(el);
-            items.push(<MenuItem value={el}>{languageLong}</MenuItem>)
+            items.push(<MenuItem key={el} value={el}>{languageLong}</MenuItem>);
+            val+=1;
         }
         return items;
     }
@@ -95,20 +115,6 @@ const DefaultPopup = (defaultPopupProps: DefaultPopupProps) => {
             }
         );
     }
-
-// Run function after component is mounted: https://stackoverflow.com/questions/54792722/on-react-how-can-i-call-a-function-on-component-mount-on-a-functional-stateless
-    useEffect(() => {
-        guiProxy.getFromLocalStore(TransferendumConfig.DIFFICULTY_KEY, "less").then(
-            val => setDifficultyState(val.toString())
-        );
-        guiProxy.getFromLocalStore(TransferendumConfig.LORO_SWITCH_KEY, "true").then(
-            val => setLoroSwitchState(val == "true")
-        );
-        guiProxy.getFromLocalStore(TransferendumConfig.LANGUAGE_KEY, "en").then(
-            val => setLanguageState(val.toString())
-        );
-        obtainUrl();
-    }, []);
 
     const difficultyChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setDifficultyState((event.target as HTMLInputElement).value);
@@ -244,7 +250,8 @@ const DefaultPopup = (defaultPopupProps: DefaultPopupProps) => {
                                         id="demo-simple-select-outlined"
                                         value={languageState}
                                     >
-                                        {getAvailableLanguages()}
+                                        {items}
+
                                     </Select>
                                 </FormControl>
                             </Box>
@@ -269,21 +276,20 @@ const DefaultPopup = (defaultPopupProps: DefaultPopupProps) => {
                                           direction="row"
                                           justify="flex-start"
                                           alignItems="flex-start">
-                                        <Grid item xs={4}>
+                                        <Grid item xs={9}>
                                             <Typography className={classes.smallTitle}>
-                                                {t("Loro is")}
+                                                {t("Loro is")}<span>&nbsp</span>
+                                                {
+                                                    loroSwitchState &&
+                                                    <span color="primary" className={classes.smallTitle}>ON</span>
+                                                }
+                                                {
+                                                    !loroSwitchState &&
+                                                    <span color="primary" className={classes.smallTitle}>OFF</span>
+                                                }
                                             </Typography>
                                         </Grid>
-                                        <Grid item xs={5}>
-                                            {
-                                                loroSwitchState &&
-                                                <Typography color="primary" className={classes.smallTitle}>ON</Typography>
-                                            }
-                                            {
-                                                !loroSwitchState &&
-                                                <Typography color="primary" className={classes.smallTitle}>OFF</Typography>
-                                            }
-                                        </Grid>
+
                                     </Grid>
                                     <Grid item xs={12}>
                                         {

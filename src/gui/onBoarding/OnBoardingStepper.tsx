@@ -176,7 +176,7 @@ export default function OnBoardingStepper(props: OnBoardingStepperProps) {
         const items = [];
         for(let el of TransferendumConfig.AVAILABLE_LANGUAGES.get(motherTongueState)!) {
             let languageLong = TransferendumConfig.LANGUAGE_CODE_TO_LANGUAGE.get(el);
-            items.push(<MenuItem value={el}>{languageLong}</MenuItem>)
+            items.push(<MenuItem key={el} value={el}>{languageLong}</MenuItem>)
         }
         return items;
     }
