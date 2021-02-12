@@ -51,6 +51,7 @@ const resources = {
             "Settings step 1": "Accede a los ajustes desde el icono",
             "Settings step 2": "al pasar el ratón por encima de alguna palabra traducida. Tambien puedes acceder a los ajustes desde el menu de extensiones de chrome.",
             "Loro is ready step": "Ya puedes cerrar esta ventana y continuar navegando y aprendiendo.",
+            "Finish": "Terminar",
             // Translation card
             "Report error": "Reportar error",
         }
@@ -102,6 +103,7 @@ const resources = {
             "Settings step 1": "You can access settings by clicking the icon",
             "Settings step 2": "when you are hovering the mouse over a translated word. You can also access settings from the chrome extensions menu.",
             "Loro is ready step": "Now you can close this popup and start learning :)",
+            "Finish": "Finish",
             // Translation card
             "Report error": "Report error",
         }
@@ -133,11 +135,11 @@ const resources = {
             "Context error": "Błąd kontekstu",
             "Other": "Inny",
             "Send": "Wyślij",
-            "Original": "Original word: ",
-            "Translated word": "Translated word: ",
-            "Additional details": "Any additional detail?",
-            "Webpage": "Webpage",
-            "Optional": "Optional",
+            "Original": "Oryginalne słowo: ",
+            "Translated word": "Przetłumaczone słowo: ",
+            "Additional details": "Dodatkowe informacje?",
+            "Webpage": "Strona",
+            "Optional": "Opcjonalnie",
             // On boarding
             "Wellcome to Loro": "Witaj w Loro",
             "I want to learn": "Chcę się uczyć:",
@@ -146,11 +148,12 @@ const resources = {
             "Loro is ready": "Loro jest gotowe!",
             "How it works step": `
                           Podczas surfowania w internecie, Loro przetłumaczy niektóre słowa, tak abyś mógł się uczyć nowego języka bez wysiłku.
-                          Spójrz na słowa w niebieskiej ramce, są one w innym języku. Przesuń myszką na słowo, aby zobaczyć ich tłumaczenie.
+                          Spójrz na słowa w niebieskiej ramce, są one w innym języku. Przesuń kursor na słowo w ramce, aby zobaczyć tłumaczenie.
                           `,
-            "Settings step 1": "Możesz przejść do ustawień klikając w ikonę,",
-            "Settings step 2": "kiedy najeżdzasz kursorem na przetłumaczone słowo. Możesz również przejść do ustawień z poziomu menu wtyczki.",
-            "Loro is ready step": "Możesz już zamknąć to okienko i zacząć naukę :)",
+            "Settings step 1": "Po najechaniu kursorem na przetłumaczone słowo, możesz przejść do ustawień klikając w ikonę",
+            "Settings step 2": ". Możesz również przejść do ustawień z poziomu menu wtyczki.",
+            "Loro is ready step": "Możesz już zamknąć to okno i zacząć naukę :)",
+            "Finish": "Zakończ",
             // Translation card
             "Report error": "zgłoś błąd",
         }

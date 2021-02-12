@@ -3,6 +3,7 @@
 import NlpOrchestrator from "../nlp/NlpOrchestrator";
 import TransferendumConfig from "../TransferendumConfig";
 import onBoarding from "../gui/onBoarding/Caller";
+import i18next from "i18next";
 
 async function canRunInThisWebpage(conf:TransferendumConfig) {
     let currentUrl = TransferendumConfig.formatUrl(window.location.href);
@@ -36,7 +37,7 @@ async function processBasedOnExtensionEnable(isExtensionEnabled:boolean, conf:Tr
         let difficultyNumber = TransferendumConfig.DIFFICULTY_TO_PERCENTAGE.get(difficultyString)!;
         let language = (await conf.guiProxy.getFromLocalStore(TransferendumConfig.LANGUAGE_KEY, "en")).toString();
         let motherTongue = (await conf.guiProxy.getFromLocalStore(TransferendumConfig.MOTHER_TONGUE_KEY, "es")).toString();
-
+        await i18next.changeLanguage(motherTongue);
         nlpOrchestrator.process(document, difficultyNumber, motherTongue, language);
     }
 }

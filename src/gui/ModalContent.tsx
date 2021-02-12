@@ -21,10 +21,11 @@ const useStyles = makeStyles((theme:Theme) => ({
     button: {
         width: '100%'
     },
-    spanPrimary: {
-        color: theme.palette.primary.main
-    },
     words: {
+        color: theme.palette.primary.main,
+        fontSize: "1.2em"
+    },
+    wordsTitles: {
         fontSize: "1.2em"
     }
 }));
@@ -49,7 +50,8 @@ export default function ModalContent(props: ModalContentProps) {
         textFiledValue: "",
         showAlertSucess: false,
         showAlertError: false,
-        webpage: window.location.href
+        webpage: window.location.href,
+        showContent: true
     });
 
     const handletextFiledValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -70,7 +72,8 @@ export default function ModalContent(props: ModalContentProps) {
                 ...state,
                 showAlertSucess: s,
                 showAlertError: !s,
-                textFiledValue: s ? "" : state.textFiledValue
+                textFiledValue: s ? "" : state.textFiledValue,
+                showContent: false
             });
             }, 500);
         booleanPromise.then(s => {
@@ -90,22 +93,6 @@ export default function ModalContent(props: ModalContentProps) {
     return (
         <div>
             <div className={classes.paper}>
-                {
-                    state.showAlertSucess &&
-                    <Alert severity="success">
-                        <AlertTitle>{t("Thanks report")}</AlertTitle>
-                        {t("Error reported")}
-                    </Alert>
-                }
-                {
-                    state.showAlertError &&
-                    <Alert severity="error">
-                        <AlertTitle>
-                            Error
-                        </AlertTitle>
-                        {t("Problems sending report")}
-                    </Alert>
-                }
                 <Grid
                     container
                     direction="row"
@@ -126,37 +113,55 @@ export default function ModalContent(props: ModalContentProps) {
                 </Grid>
                 <Divider variant="fullWidth"/>
                 <br/>
-                <Typography variant="body1">
-                    {t("Help us to improve")}
-                </Typography>
-                <br/>
-                <Typography className={classes.words} variant="body1">{t("Original")} <span className={classes.spanPrimary}>{props.original}</span></Typography>
-                <Typography className={classes.words}  variant="body1">{t("Translated word")} <span className={classes.spanPrimary}>{props.translated}</span></Typography>
-                <TextField
-                    id="outlined-full-width"
-                    label={t("webpage")}
-                    fullWidth
-                    margin="normal"
-                    variant="outlined"
-                    value={state.webpage}
-                />
-                <TextField onChange={handletextFiledValueChange}
-                           id="outlined-full-width"
-                           placeholder={t("Additional details")}
-                           label={<Typography variant="body1">{t("Optional")} </Typography>}
-                           fullWidth
-                           multiline={true}
-                           margin="normal"
-                           InputLabelProps={{
-                               shrink: true
-                           }}
-                           variant="outlined"
-                           value={state.textFiledValue}
-                />
-                <br/>
-                <Badge color="primary" className={classes.button}>
-                    <Button variant="contained" fullWidth color="primary" onClick={send}>{t("Send")}</Button>
-                </Badge>
+                {
+                    state.showAlertSucess &&
+                    <Alert severity="success">
+                        <AlertTitle>{t("Thanks report")}</AlertTitle>
+                        {t("Error reported")}
+                    </Alert>
+                }
+                {
+                    state.showAlertError &&
+                    <Alert severity="error">
+                        <AlertTitle>
+                            Error
+                        </AlertTitle>
+                        {t("Problems sending report")}
+                    </Alert>
+                }
+                {state.showContent &&
+                    <div>
+                    <Typography className={classes.wordsTitles} variant="body1">{t("Original")}</Typography>
+                    <Typography className={classes.words} variant="body1">{"- " + props.original}</Typography>
+                    <Typography className={classes.wordsTitles} variant="body1">{t("Translated word")} </Typography>
+                    <Typography className={classes.words} variant="body1">{"- " + props.translated}</Typography>
+                    <TextField
+                        id="outlined-full-width"
+                        label={t("webpage")}
+                        fullWidth
+                        margin="normal"
+                        variant="outlined"
+                        value={state.webpage}
+                    />
+                    <TextField onChange={handletextFiledValueChange}
+                               id="outlined-full-width"
+                               placeholder={t("Additional details")}
+                               label={<Typography variant="body1">{t("Optional")} </Typography>}
+                               fullWidth
+                               multiline={true}
+                               margin="normal"
+                               InputLabelProps={{
+                                   shrink: true
+                               }}
+                               variant="outlined"
+                               value={state.textFiledValue}
+                    />
+                    <br/>
+                    <Badge color="primary" className={classes.button}>
+                        <Button variant="contained" fullWidth color="primary" onClick={send}>{t("Send")}</Button>
+                    </Badge>
+                </div>
+                }
             </div>
         </div>
     );

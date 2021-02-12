@@ -324,8 +324,9 @@ export default function OnBoardingStepper(props: OnBoardingStepperProps) {
                             <ArrowBackIcon style={{color: 'black'}}/>
                         </Button>
                         {activeStep === steps.length ? (
-                            <div>
-                            </div>
+                            <Button variant="contained" color="primary" onClick={props.callbackCloseModal}>
+                                {t("Finish")}
+                            </Button>
                         ) : (
                             <Button style={{backgroundColor: "#3f51b5"}} onClick={handleNext}>
                                 <ArrowForwardIcon style={{color: 'white'}}/>

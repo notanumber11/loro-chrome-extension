@@ -8,11 +8,11 @@ import { Suspense } from 'react';
 // Ensure i18n is bundled
 console.log(i18n);
 
-/*
 ReactDOM.render(
-        <DefaultPopup closeCallback={()=>window.close()}/>,
+    <Suspense fallback="loading">
+        <DefaultPopup closeCallback={()=>window.close()}/>
+    </Suspense>,
     document.getElementById('popup'));
-*/
 
 /*
 ReactDOM.render(<FrameOnBoardingModal closeCallback={()=>(console.log("Calling close!"))} isOpen={true}/>,  document.getElementById('popup'));
@@ -22,6 +22,8 @@ ReactDOM.render(<FrameOnBoardingModal closeCallback={()=>(console.log("Calling c
 ReactDOM.render(<FrameOnBoardingModal closeCallback={()=>(console.log("Calling close!"))} isOpen={true}/>, document.getElementById('popup'));
 */
 
+/*
 ReactDOM.render(<WordHovering original="resultado" translated="wynik"/>, document.getElementById('popup'));
+*/
 
 

@@ -18,6 +18,7 @@ import RadioGroup from "@material-ui/core/RadioGroup";
 import TransferendumConfig from "../TransferendumConfig";
 import { useTranslation } from 'react-i18next';
 import i18n from "../i18n"
+import i18next from "i18next";
 console.log(i18n);
 
 const useStyles = makeStyles((theme) => ({
@@ -83,7 +84,10 @@ const DefaultPopup = (defaultPopupProps: DefaultPopupProps) => {
             val => setLoroSwitchState(val == "true")
         );
         guiProxy.getFromLocalStore(TransferendumConfig.MOTHER_TONGUE_KEY, "en").then(
-            val => setItems(getAvailableLanguages(val.toString()))
+            val => {
+                setItems(getAvailableLanguages(val.toString()));
+                i18next.changeLanguage(val.toString());
+            }
         );
         guiProxy.getFromLocalStore(TransferendumConfig.LANGUAGE_KEY, "es").then(
             val => setLanguageState(val.toString())
@@ -278,7 +282,7 @@ const DefaultPopup = (defaultPopupProps: DefaultPopupProps) => {
                                           alignItems="flex-start">
                                         <Grid item xs={9}>
                                             <Typography className={classes.smallTitle}>
-                                                {t("Loro is")}<span>&nbsp</span>
+                                                {t("Loro is")}<span>&nbsp;</span>
                                                 {
                                                     loroSwitchState &&
                                                     <span color="primary" className={classes.smallTitle}>ON</span>
