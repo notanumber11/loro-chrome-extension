@@ -10,6 +10,8 @@ export default class TransferendumConfig {
     public static readonly MOTHER_TONGUE_KEY = "loroMotherTongue";
     public static readonly LORO_JUST_INSTALLED_KEY = "loroJustInstalled";
     public static readonly DENIED_USER_WEBPAGES_KEY = "loroDeniedWebpages";
+    public static readonly WORKS_MARKED_AS_KNOWN_KEY = "loroWordsMarkedAsKnown";
+
     public static readonly DISALLOW_WEBPAGES_KEY = [
         "facebook",
         "instagram",

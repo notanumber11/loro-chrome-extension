@@ -1,12 +1,12 @@
 import React from 'react';
 import TranslationCard from "./TranslationCard";
 import {createStyles, withStyles} from "@material-ui/core/styles";
-import VisibilitySensor from "react-visibility-sensor";
 import DemoFrame from "./DemoFrame";
 import shadows from "@material-ui/core/styles/shadows";
 import ModalEnvelope from "./ModalEnvelope";
 import DefaultPopup from "./DefaultPopup";
 import ReactDOM from 'react-dom'
+import DomHandler from "../nlp/DomHandler";
 
 const styles = createStyles({
     hovering: {
@@ -55,7 +55,8 @@ type ToolTipProps = {
 type ToolTipState = {
     isReportErrorModalOpen: boolean,
     isHovering: boolean,
-    isSettingsOpen: boolean
+    isSettingsOpen: boolean,
+    shouldRemoveWord: boolean
 }
 
 class WordHovering extends React.Component<ToolTipProps, ToolTipState> {
@@ -65,9 +66,16 @@ class WordHovering extends React.Component<ToolTipProps, ToolTipState> {
         this.state = {
             isReportErrorModalOpen: false,
             isSettingsOpen: false,
-            isHovering: false
+            isHovering: false,
+            shouldRemoveWord: false
         };
     }
+
+     setShouldRemoveWord = () => {
+         this.setState({
+             shouldRemoveWord: true
+         });
+     };
 
     componentDidMount(): void {
         // We need to create a div on the parent root because we want this div
@@ -87,7 +95,7 @@ class WordHovering extends React.Component<ToolTipProps, ToolTipState> {
                     <DefaultPopup closeCallback={() => this.setSettingsOpenStatus(false)}/>
                 }
             </div>
-                    </DemoFrame>;
+        </DemoFrame>;
         ReactDOM.render(element, document.getElementById("div_id"));
     }
 
@@ -106,7 +114,11 @@ class WordHovering extends React.Component<ToolTipProps, ToolTipState> {
     setHovering = (val: boolean) => {
         this.setState({
             isHovering: val
-        })
+        });
+        if (!val && this.state.shouldRemoveWord) {
+            console.log("Executing dom replacement ...");
+            DomHandler.replaceWord(this.props.translated, this.props.original);
+        }
     };
 
     wordSeenListener = (isVisible: boolean) => {
@@ -128,19 +140,22 @@ class WordHovering extends React.Component<ToolTipProps, ToolTipState> {
                     onMouseEnter={() => this.setHovering(true)}
                     onMouseLeave={() => this.setHovering(false)}
                     className={classes.hovering}>
-                        {this.props.translated}
+                    {this.props.translated}
                     {
                         this.state.isHovering &&
                         <DemoFrame frameStyles={translationCardStylesFrame}>
                             <TranslationCard original={this.props.original} translated={this.props.translated}
                                              updateModal={this.setReportErrorModalOpenStatus}
-                                             updateSettings={this.setSettingsOpenStatus}/>
+                                             updateSettings={this.setSettingsOpenStatus}
+                                             removeWord={this.setShouldRemoveWord}
+                            />
                         </DemoFrame>
                     }
-                  </span>
-                <ModalEnvelope isOpen={this.state.isReportErrorModalOpen}
+              </span>
+
+            <ModalEnvelope isOpen={this.state.isReportErrorModalOpen}
                                closeCallback={this.setReportErrorModalOpenStatus}
-                               original={this.props.original} translated={this.props.translated}/>
+                           original={this.props.original} translated={this.props.translated}/>
             </span>
         )
     }
