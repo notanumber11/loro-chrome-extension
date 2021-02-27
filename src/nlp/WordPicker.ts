@@ -2,6 +2,7 @@
 
 import {TextCandidate} from "./DomHandler";
 import Translator from "./Translator";
+import TransferendumConfig from "../TransferendumConfig";
 
 export interface TextToTranslate {
     originalWords:Array<string>,
@@ -14,9 +15,10 @@ export default class WordPicker {
         this.translator = translator;
     }
 
-    public getWordsForTranslation(textCandidateList: Array<TextCandidate>, difficulty:number,from:string, to:string) : TextToTranslate {
+    public getWordsForTranslation(textCandidateList: Array<TextCandidate>, difficulty:number,from:string, to:string,
+                                  alreadyKnownWords:Set<string>) : TextToTranslate {
         let fullText = this.getFullText(textCandidateList);
-        let wordsToTranslate = this.chooseWords(fullText, difficulty, from, to);
+        let wordsToTranslate = this.chooseWords(fullText, difficulty, from, to, alreadyKnownWords);
         return {originalWords: wordsToTranslate};
     }
 
@@ -29,11 +31,10 @@ export default class WordPicker {
         return fullText;
     }
 
-    public chooseWords(fullText: string, difficulty:number, from:string, to:string) : Array<string> {
+    public chooseWords(fullText: string, difficulty:number, from:string, to:string, alreadyKnownWords:Set<string>) : Array<string> {
         const regEx = new RegExp("^[a-zà-úñ]+$");
         let words: string[] = fullText.split(" ");
         let wordMapCounter:Map<string, number> = new Map();
-
         for (let i = 0; i < words.length; i++) {
             let word = words[i];
             // Do not translate if it contains upper case letters (remove proper nouns and acronyms)
@@ -46,6 +47,13 @@ export default class WordPicker {
             if (!this.isInDictionary(from, to, difficulty, word)) {
                 continue;
             }
+
+            // Do not consider the word for translation if the user already knows it
+            if(alreadyKnownWords.has(word)) {
+                continue;
+            }
+
+
             // Update the map with the occurrences of each word
             wordMapCounter = this.updateMap(wordMapCounter, word);
         }

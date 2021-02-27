@@ -30,18 +30,18 @@ const useStyles = makeStyles((theme:Theme) => ({
     }
 }));
 
-interface ModalContentProps {
-    closeModal: () => void;
+interface ReportErrorModalProps {
+    closeModalCallback: () => void;
     original: string,
     translated: string
 }
 
-export default function ModalContent(props: ModalContentProps) {
+export default function ReportErrorModal(props: ReportErrorModalProps) {
     const { t, i18n } = useTranslation();
     const classes = useStyles();
 
     const onModalClose = () => {
-        props.closeModal();
+        props.closeModalCallback();
     };
 
     const reportErrorAPI = new ReportErrorAPI();

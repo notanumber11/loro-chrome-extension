@@ -1,5 +1,4 @@
 import GuiProxy from "../gui/GuiProxy";
-import TransferendumConfig from "../TransferendumConfig";
 
 
 export default class GuiProxyLocal extends GuiProxy {

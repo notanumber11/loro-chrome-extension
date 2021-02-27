@@ -10,19 +10,19 @@ function processLoroContent() {
     nlpOrchestrator.processLoro(document);
 }
 
-function startOnboarding(val:string) {
-    if (val=="true") {
-        // Add special listener that will run on the loro on-boarding process as part of the tutorial
-        window.addEventListener("loro", ()=> processLoroContent());
-        let node = document.createElement("div");
-        document.body.appendChild(node);
-        console.log(document);
-        ReactDOM.render(<FrameOnBoardingModal closeCallback={()=>(console.log("Calling close!"))} isOpen={true}/>, node);
-        TransferendumConfig.instance.guiProxy.setOnLocalStore(TransferendumConfig.LORO_JUST_INSTALLED_KEY, "false");
-    }
+function startOnboarding() {
+    // Add special listener that will run on the loro on-boarding process as part of the tutorial
+    window.addEventListener("loro", ()=> processLoroContent());
+    let node = document.createElement("div");
+    document.body.appendChild(node);
+    ReactDOM.render(<FrameOnBoardingModal closeCallback={()=>(console.log("Calling close!"))} isOpen={true}/>, node);
 }
 
 export default function onBoarding() {
-    TransferendumConfig.instance.guiProxy.getFromLocalStore(TransferendumConfig.LORO_JUST_INSTALLED_KEY, "false")
-        .then(val=> startOnboarding(val.toString()));
+    let conf = TransferendumConfig.instance.guiProxy;
+    startOnboarding();
+    // Reset default values
+    conf.setOnLocalStore(TransferendumConfig.FIRST_TIME_MARKED_AS_KNOWN, true);
+    conf.setOnLocalStore(TransferendumConfig.DENIED_USER_WEBPAGES_KEY, []);
+    conf.setOnLocalStore(TransferendumConfig.WORDS_MARKED_AS_KNOWN, []);
 }

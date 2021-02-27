@@ -19,6 +19,9 @@ chrome.tabs.onUpdated.addListener((tabId: number, changeInfo: TabChangeInfo, tab
 });
 
 chrome.runtime.onInstalled.addListener(function() {
-    TransferendumConfig.instance.guiProxy.setOnLocalStore(TransferendumConfig.LORO_JUST_INSTALLED_KEY, "true");
-    TransferendumConfig.instance.guiProxy.setOnLocalStore(TransferendumConfig.DENIED_USER_WEBPAGES_KEY, ["bancosantander.es"]);
+    let development = false;
+    if (!development) {
+        TransferendumConfig.instance.guiProxy.setOnLocalStore(TransferendumConfig.LORO_JUST_INSTALLED_KEY, "true");
+        chrome.tabs.create({url: "https://notanumber11.github.io/loro/"}, function (tab) {});
+    }
 });

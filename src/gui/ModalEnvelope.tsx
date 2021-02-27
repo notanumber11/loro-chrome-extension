@@ -1,6 +1,5 @@
 import React from 'react';
 import DemoFrame from "./DemoFrame";
-import ModalContent from "./ModalContent";
 import shadows from "@material-ui/core/styles/shadows";
 import {Modal} from "@material-ui/core";
 
@@ -20,17 +19,18 @@ const frameStyles = {
 };
 
 interface ModalEnvelopeProps {
-    closeCallback: (val: boolean) => void,
+    closeModalCallback: () => void,
     isOpen: boolean,
     original: string,
-    translated: string
+    translated: string,
+    children: React.ReactNode
 }
 
 export default function ModalEnvelope(props: ModalEnvelopeProps) {
     const [hoveringModal, setHoveringModal] = React.useState(false);
 
     const onModalClose = () => {
-        props.closeCallback(false);
+        props.closeModalCallback();
     };
 
     const onModalClickOut = () => {
@@ -50,10 +50,7 @@ export default function ModalEnvelope(props: ModalEnvelopeProps) {
                         <DemoFrame frameStyles={frameStyles}>
                             <div onPointerOver={() => setHoveringModal(true)}
                                  onPointerOut={() => setHoveringModal(false)}>
-                                <ModalContent
-                                    closeModal={onModalClose}
-                                    original={props.original}
-                                    translated={props.translated}/>
+                                {props.children}
                             </div>
                         </DemoFrame>
                     </div>

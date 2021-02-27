@@ -91,7 +91,7 @@ export default class DomHandler {
         return htmlContent;
     }
 
-    public static replaceWord(wordToReplace: string, wordReplacement: string) {
+    public static removeTranslation(wordToReplace: string, wordReplacement: string) {
         let replacements = 0;
         let nodes = document.getElementsByClassName("loroSpanClass");
         for (let i = 0; i < nodes.length; i++) {

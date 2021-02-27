@@ -7,6 +7,9 @@ import ModalEnvelope from "./ModalEnvelope";
 import DefaultPopup from "./DefaultPopup";
 import ReactDOM from 'react-dom'
 import DomHandler from "../nlp/DomHandler";
+import ReportErrorModal from "./ReportErrorModal";
+import IknowWordModal from "./IknowWordModal";
+import confetti  from 'canvas-confetti';
 
 const styles = createStyles({
     hovering: {
@@ -56,6 +59,7 @@ type ToolTipState = {
     isReportErrorModalOpen: boolean,
     isHovering: boolean,
     isSettingsOpen: boolean,
+    isIknowWordModalOpen: boolean
     shouldRemoveWord: boolean
 }
 
@@ -66,16 +70,17 @@ class WordHovering extends React.Component<ToolTipProps, ToolTipState> {
         this.state = {
             isReportErrorModalOpen: false,
             isSettingsOpen: false,
+            isIknowWordModalOpen: false,
             isHovering: false,
             shouldRemoveWord: false
         };
     }
 
-     setShouldRemoveWord = () => {
-         this.setState({
-             shouldRemoveWord: true
-         });
-     };
+    setShouldRemoveWord = () => {
+        this.setState({
+            shouldRemoveWord: true
+        });
+    };
 
     componentDidMount(): void {
         // We need to create a div on the parent root because we want this div
@@ -111,13 +116,19 @@ class WordHovering extends React.Component<ToolTipProps, ToolTipState> {
         })
     };
 
+    setIknowWordModalOpenStatus = (val: boolean) => {
+        this.setState({
+            isIknowWordModalOpen: val
+        })
+    };
+
     setHovering = (val: boolean) => {
         this.setState({
             isHovering: val
         });
         if (!val && this.state.shouldRemoveWord) {
-            console.log("Executing dom replacement ...");
-            DomHandler.replaceWord(this.props.translated, this.props.original);
+            confetti();
+            DomHandler.removeTranslation(this.props.translated, this.props.original);
         }
     };
 
@@ -130,7 +141,6 @@ class WordHovering extends React.Component<ToolTipProps, ToolTipState> {
 
 
     // Based on: https://blog.theodo.com/2018/01/responsive-iframes-css-trick/
-    // Offset of 100 since people has not seen what is in the bottom of the street while reading.
     // @ts-ignore
     render() {
         const {classes} = this.props;
@@ -145,17 +155,35 @@ class WordHovering extends React.Component<ToolTipProps, ToolTipState> {
                         this.state.isHovering &&
                         <DemoFrame frameStyles={translationCardStylesFrame}>
                             <TranslationCard original={this.props.original} translated={this.props.translated}
-                                             updateModal={this.setReportErrorModalOpenStatus}
-                                             updateSettings={this.setSettingsOpenStatus}
-                                             removeWord={this.setShouldRemoveWord}
+                                             openModalCallback={() => this.setReportErrorModalOpenStatus(true)}
+                                             openSettingsCallback={() => this.setSettingsOpenStatus(true)}
+                                             openIknowWordCallback={() => this.setIknowWordModalOpenStatus(true)}
+                                             removeWordCallback={this.setShouldRemoveWord}
                             />
                         </DemoFrame>
                     }
               </span>
 
-            <ModalEnvelope isOpen={this.state.isReportErrorModalOpen}
-                               closeCallback={this.setReportErrorModalOpenStatus}
-                           original={this.props.original} translated={this.props.translated}/>
+                <ModalEnvelope isOpen={this.state.isReportErrorModalOpen}
+                               closeModalCallback={() => this.setReportErrorModalOpenStatus(false)}
+                               original={this.props.original} translated={this.props.translated}
+                >
+                    <ReportErrorModal
+                        closeModalCallback={() => this.setReportErrorModalOpenStatus(false)}
+                        original={this.props.original}
+                        translated={this.props.translated}/>
+                </ModalEnvelope>
+
+                <ModalEnvelope isOpen={this.state.isIknowWordModalOpen}
+                                   closeModalCallback={() => this.setIknowWordModalOpenStatus(false)}
+                                   original={this.props.original} translated={this.props.translated}
+                    >
+                    <IknowWordModal
+                        closeModalCallback={() => this.setIknowWordModalOpenStatus(false)}
+                        original={this.props.original}
+                        translated={this.props.translated}/>
+                </ModalEnvelope>
+
             </span>
         )
     }

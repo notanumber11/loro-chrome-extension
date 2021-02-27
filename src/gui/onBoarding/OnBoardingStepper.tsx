@@ -29,7 +29,9 @@ import Translator from "../../nlp/Translator";
 import { useTranslation } from 'react-i18next';
 import i18n from "../../i18n"
 import i18next from "i18next";
-console.log(i18n);
+if (i18n == null) {
+    console.log("Problems with i18n, it is null");
+}
 
 const useStyles = makeStyles((theme: Theme) => {
         return createStyles({

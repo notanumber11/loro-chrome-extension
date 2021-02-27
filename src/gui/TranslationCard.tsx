@@ -13,8 +13,11 @@ import {Box, CardActions, Collapse, Zoom} from "@material-ui/core";
 import {useTranslation} from "react-i18next";
 import i18n from "../i18n"
 import ThumbUpIcon from '@material-ui/icons/ThumbUp';
+import DomHandler from "../nlp/DomHandler";
 
-console.log(i18n);
+if (i18n == null) {
+    console.log("Problems with i18n, it is null");
+}
 
 const myStyles = makeStyles({
     cardContent: {
@@ -29,7 +32,7 @@ const myStyles = makeStyles({
         alignItems: "flex-end"
     },
     envelope: {
-        minWidth: 120,
+        minWidth: 140,
         maxWidth: 240,
         minHeight: 120,
         display: "inline-grid",
@@ -40,7 +43,7 @@ const myStyles = makeStyles({
         width: "38px",
         height: "32px",
         transform: "scale(-2, 2)",
-        margin: "-0px -0px -15px -30px"
+        margin: "-0px -0px -15px -37px"
     },
     rewardContent: {
         paddingBottom: 0,
@@ -61,12 +64,13 @@ const myStyles = makeStyles({
 type TranslationCardProps = {
     original: string,
     translated: string,
-    updateModal: (val: boolean) => void,
-    updateSettings: (val: boolean) => void,
-    removeWord: () => void
+    openModalCallback: () => void,
+    openSettingsCallback: () => void,
+    removeWordCallback: () => void,
+    openIknowWordCallback: ()=> void,
 }
 
-const TranslationCard = ({original, translated, updateModal, updateSettings, removeWord}: TranslationCardProps) => {
+const TranslationCard = ({original, translated, openModalCallback, openSettingsCallback, removeWordCallback, openIknowWordCallback}: TranslationCardProps) => {
     const {t, i18n} = useTranslation();
     const classes = myStyles();
     const [showKnownWordsCounter, setShowKnownWordsCounter] = React.useState(false);
@@ -74,65 +78,81 @@ const TranslationCard = ({original, translated, updateModal, updateSettings, rem
     const [showCollapsed, setShowCollapsed] = React.useState(true);
 
     const showReward = async () => {
-        // Retrieve and update learned words
-        let wordsAlreadyLearn: number = Number((await TransferendumConfig.instance.guiProxy.getFromLocalStore(TransferendumConfig.WORKS_MARKED_AS_KNOWN_KEY, 0))) + 1;
-        TransferendumConfig.instance.guiProxy.setOnLocalStore(TransferendumConfig.WORKS_MARKED_AS_KNOWN_KEY, wordsAlreadyLearn);
+        console.log("Starting show reward...");
         // Show to the user the reward card
         setShowKnownWordsCounter(true);
         setShowCardContent(false);
-        // Create a counter that updates the value
-        removeWord();
+
+        let conf = TransferendumConfig.instance.guiProxy;
+        let alreadyKnownWords = await conf.getFromLocalStore(TransferendumConfig.WORDS_MARKED_AS_KNOWN, -1);
+        console.log("Adding to the list of words marked as known");
+        if (alreadyKnownWords != -1) {
+            // @ts-ignore
+            alreadyKnownWords.push(original);
+            conf.setOnLocalStore(TransferendumConfig.WORDS_MARKED_AS_KNOWN, alreadyKnownWords);
+        }
+
+        // if it the first time that the user marks a word as learn we show the explanation modal
+        let firstTime = await conf.getFromLocalStore(TransferendumConfig.FIRST_TIME_MARKED_AS_KNOWN, false);
+        console.log("Evaluating to open modal for knowWord");
+        removeWordCallback();
+        if (firstTime == true) {
+            openIknowWordCallback();
+            conf.setOnLocalStore(TransferendumConfig.FIRST_TIME_MARKED_AS_KNOWN, false);
+        }
     };
 
     return (
-        <Collapse in={showCollapsed} timeout={10000}>
-            <Card className={classes.envelope}>
-                {
-                    showKnownWordsCounter &&
-                    <Zoom in={showKnownWordsCounter} style={{transitionDelay: showKnownWordsCounter ? '400ms' : '0ms'}}>
-                        <CardContent className={classes.rewardContent}>
-                            <Typography variant="h6" color="primary" component="span">
-                                Nice!
-                            </Typography>
-                            <Divider variant="fullWidth"/>
-                            <Typography className={classes.rewardTypography} variant="h3">
-                                {/*+{counterState}*/}
-                                <Box display="flex" justifyContent="center" m={1} p={1} bgcolor="background.paper">
-                                    <ThumbUpIcon className={classes.rewardIcon} fontSize="large"/>
-                                </Box>
-                            </Typography>
-                        </CardContent>
-                    </Zoom>
-                }
-                {
-                    showCardContent &&
-                    <div>
-                        <CardContent className={classes.cardContent}>
-                            <img className={classes.loroIcon}
-                                 src={TransferendumConfig.instance.guiProxy.getWebAccessibleResource("loro.svg")}/>
-                            <Typography variant="h6" component="span">
-                                {original}
-                            </Typography>
-                            <Divider variant="fullWidth"/>
-                            <Typography color="textSecondary" component="span" variant="body1">
-                                {translated}
-                            </Typography>
-                        </CardContent>
-                        <CardActions disableSpacing className={classes.cardActions}>
-                            <IconButton size="small" title={t("Report error")} onClick={() => updateModal(true)}>
-                                <ReportProblemIcon/>
-                            </IconButton>
-                            <IconButton size="small" title={t("I know this word")} onClick={showReward}>
-                                <DoneIcon></DoneIcon>
-                            </IconButton>
-                            <IconButton size="small" title={t("Settings")} onClick={() => updateSettings(true)}>
-                                <SettingsIcon/>
-                            </IconButton>
-                        </CardActions>
-                    </div>
-                }
-            </Card>
-        </Collapse>
+        <div>
+            <Collapse in={showCollapsed}>
+                <Card className={classes.envelope}>
+                    {
+                        showKnownWordsCounter &&
+                        <Zoom in={showKnownWordsCounter} style={{transitionDelay: showKnownWordsCounter ? '400ms' : '0ms'}}>
+                            <CardContent className={classes.rewardContent}>
+                                <Typography variant="h6" color="primary" component="span">
+                                    Nice!
+                                </Typography>
+                                <Divider variant="fullWidth"/>
+                                <Typography className={classes.rewardTypography} variant="h3">
+                                    <Box display="flex" justifyContent="center" m={1} p={1} bgcolor="background.paper">
+                                        <ThumbUpIcon className={classes.rewardIcon} fontSize="large"/>
+                                    </Box>
+                                </Typography>
+                            </CardContent>
+                        </Zoom>
+                    }
+                    {
+                        showCardContent &&
+                        <div>
+                            <CardContent className={classes.cardContent}>
+                                <img className={classes.loroIcon}
+                                     src={TransferendumConfig.instance.guiProxy.getWebAccessibleResource("loro.svg")}/>
+                                <Typography variant="h6" component="span">
+                                    {original}
+                                </Typography>
+                                <Divider variant="fullWidth"/>
+                                <Typography color="textSecondary" component="span" variant="body1">
+                                    {translated}
+                                </Typography>
+                            </CardContent>
+                            <CardActions disableSpacing className={classes.cardActions}>
+                                <IconButton size="small" title={t("Report error")} onClick={() => openModalCallback()}>
+                                    <ReportProblemIcon/>
+                                </IconButton>
+                                <IconButton size="small" title={t("I know this word")} onClick={showReward}>
+                                    <DoneIcon></DoneIcon>
+                                </IconButton>
+                                <IconButton size="small" title={t("Settings")} onClick={() => openSettingsCallback()}>
+                                    <SettingsIcon/>
+                                </IconButton>
+                            </CardActions>
+                        </div>
+                    }
+                </Card>
+            </Collapse>
+        </div>
+
     );
 };
 

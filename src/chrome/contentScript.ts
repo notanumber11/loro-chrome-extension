@@ -14,7 +14,8 @@ async function canRunInThisWebpage(conf:TransferendumConfig) {
     }
     // @ts-ignore
     let urls:Array<string> = (await conf.guiProxy.getFromLocalStore(TransferendumConfig.DENIED_USER_WEBPAGES_KEY, []));
-    let result = urls.indexOf(currentUrl) == -1 && urls.length != 0;
+    console.log("The denied usepages are: ", urls);
+    let result = urls.indexOf(currentUrl) == -1;
     return result;
 }
 
@@ -37,8 +38,11 @@ async function processBasedOnExtensionEnable(isExtensionEnabled:boolean, conf:Tr
         let difficultyNumber = TransferendumConfig.DIFFICULTY_TO_PERCENTAGE.get(difficultyString)!;
         let language = (await conf.guiProxy.getFromLocalStore(TransferendumConfig.LANGUAGE_KEY, "en")).toString();
         let motherTongue = (await conf.guiProxy.getFromLocalStore(TransferendumConfig.MOTHER_TONGUE_KEY, "es")).toString();
+        let alreadyKnownWordsArray = (await TransferendumConfig.instance.guiProxy.getFromLocalStore(TransferendumConfig.WORDS_MARKED_AS_KNOWN, [])) as Array<string>;
         await i18next.changeLanguage(motherTongue);
-        nlpOrchestrator.process(document, difficultyNumber, motherTongue, language);
+        let alreadyKnownWords = new Set(alreadyKnownWordsArray);
+        console.log("The already known words are: ", alreadyKnownWordsArray);
+        nlpOrchestrator.process(document, difficultyNumber, motherTongue, language, alreadyKnownWords);
     }
 }
 
@@ -47,13 +51,18 @@ if (!TransferendumConfig.instance.isLocal) {
     // This function is here to guarantee that we only run the contentScript once per webpage
     // The reason for this is that the "chrome.tabs.onUpdated.addListener" used on background.ts
     // can be triggered several times for a single webpage.
-    (function() {
+    (async function () {
         // @ts-ignore
         if (window.hasRun) return;
         // @ts-ignore
         window.hasRun = true;
         // Rest of code
-        onBoarding();
+        console.log("Evaluating if we should run on'boarding:");
+        let shouldRunOnBoarding = await TransferendumConfig.instance.guiProxy.getFromLocalStore(TransferendumConfig.LORO_JUST_INSTALLED_KEY, "false");
+        if (shouldRunOnBoarding) {
+            TransferendumConfig.instance.guiProxy.setOnLocalStore(TransferendumConfig.LORO_JUST_INSTALLED_KEY, false);
+            onBoarding();
+        }
         processDocument();
     })();
 }

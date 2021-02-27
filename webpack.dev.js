@@ -6,7 +6,7 @@ const webpack = require("webpack");
 
 module.exports = merge(common, {
   mode: "development",
-  devtool: 'cheap-module-source-map',
+  devtool: "inline-source-map",
   plugins: [
     new CleanWebpackPlugin({ cleanStaleWebpackAssets: false }),
     new webpack.DefinePlugin({

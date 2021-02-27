@@ -19,7 +19,9 @@ import TransferendumConfig from "../TransferendumConfig";
 import { useTranslation } from 'react-i18next';
 import i18n from "../i18n"
 import i18next from "i18next";
-console.log(i18n);
+if (i18n == null) {
+    console.log("Problems with i18n, it is null");
+}
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -143,16 +145,17 @@ const DefaultPopup = (defaultPopupProps: DefaultPopupProps) => {
                 if (currentUrl) {
                     if (isAllowed) {
                         // Remove url
-                        let index = urls.indexOf(currentUrl);
-                        if (index != -1) {
-                            urls.splice(index, 1);
+                        let index = 0;
+                        while (index != -1) {
+                            index = urls.indexOf(currentUrl);
+                            urls.splice(index);
                         }
                     }
                     else {
                         // Append url
                         urls.push(currentUrl);
                     }
-                    if (urls.length>0) {
+                    if (urls.length>=0) {
                         guiProxy.setOnLocalStore(TransferendumConfig.DENIED_USER_WEBPAGES_KEY, urls);
                     }
                 }
@@ -198,7 +201,7 @@ const DefaultPopup = (defaultPopupProps: DefaultPopupProps) => {
                     <CardHeader
                         avatar={
                             <Avatar alt="loro"
-                                    src={TransferendumConfig.instance.guiProxy.getWebAccessibleResource("icon-default-popup.png")}>
+                                    src={TransferendumConfig.instance.guiProxy.getWebAccessibleResource("icon-avatar.png")}>
                                 loro
                             </Avatar>
                         }
@@ -361,7 +364,7 @@ const DefaultPopup = (defaultPopupProps: DefaultPopupProps) => {
                         <Box p={1}>
                             <Typography variant="h6" style={{marginRight: "1em"}}>
                                 <Link href="https://forms.gle/BRDx93xoxfVjQ8x1A" target="_blank">
-                                    Contacto
+                                    {t("Contact")}
                                 </Link>
                             </Typography>
                         </Box>

@@ -54,7 +54,7 @@ export default function FrameOnBoardingModal(props: ModalEnvelopeProps) {
 
     const handleClose = () => {
         setOpen(false);
-        guiProxy.reloadCurrentTab();
+        TransferendumConfig.instance.guiProxy.setOnLocalStore(TransferendumConfig.LORO_JUST_INSTALLED_KEY, "false");
     };
 
     // @ts-ignore
