@@ -65,7 +65,7 @@ export default function IknowWordModal(props: IknowWordModalProps) {
 
                 <Box justifyContent="center" alignItems="center">
                     <Typography variant="h5" color="primary" align="center">
-                        {t("You have learnt a new word !")}
+                        {t("You have learnt a new word!")}
                     </Typography>
                 </Box>
 

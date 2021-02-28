@@ -56,7 +56,7 @@ const resources = {
             "Report error": "Reportar error",
             // I know word modal
             "Congratulations": "Enhorabuena",
-            "You have learnt a new word !": "¡Has aprendido una nueva palabra!",
+            "You have learnt a new word!": "¡Has aprendido una nueva palabra!",
             "By clicking": "Haciendo click en",
             "IknowWordExplanation": "nos estas demostrando que ya sabes la palabra por lo que la traduciremos menos a menudo cuando navegas",
             "Continue browsing": "Continua navegando"
@@ -114,7 +114,7 @@ const resources = {
             "Report error": "Report error",
             // I know word modal
             "Congratulations": "Congratulations",
-            "You have learnt a new word !": "You have learnt a new word!",
+            "You have learnt a new word!": "You have learnt a new word!",
             "By clicking": "By clicking",
             "IknowWordExplanation": "you are showing to us that you already know the word so it will appear less often while you are browsing.",
             "Continue browsing": "Continue browsing"
@@ -169,11 +169,11 @@ const resources = {
             // Translation card
             "Report error": "zgłoś błąd",
             // I know word modal
-            "Congratulations": "Congratulations",
-            "You have learnt a new word !": "You have learnt a new word!",
-            "By clicking": "By clicking",
-            "IknowWordExplanation": "you are showing to us that you already know the word so it will appear less often while you are browsing.",
-            "Continue browsing": "Continue browsing"
+            "Congratulations": "Gratulacje",
+            "You have learnt a new word!": "Nauczyłeś się nowego słowa!",
+            "By clicking": "Poprzez kliknięcie",
+            "IknowWordExplanation": "pokazujesz nam, że znasz to słowo, dzieki czemu bedzie się ono rzadziej pokazywało podczas surfowania po internecie.",
+            "Continue browsing": "Kontynuuj surfowanie"
         }
     }
 };
