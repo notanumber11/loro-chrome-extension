@@ -39,21 +39,17 @@ const frameStyles = {
 };
 
 interface ModalEnvelopeProps {
-    closeCallback: (val: boolean) => void,
+    closeCallback: () => void,
     isOpen: boolean
 }
 
 export default function FrameOnBoardingModal(props: ModalEnvelopeProps) {
     const classes = useStyles();
     const [open, setOpen] = React.useState(true);
-    const guiProxy = TransferendumConfig.instance.guiProxy;
-
-    const handleOpen = () => {
-        setOpen(true);
-    };
 
     const handleClose = () => {
         setOpen(false);
+        props.closeCallback();
         TransferendumConfig.instance.guiProxy.setOnLocalStore(TransferendumConfig.LORO_JUST_INSTALLED_KEY, false);
     };
 

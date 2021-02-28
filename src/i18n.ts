@@ -54,6 +54,12 @@ const resources = {
             "Finish": "Terminar",
             // Translation card
             "Report error": "Reportar error",
+            // I know word modal
+            "Congratulations": "Enhorabuena",
+            "You have learnt a new word !": "¡Has aprendido una nueva palabra!",
+            "By clicking": "Haciendo click en",
+            "IknowWordExplanation": "nos estas demostrando que ya sabes la palabra por lo que la traduciremos menos a menudo cuando navegas",
+            "Continue browsing": "Continua navegando"
         }
     },
     en: {
@@ -106,6 +112,12 @@ const resources = {
             "Finish": "Finish",
             // Translation card
             "Report error": "Report error",
+            // I know word modal
+            "Congratulations": "Congratulations",
+            "You have learnt a new word !": "You have learnt a new word!",
+            "By clicking": "By clicking",
+            "IknowWordExplanation": "you are showing to us that you already know the word so it will appear less often while you are browsing.",
+            "Continue browsing": "Continue browsing"
         }
     },
     pl: {
@@ -156,6 +168,12 @@ const resources = {
             "Finish": "Zakończ",
             // Translation card
             "Report error": "zgłoś błąd",
+            // I know word modal
+            "Congratulations": "Congratulations",
+            "You have learnt a new word !": "You have learnt a new word!",
+            "By clicking": "By clicking",
+            "IknowWordExplanation": "you are showing to us that you already know the word so it will appear less often while you are browsing.",
+            "Continue browsing": "Continue browsing"
         }
     }
 };

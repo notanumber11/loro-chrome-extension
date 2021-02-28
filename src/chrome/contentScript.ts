@@ -55,11 +55,9 @@ if (!TransferendumConfig.instance.isLocal) {
         // @ts-ignore
         window.hasRun = true;
         // Rest of code
-        let shouldRunOnBoarding = await TransferendumConfig.instance.guiProxy.getFromLocalStore(TransferendumConfig.LORO_JUST_INSTALLED_KEY, false);
+        let justInstalled = (await TransferendumConfig.instance.guiProxy.getFromLocalStore(TransferendumConfig.LORO_JUST_INSTALLED_KEY, false)) as boolean;
         TransferendumConfig.instance.guiProxy.setOnLocalStore(TransferendumConfig.LORO_JUST_INSTALLED_KEY, false);
-        if (shouldRunOnBoarding) {
-            onBoarding();
-        }
+        onBoarding(justInstalled);
         processDocument();
     })();
 }

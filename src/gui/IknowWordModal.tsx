@@ -59,13 +59,13 @@ export default function IknowWordModal(props: IknowWordModalProps) {
 
                 <Box justifyContent="center" alignItems="center">
                     <Typography variant="h4" className={classes.congrats} align="center">
-                        Congratulations
+                        {t("Congratulations")}
                     </Typography>
                 </Box>
 
                 <Box justifyContent="center" alignItems="center">
                     <Typography variant="h5" color="primary" align="center">
-                        You have learnt a new word !
+                        {t("You have learnt a new word !")}
                     </Typography>
                 </Box>
 
@@ -75,14 +75,13 @@ export default function IknowWordModal(props: IknowWordModalProps) {
 
                 <Box justifyContent="center" alignItems="center" m={1} p={2}>
                     <Typography variant="body1" align="center">
-                        By clicking <DoneIcon></DoneIcon> you are showing to us that you already know the word so
-                        it will appear less often while you are browsing.
+                        {t("By clicking")} <DoneIcon></DoneIcon> {t("IknowWordExplanation")}
                     </Typography>
                 </Box>
 
                 <Box justifyContent="center" alignItems="center" pr={"2em"} pl={"2em"}>
                     <Badge color="primary" className={classes.button}>
-                        <Button variant="contained" fullWidth color="primary" onClick={onModalClose}>Continue browsing</Button>
+                        <Button variant="contained" fullWidth color="primary" onClick={onModalClose}>{t("Continue browsing")}</Button>
                     </Badge>
                 </Box>
             </div>

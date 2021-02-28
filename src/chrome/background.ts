@@ -22,6 +22,6 @@ chrome.runtime.onInstalled.addListener(function() {
     let development = false;
     if (!development) {
         TransferendumConfig.instance.guiProxy.setOnLocalStore(TransferendumConfig.LORO_JUST_INSTALLED_KEY, true);
-        chrome.tabs.create({url: "https://notanumber11.github.io/loro/"}, function (tab) {});
+        chrome.tabs.create({url: "http://localhost:3000/#/loroOnBoarding/"}, function (tab) {});
     }
 });
