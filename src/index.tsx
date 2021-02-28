@@ -10,18 +10,18 @@ if (i18n == null) {
     console.log("Problems with i18n, it is null");
 }
 
-/*
 ReactDOM.render(
     <Suspense fallback="loading">
         <DefaultPopup closeCallback={()=>window.close()}/>
     </Suspense>,
     document.getElementById('popup'));
-*/
 
 /*
 ReactDOM.render(<FrameOnBoardingModal closeCallback={()=>(console.log("Calling close!"))} isOpen={true}/>,  document.getElementById('popup'));
 */
 
+/*
 ReactDOM.render(<div> <span>I love Loro </span><WordHovering original="resultado" translated="wynik"/></div>, document.getElementById('popup'));
+*/
 
 

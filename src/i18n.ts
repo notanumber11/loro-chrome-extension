@@ -22,6 +22,7 @@ const resources = {
             "Disallow translations": "Las traducciones no apareceran en esta pagina.",
             "Contact": "Contacto",
             // Report an error
+            "Inform about an error": "Inform about an error",
             "Thanks report": "Gracias por ayudarnos a mejorar!",
             "Error reported": "Error reportado con éxito :)",
             "Problems sending report": "Problemas enviando el reporte :(",
@@ -43,7 +44,7 @@ const resources = {
             "Settings": "Ajustes",
             "Loro is ready": "Loro está listo!",
             "How it works step": `
-                        Mientras navegas la web Loro traducira algunas palabras para que puedas aprender
+                        Mientras navegas la web Loro traducirá algunas palabras para que puedas aprender
                         un nuevo idioma sin esfuerzo.
                         Fijate en las palabras con fondo azul y veras que estan en otro idioma. Pasa el ratón por encima de
                         ellas para ver su traducción.
@@ -58,7 +59,7 @@ const resources = {
             "Congratulations": "Enhorabuena",
             "You have learnt a new word!": "¡Has aprendido una nueva palabra!",
             "By clicking": "Haciendo click en",
-            "IknowWordExplanation": "nos estas demostrando que ya sabes la palabra por lo que la traduciremos menos a menudo cuando navegas",
+            "IknowWordExplanation": "nos estas demostrando que ya sabes la palabra por lo que la traduciremos menos a menudo cuando navegas.",
             "Continue browsing": "Continua navegando"
         }
     },
@@ -80,6 +81,7 @@ const resources = {
             "Disallow translations": "The translations will not appear in this page.",
             "Contact": "Contact",
             // Report an error
+            "Inform about an error": "Informanos acerca de un error",
             "Thanks report": "Thanks for helping us to improve!",
             "Error reported": "Error reported successfully :)",
             "Problems sending report": "Problems sending the report :(",
@@ -138,6 +140,7 @@ const resources = {
             "Disallow translations": "Nie pokazuj tłumaczeń na tej stronie.",
             "Contact": "Kontakt",
             // Report an error
+            "Inform about an error": "Zgłoś błąd",
             "Thanks report": "Dziękujemy za pomoc w ulepszaniu aplikacji!",
             "Error reported": "Błąd zgłoszony pomyślnie :)",
             "Problems sending report": "Problem z wysyłaniem raportu :(",
@@ -167,7 +170,7 @@ const resources = {
             "Loro is ready step": "Możesz już zamknąć to okno i zacząć naukę :)",
             "Finish": "Zakończ",
             // Translation card
-            "Report error": "zgłoś błąd",
+            "Report error": "Zgłoś błąd",
             // I know word modal
             "Congratulations": "Gratulacje",
             "You have learnt a new word!": "Nauczyłeś się nowego słowa!",

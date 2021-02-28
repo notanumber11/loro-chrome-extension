@@ -61,13 +61,9 @@ const useStyles = makeStyles((theme: Theme) => {
                 minWidth: 120,
             },
             loroIcon: {
-                width: "100px",
-                height: "100px"
-            },
-            loroIconMini: {
-                width: "25px",
-                height: "25px"
-            },
+                width: "125px",
+                height: "125px"
+            }
         })
     }
 );
