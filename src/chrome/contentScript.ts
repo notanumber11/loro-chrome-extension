@@ -14,7 +14,6 @@ async function canRunInThisWebpage(conf:TransferendumConfig) {
     }
     // @ts-ignore
     let urls:Array<string> = (await conf.guiProxy.getFromLocalStore(TransferendumConfig.DENIED_USER_WEBPAGES_KEY, []));
-    console.log("The denied usepages are: ", urls);
     let result = urls.indexOf(currentUrl) == -1;
     return result;
 }
@@ -41,7 +40,6 @@ async function processBasedOnExtensionEnable(isExtensionEnabled:boolean, conf:Tr
         let alreadyKnownWordsArray = (await TransferendumConfig.instance.guiProxy.getFromLocalStore(TransferendumConfig.WORDS_MARKED_AS_KNOWN, [])) as Array<string>;
         await i18next.changeLanguage(motherTongue);
         let alreadyKnownWords = new Set(alreadyKnownWordsArray);
-        console.log("The already known words are: ", alreadyKnownWordsArray);
         nlpOrchestrator.process(document, difficultyNumber, motherTongue, language, alreadyKnownWords);
     }
 }
@@ -57,10 +55,9 @@ if (!TransferendumConfig.instance.isLocal) {
         // @ts-ignore
         window.hasRun = true;
         // Rest of code
-        console.log("Evaluating if we should run on'boarding:");
-        let shouldRunOnBoarding = await TransferendumConfig.instance.guiProxy.getFromLocalStore(TransferendumConfig.LORO_JUST_INSTALLED_KEY, "false");
+        let shouldRunOnBoarding = await TransferendumConfig.instance.guiProxy.getFromLocalStore(TransferendumConfig.LORO_JUST_INSTALLED_KEY, false);
+        TransferendumConfig.instance.guiProxy.setOnLocalStore(TransferendumConfig.LORO_JUST_INSTALLED_KEY, false);
         if (shouldRunOnBoarding) {
-            TransferendumConfig.instance.guiProxy.setOnLocalStore(TransferendumConfig.LORO_JUST_INSTALLED_KEY, false);
             onBoarding();
         }
         processDocument();

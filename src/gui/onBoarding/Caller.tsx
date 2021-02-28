@@ -12,7 +12,7 @@ function processLoroContent() {
 
 function startOnboarding() {
     // Add special listener that will run on the loro on-boarding process as part of the tutorial
-    window.addEventListener("loro", ()=> processLoroContent());
+    // window.addEventListener("loro", ()=> processLoroContent());
     let node = document.createElement("div");
     document.body.appendChild(node);
     ReactDOM.render(<FrameOnBoardingModal closeCallback={()=>(console.log("Calling close!"))} isOpen={true}/>, node);

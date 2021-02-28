@@ -78,14 +78,12 @@ const TranslationCard = ({original, translated, openModalCallback, openSettingsC
     const [showCollapsed, setShowCollapsed] = React.useState(true);
 
     const showReward = async () => {
-        console.log("Starting show reward...");
         // Show to the user the reward card
         setShowKnownWordsCounter(true);
         setShowCardContent(false);
 
         let conf = TransferendumConfig.instance.guiProxy;
         let alreadyKnownWords = await conf.getFromLocalStore(TransferendumConfig.WORDS_MARKED_AS_KNOWN, -1);
-        console.log("Adding to the list of words marked as known");
         if (alreadyKnownWords != -1) {
             // @ts-ignore
             alreadyKnownWords.push(original);
@@ -94,7 +92,6 @@ const TranslationCard = ({original, translated, openModalCallback, openSettingsC
 
         // if it the first time that the user marks a word as learn we show the explanation modal
         let firstTime = await conf.getFromLocalStore(TransferendumConfig.FIRST_TIME_MARKED_AS_KNOWN, false);
-        console.log("Evaluating to open modal for knowWord");
         removeWordCallback();
         if (firstTime == true) {
             openIknowWordCallback();
