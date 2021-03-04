@@ -15,9 +15,8 @@ const closeCallback = async ()=> {
     let node = document.createElement("div");
     node.id = 'loroOnBoardingFinished';
     node.style.display = "none";
-    let conf = TransferendumConfig.instance;
-    let motherTongue = (await conf.guiProxy.getFromLocalStore(TransferendumConfig.MOTHER_TONGUE_KEY, "en")) as string;
-    let languageToLearn = (await conf.guiProxy.getFromLocalStore(TransferendumConfig.LANGUAGE_KEY, "en")) as string;
+    let motherTongue = TransferendumConfig.getMotherTongue();
+    let languageToLearn = TransferendumConfig.getLanguage();
     node.innerText = `MotherTongue=${motherTongue} LanguageToLearn=${languageToLearn}`;
     document.body.appendChild(node);
 };

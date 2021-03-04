@@ -18,10 +18,19 @@ chrome.tabs.onUpdated.addListener((tabId: number, changeInfo: TabChangeInfo, tab
     });
 });
 
-chrome.runtime.onInstalled.addListener(function() {
-    let development = false;
-    if (!development) {
+chrome.runtime.onInstalled.addListener(function(details) {
+    if (details.reason == "install") {
+        console.log("Triggering installation...");
         TransferendumConfig.instance.guiProxy.setOnLocalStore(TransferendumConfig.LORO_JUST_INSTALLED_KEY, true);
         chrome.tabs.create({url: "https://notanumber11.github.io/loro/#/loroOnBoarding/"}, function (tab) {});
+    }
+    else if(details.reason == "update"){
+        console.log("Triggering update...");
+        // On previous update I introduced a bug that deleted the user settings
+        // This attempts to be a fix.
+        let motherTongue = TransferendumConfig.instance.getDefaultMotherTongueLanguage();
+        let language = TransferendumConfig.instance.getDefaultLanguage(motherTongue);
+        TransferendumConfig.setLanguage(language);
+        TransferendumConfig.setMotherTongue(motherTongue);
     }
 });

@@ -35,8 +35,8 @@ async function processBasedOnExtensionEnable(isExtensionEnabled:boolean, conf:Tr
     if (isExtensionEnabled) {
         let difficultyString = (await conf.guiProxy.getFromLocalStore(TransferendumConfig.DIFFICULTY_KEY, "less")).toString();
         let difficultyNumber = TransferendumConfig.DIFFICULTY_TO_PERCENTAGE.get(difficultyString)!;
-        let language = (await conf.guiProxy.getFromLocalStore(TransferendumConfig.LANGUAGE_KEY, "en")).toString();
-        let motherTongue = (await conf.guiProxy.getFromLocalStore(TransferendumConfig.MOTHER_TONGUE_KEY, "es")).toString();
+        let motherTongue = await TransferendumConfig.getMotherTongue();
+        let language = await TransferendumConfig.getLanguage();
         let alreadyKnownWordsArray = (await TransferendumConfig.instance.guiProxy.getFromLocalStore(TransferendumConfig.WORDS_MARKED_AS_KNOWN, [])) as Array<string>;
         await i18next.changeLanguage(motherTongue);
         let alreadyKnownWords = new Set(alreadyKnownWordsArray);

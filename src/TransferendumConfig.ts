@@ -6,8 +6,6 @@ export default class TransferendumConfig {
 
     public static readonly DIFFICULTY_KEY = "loroDifficulty";
     public static readonly LORO_SWITCH_KEY = "loroSwitchKey";
-    public static readonly LANGUAGE_KEY = "loroLanguageKey";
-    public static readonly MOTHER_TONGUE_KEY = "loroMotherTongue";
     public static readonly LORO_JUST_INSTALLED_KEY = "loroJustInstalled";
     public static readonly DENIED_USER_WEBPAGES_KEY = "loroDeniedWebpages";
     public static readonly FIRST_TIME_MARKED_AS_KNOWN = "loroFirstTimeMarkedAsKnown";
@@ -57,8 +55,30 @@ export default class TransferendumConfig {
 
     public static instance = new TransferendumConfig();
 
-    public readonly guiProxy: GuiProxy;
-    public readonly isLocal: boolean;
+    public static setMotherTongue(motherTongue:string) {
+        TransferendumConfig.instance.guiProxy.setOnLocalStore(TransferendumConfig.instance.MOTHER_TONGUE_KEY, motherTongue);
+    }
+
+    public static setLanguage(language:string) {
+        TransferendumConfig.instance.guiProxy.setOnLocalStore(TransferendumConfig.instance.LANGUAGE_KEY, language);
+    }
+
+    public static async getMotherTongue() {
+        let motherTongue = (await TransferendumConfig.instance.guiProxy.getFromLocalStore(TransferendumConfig.instance.MOTHER_TONGUE_KEY, "error")).toString();
+        if (motherTongue != "error") {
+            return motherTongue;
+        }
+        return TransferendumConfig.instance.getDefaultMotherTongueLanguage();
+    }
+
+    public static async getLanguage() {
+        let language = (await TransferendumConfig.instance.guiProxy.getFromLocalStore(TransferendumConfig.instance.LANGUAGE_KEY, "error")).toString();
+        let motherTongue = await TransferendumConfig.getMotherTongue();
+        if (language != "error") {
+            return TransferendumConfig.instance.verifyLanguageIsAvailable(motherTongue, language);
+        }
+        return TransferendumConfig.instance.getDefaultLanguage(motherTongue);
+    }
 
     public static formatUrl(url: string) {
         url = url.replace("http://", "");
@@ -70,6 +90,11 @@ export default class TransferendumConfig {
         return url;
     }
 
+    public readonly guiProxy: GuiProxy;
+    public readonly isLocal: boolean;
+    private readonly LANGUAGE_KEY = "loroLanguageKey";
+    private readonly MOTHER_TONGUE_KEY = "loroMotherTongue";
+
     private constructor() {
         if (process.env.isChrome == "true") {
             this.guiProxy = new GuiProxyChrome();
@@ -80,5 +105,47 @@ export default class TransferendumConfig {
         } else {
             throw new Error("TransferendumConfig has not defined either isChrome or isGUI properties");
         }
+    }
+
+    public getDefaultMotherTongueLanguage() {
+        let browserLanguage = null;
+        try {
+            browserLanguage = window.navigator.language.toLowerCase();
+        } catch (e) {
+            return "en";
+        }
+        if (browserLanguage.includes("es")) {
+            browserLanguage = "es";
+        } else if (browserLanguage.includes("en")) {
+            browserLanguage = "en";
+        } else if (browserLanguage.includes("pl")) {
+            browserLanguage = "pl";
+        }
+        return browserLanguage;
+    }
+
+    public getDefaultLanguage(motherTongue: string):string {
+        let language = "en";
+        if (motherTongue == "en") {
+            language = "es";
+        } else if (motherTongue == "es") {
+            language = "en";
+        } else if (motherTongue == "pl") {
+            language = "en";
+        }
+        return TransferendumConfig.instance.verifyLanguageIsAvailable(motherTongue, language);
+    }
+
+    private verifyLanguageIsAvailable(motherTongue:string, language:string):string {
+        if (!TransferendumConfig.AVAILABLE_LANGUAGES.has(motherTongue)) {
+            console.error("Incorrect motherTongue" + motherTongue);
+            return "es";
+        }
+        let availableLanguages = TransferendumConfig.AVAILABLE_LANGUAGES.get(motherTongue)!;
+        let available:boolean = availableLanguages.includes(language);
+        if (available) {
+            return language;
+        }
+        return availableLanguages[0];
     }
 }

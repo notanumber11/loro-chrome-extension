@@ -79,20 +79,18 @@ const DefaultPopup = (defaultPopupProps: DefaultPopupProps) => {
 
     // Run function after component is mounted: https://stackoverflow.com/questions/54792722/on-react-how-can-i-call-a-function-on-component-mount-on-a-functional-stateless
     useEffect(() => {
+        TransferendumConfig.getMotherTongue().then(val => {
+            setItems(getAvailableLanguages(val.toString()));
+            i18next.changeLanguage(val.toString());
+        });
+        TransferendumConfig.getLanguage().then(val => {
+            setLanguageState(val.toString());
+        });
         guiProxy.getFromLocalStore(TransferendumConfig.DIFFICULTY_KEY, "less").then(
             val => setDifficultyState(val.toString())
         );
         guiProxy.getFromLocalStore(TransferendumConfig.LORO_SWITCH_KEY, "true").then(
             val => setLoroSwitchState(val == "true")
-        );
-        guiProxy.getFromLocalStore(TransferendumConfig.MOTHER_TONGUE_KEY, "en").then(
-            val => {
-                setItems(getAvailableLanguages(val.toString()));
-                i18next.changeLanguage(val.toString());
-            }
-        );
-        guiProxy.getFromLocalStore(TransferendumConfig.LANGUAGE_KEY, "es").then(
-            val => setLanguageState(val.toString())
         );
         obtainUrl();
     }, []);
@@ -167,7 +165,7 @@ const DefaultPopup = (defaultPopupProps: DefaultPopupProps) => {
     const onLanguageChange = (event: React.ChangeEvent<{ name?: string; value: unknown }>) => {
         let value = event.target.value as string;
         setLanguageState(value);
-        guiProxy.setOnLocalStore(TransferendumConfig.LANGUAGE_KEY, value);
+        TransferendumConfig.setLanguage(value);
         guiProxy.reloadCurrentTab();
     };
 

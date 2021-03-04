@@ -85,6 +85,7 @@ export default function OnBoardingStepper(props: OnBoardingStepperProps) {
     const guiProxy = TransferendumConfig.instance.guiProxy;
     const [motherTongueState, setMotherTongue] = React.useState("es");
     const [languageState, setLanguageState] = React.useState("en");
+
     const translator = new Translator();
     const  learnWhileYouBrowseMap:Map<string, Array<string>> = new Map([
         ["es", ["nuevo", "traducción"]],
@@ -104,11 +105,18 @@ export default function OnBoardingStepper(props: OnBoardingStepperProps) {
         ["pl", ["słowo"]]
     ]);
 
+    // Ref: https://javascript.plainenglish.io/how-to-use-async-function-in-react-hook-useeffect-typescript-js-6204a788a435
     useEffect(() => {
-        guiProxy.getFromLocalStore(TransferendumConfig.LANGUAGE_KEY, "en").then(
-            val => setLanguageState(val.toString())
-        );
-        dispatchLoroEvent();
+        // Create an scoped async function in the hook
+        async function updateLanguages() {
+            let language = await TransferendumConfig.getLanguage();
+            setLanguageState(language);
+            let motherTongue = await TransferendumConfig.getMotherTongue();
+            setMotherTongue(motherTongue);
+            dispatchLoroEvent();
+        }
+        // Execute the created function
+        updateLanguages();
     }, []);
 
     const event = new Event('loro', {bubbles: true});
@@ -277,8 +285,8 @@ export default function OnBoardingStepper(props: OnBoardingStepperProps) {
 
     const handleNext = () => {
         i18next.changeLanguage(motherTongueState);
-        guiProxy.setOnLocalStore(TransferendumConfig.LANGUAGE_KEY, languageState);
-        guiProxy.setOnLocalStore(TransferendumConfig.MOTHER_TONGUE_KEY, motherTongueState);
+        TransferendumConfig.setLanguage(languageState);
+        TransferendumConfig.setMotherTongue(motherTongueState);
         // Never show as option to learn one that is not available
         let availableLanguages = TransferendumConfig.AVAILABLE_LANGUAGES.get(motherTongueState)!;
         if (!availableLanguages.includes(languageState)) {
