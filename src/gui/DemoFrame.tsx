@@ -38,7 +38,8 @@ class DemoFrame extends React.Component<DemoFrameProps> {
             sheetsManager: new Map(),
             container: this.contentDocument.body
         });
-        this.interval = setInterval(()=>this.applyCssOverrides() , 250);
+        this.applyCssOverrides();
+        this.interval = setInterval(()=>this.applyCssOverrides() , 500);
     };
 
     componentWillUnmount() {
@@ -59,6 +60,8 @@ class DemoFrame extends React.Component<DemoFrameProps> {
             fr.height = height;
             fr.style.width = `${width}px`;
             fr.style.height= `${height}px`;
+            fr.style.setProperty("width", fr.style.width, "important");
+            fr.style.setProperty("height", fr.style.height, "important");
         }
     }
 
