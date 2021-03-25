@@ -22,7 +22,7 @@ export default class NlpOrchestrator {
         let textTranslated = this.translator.translate(textToTranslate, from, to, difficulty);
         this.domHandler.replaceWords(document, textTranslated);
         let t1 = performance.now();
-        console.log("[LORO EXTENSION] process took " + (t1 - t0) + " milliseconds.")
+        console.log("Loro: process took " + (t1 - t0) + " milliseconds.")
     }
 
     public processLoro(document:Document) {

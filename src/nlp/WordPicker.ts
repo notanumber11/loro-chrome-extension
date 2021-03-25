@@ -34,9 +34,11 @@ export default class WordPicker {
     public chooseWords(fullText: string, difficulty:number, from:string, to:string, alreadyKnownWords:Set<string>) : Array<string> {
         const regEx = new RegExp("^[a-zà-úñ]+$");
         let words: string[] = fullText.split(" ");
+        let uniqueWords:Set<string> = new Set();
         let wordMapCounter:Map<string, number> = new Map();
         for (let i = 0; i < words.length; i++) {
             let word = words[i];
+            uniqueWords.add(word);
             // Do not translate if it contains upper case letters (remove proper nouns and acronyms)
             // Do not translate if it contains symbols
             if (!regEx.test(word)) {
@@ -53,11 +55,30 @@ export default class WordPicker {
                 continue;
             }
 
-
             // Update the map with the occurrences of each word
             wordMapCounter = this.updateMap(wordMapCounter, word);
         }
+        if (!this.isTheWebpageInTheSourceLanguage(uniqueWords, from, to)) {
+            console.warn("Loro: The webpage is in another language.");
+            return []
+        } else {
+            console.warn("Loro: The webpage is in " + from);
+        }
         return this.selectWordsToTranslate(difficulty, wordMapCounter, words.length);
+    }
+
+    private isTheWebpageInTheSourceLanguage(uniqueWords:Set<string>, from:string, to:string):boolean {
+        let counter = 0;
+        let difficulty:number = TransferendumConfig.DIFFICULTY_TO_PERCENTAGE.get("many")!;
+
+        for (let word of Array.from(uniqueWords.values())) {
+            if (this.isInDictionary(from, to, difficulty, word)) {
+                counter += 1;
+            }
+        }
+        let percentage = counter/uniqueWords.size * 100;
+        console.log("Loro: The percentage of words suitable to translation is: " + percentage);
+        return percentage >= 2;
     }
 
     private selectWordsToTranslate(difficulty:number, wordMapCounter:Map<string, number>, numberOfWordsInWholeText:number) : Array<string> {
@@ -77,9 +98,11 @@ export default class WordPicker {
                 break;
             }
         }
+
         console.log(`The map contains ${wordMapCounter.size} different unique words`);
         console.log(`The difficulty is: ${difficulty} and we expect to replace at min ${numberOfWordsToReplace}/${numberOfWordsInWholeText} words.`)
         console.log(`We are translating ${numberOfUniqueWords} unique words and replacing ${numberOfReplacedWords}/${numberOfWordsInWholeText} words`);
+        console.warn(`Loro: Translating : ${numberOfReplacedWords}/${numberOfWordsToReplace} words`);
         return chosenWordsToTranslate;
     }
 

@@ -3,41 +3,41 @@ import {TextToTranslate} from "./WordPicker";
 import TransferendumConfig from "../TransferendumConfig";
 // The imports from below requires "esModuleInterop" on tsconfig
 // Spanish dictionaries
-import esEn500 from "./es/en/es_en_translations_0_500.json"
-import esEn500_1000 from "./es/en/es_en_translations_500_1000.json"
-import esEn1000_1500 from "./es/en/es_en_translations_1000_1500.json"
-import esPl500 from "./es/pl/es_pl_translations_0_500.json"
-import esPl500_1000 from "./es/pl/es_pl_translations_500_1000.json"
-import esPl1000_1500 from "./es/pl/es_pl_translations_1000_1500.json"
+import esEn500 from "./es/en/es_en_translations_easy.json"
+import esEn500_1000 from "./es/en/es_en_translations_medium.json"
+import esEn1000_1500 from "./es/en/es_en_translations_hard.json"
+import esPl500 from "./es/pl/es_pl_translations_easy.json"
+import esPl500_1000 from "./es/pl/es_pl_translations_medium.json"
+import esPl1000_1500 from "./es/pl/es_pl_translations_hard.json"
 import esPt500 from "./es/pt/es_pt_translations_0_500.json"
 import esPt500_1000 from "./es/pt/es_pt_translations_500_1000.json"
 import esPt1000_1500 from "./es/pt/es_pt_translations_1000_1500.json"
 import esIt500 from "./es/it/es_it_translations_0_500.json"
 import esIt500_1000 from "./es/it/es_it_translations_500_1000.json"
 import esIt1000_1500 from "./es/it/es_it_translations_1000_1500.json"
-import esFr500 from "./es/fr/es_fr_translations_0_500.json"
-import esFr500_1000 from "./es/fr/es_fr_translations_500_1000.json"
-import esFr1000_1500 from "./es/fr/es_fr_translations_1000_1500.json"
+import esFr500 from "./es/fr/es_fr_translations_easy.json"
+import esFr500_1000 from "./es/fr/es_fr_translations_medium.json"
+import esFr1000_1500 from "./es/fr/es_fr_translations_hard.json"
 // English dictionaries
 import enDe500 from "./en/de/en_de_translations_0_500.json"
 import enDe500_1000 from "./en/de/en_de_translations_500_1000.json"
 import enDe1000_1500 from "./en/de/en_de_translations_1000_1500.json"
-import enEs500 from "./en/es/en_es_translations_0_500.json"
-import enEs500_1000 from "./en/es/en_es_translations_500_1000.json"
-import enEs1000_1500 from "./en/es/en_es_translations_1000_1500.json"
-import enFr500 from "./en/fr/en_fr_translations_0_500.json"
-import enFr500_1000 from "./en/fr/en_fr_translations_500_1000.json"
-import enFr1000_1500 from "./en/fr/en_fr_translations_1000_1500.json"
+import enEs500 from "./en/es/en_es_translations_easy.json"
+import enEs500_1000 from "./en/es/en_es_translations_medium.json"
+import enEs1000_1500 from "./en/es/en_es_translations_hard.json"
+import enFr500 from "./en/fr/en_fr_translations_easy.json"
+import enFr500_1000 from "./en/fr/en_fr_translations_medium.json"
+import enFr1000_1500 from "./en/fr/en_fr_translations_hard.json"
 // Polish dictionaries
-import plEs500 from "./pl/es/pl_es_translations_0_3000.json"
-import plEs500_1000 from "./pl/es/pl_es_translations_3000_5000.json"
-import plEs1000_1500 from "./pl/es/pl_es_translations_5000_5209.json"
+import plEs500 from "./pl/es/pl_es_translations_easy.json"
+import plEs500_1000 from "./pl/es/pl_es_translations_medium.json"
+import plEs1000_1500 from "./pl/es/pl_es_translations_hard.json"
 import plDe500 from "./pl/de/pl_de_translations_0_500.json"
 import plDe500_1000 from "./pl/de/pl_de_translations_500_1000.json"
 import plDe1000_1500 from "./pl/de/pl_de_translations_1000_1500.json"
-import plEn500 from "./pl/en/pl_en_translations_0_3000.json"
-import plEn500_1000 from "./pl/en/pl_en_translations_3000_5000.json"
-import plEn1000_1500 from "./pl/en/pl_en_translations_5000_6700.json"
+import plEn500 from "./pl/en/pl_en_translations_easy.json"
+import plEn500_1000 from "./pl/en/pl_en_translations_medium.json"
+import plEn1000_1500 from "./pl/en/pl_en_translations_hard.json"
 
 // Special case por polish to spanish
 export interface OriginalAndTranslated {
@@ -114,44 +114,44 @@ export default class Translator {
             "en": {
                 "less": [esEn500],
                 "more": [esEn500, esEn500_1000],
-                "many": [esEn500_1000, esEn1000_1500]
+                "many": [esEn500, esEn500_1000, esEn1000_1500]
             },
             "pl": {
                 "less": [esPl500],
                 "more": [esPl500, esPl500_1000],
-                "many": [esPl500_1000, esPl1000_1500]
+                "many": [esPl500, esPl500_1000, esPl1000_1500]
             },
             "pt": {
                 "less": [esPt500],
                 "more": [esPt500, esPt500_1000],
-                "many": [esPt500_1000, esPt1000_1500]
+                "many": [esPt500, esPt500_1000, esPt1000_1500]
             },
             "it": {
                 "less": [esIt500],
                 "more": [esIt500, esIt500_1000],
-                "many": [esIt500_1000, esIt1000_1500]
+                "many": [esIt500, esIt500_1000, esIt1000_1500]
             },
             "fr": {
                 "less": [esFr500],
                 "more": [esFr500, esFr500_1000],
-                "many": [esFr500_1000, esFr1000_1500]
+                "many": [esFr500, esFr500_1000, esFr1000_1500]
             }
         },
         "en": {
           "es": {
               "less": [enEs500],
               "more": [enEs500, enEs500_1000],
-              "many": [enEs500_1000, enEs1000_1500]
+              "many": [enEs500, enEs500_1000, enEs1000_1500]
           },
           "de": {
               "less": [enDe500],
               "more": [enDe500, enDe500_1000],
-              "many": [enDe500_1000, enDe1000_1500]
+              "many": [enDe500, enDe500_1000, enDe1000_1500]
           },
           "fr": {
               "less": [enFr500],
               "more": [enFr500, enFr500_1000],
-              "many": [enFr500_1000, enFr1000_1500]
+              "many": [enFr500, enFr500_1000, enFr1000_1500]
           }
         },
         "pl": {

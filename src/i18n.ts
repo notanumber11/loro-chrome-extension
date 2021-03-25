@@ -70,7 +70,7 @@ const resources = {
             "Without releasing": "Without even realizing it :)",
             "Choose difficulty": "Choose difficulty",
             "Easy": "Easy (A few and easy)",
-            "Middle": "Middle (Frequent and a bit hard)",
+            "Middle": "Normal (Frequent and a bit hard)",
             "Hard": "Hard (Many and complicated)",
             "I want to learn:": "I want to learn:",
             "Loro is": "Loro is:",
@@ -81,7 +81,7 @@ const resources = {
             "Disallow translations": "The translations will not appear in this page.",
             "Contact": "Contact",
             // Report an error
-            "Inform about an error": "Informanos acerca de un error",
+            "Inform about an error": "Inform about an error",
             "Thanks report": "Thanks for helping us to improve!",
             "Error reported": "Error reported successfully :)",
             "Problems sending report": "Problems sending the report :(",
