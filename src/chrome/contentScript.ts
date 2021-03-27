@@ -40,6 +40,7 @@ async function processBasedOnExtensionEnable(isExtensionEnabled:boolean, conf:Tr
         let alreadyKnownWordsArray = (await TransferendumConfig.instance.guiProxy.getFromLocalStore(TransferendumConfig.WORDS_MARKED_AS_KNOWN, [])) as Array<string>;
         await i18next.changeLanguage(motherTongue);
         let alreadyKnownWords = new Set(alreadyKnownWordsArray);
+        console.log("The words that I already know are: " + alreadyKnownWordsArray);
         nlpOrchestrator.process(document, difficultyNumber, motherTongue, language, alreadyKnownWords);
     }
 }

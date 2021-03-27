@@ -37,7 +37,9 @@ export default function onBoarding(justInstalled:boolean) {
         console.log("Clearing storage");
         chrome.storage.sync.clear();
         let conf = TransferendumConfig.instance;
+        // Set all variables related with a fresh start
         conf.guiProxy.setOnLocalStore(TransferendumConfig.FIRST_TIME_MARKED_AS_KNOWN, true);
+        conf.guiProxy.setOnLocalStore(TransferendumConfig.WORDS_MARKED_AS_KNOWN, [])
     }
     startOnboarding();
 }

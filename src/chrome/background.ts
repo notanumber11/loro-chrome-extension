@@ -28,9 +28,7 @@ chrome.runtime.onInstalled.addListener(function(details) {
         console.log("Triggering update...");
         // On previous update I introduced a bug that deleted the user settings
         // This attempts to be a fix.
-/*        let motherTongue = TransferendumConfig.instance.getDefaultMotherTongueLanguage();
-        let language = TransferendumConfig.instance.getDefaultLanguage(motherTongue);
-        TransferendumConfig.setLanguage(language);
-        TransferendumConfig.setMotherTongue(motherTongue);*/
+        // TODO: Remove after next update
+        TransferendumConfig.instance.guiProxy.setOnLocalStore(TransferendumConfig.WORDS_MARKED_AS_KNOWN, [])
     }
 });
