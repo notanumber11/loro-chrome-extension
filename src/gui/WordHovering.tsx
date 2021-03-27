@@ -71,7 +71,7 @@ class WordHovering extends React.Component<ToolTipProps, ToolTipState> {
             isReportErrorModalOpen: false,
             isSettingsOpen: false,
             isIknowWordModalOpen: false,
-            isHovering: false,
+            isHovering: true,
             shouldRemoveWord: false
         };
     }
@@ -147,8 +147,8 @@ class WordHovering extends React.Component<ToolTipProps, ToolTipState> {
         return (
             <span>
                 <span
-                    onMouseEnter={() => this.setHovering(true)}
-                    onMouseLeave={() => this.setHovering(false)}
+/*                    onMouseEnter={() => this.setHovering(true)}
+                    onMouseLeave={() => this.setHovering(false)}*/
                     className={classes.hovering}>
                     {this.props.translated}
                     {

@@ -13,18 +13,19 @@ import {Box, CardActions, Collapse, Zoom} from "@material-ui/core";
 import {useTranslation} from "react-i18next";
 import i18n from "../i18n"
 import ThumbUpIcon from '@material-ui/icons/ThumbUp';
-import DomHandler from "../nlp/DomHandler";
+import VolumeUpIcon from '@material-ui/icons/VolumeUp';
 
 if (i18n == null) {
     console.log("Problems with i18n, it is null");
 }
 
-const myStyles = makeStyles({
+const myStyles = makeStyles((theme) => ({
     cardContent: {
         paddingBottom: 0,
         "&:last-child": {
             padding: 0,
-        }
+        },
+        paddingTop: 8,
     },
     cardActions: {
         display: "flex",
@@ -32,9 +33,9 @@ const myStyles = makeStyles({
         alignItems: "flex-end"
     },
     envelope: {
-        minWidth: 140,
+        minWidth: 170,
         maxWidth: 240,
-        minHeight: 120,
+        minHeight: 80,
         display: "inline-grid",
     },
     loroIcon: {
@@ -57,8 +58,11 @@ const myStyles = makeStyles({
     },
     rewardIcon: {
         fontSize: "3rem"
+    },
+    button: {
+        color: theme.palette.secondary.light,
     }
-});
+}));
 
 
 type TranslationCardProps = {
@@ -67,7 +71,7 @@ type TranslationCardProps = {
     openModalCallback: () => void,
     openSettingsCallback: () => void,
     removeWordCallback: () => void,
-    openIknowWordCallback: ()=> void,
+    openIknowWordCallback: () => void,
 }
 
 const TranslationCard = ({original, translated, openModalCallback, openSettingsCallback, removeWordCallback, openIknowWordCallback}: TranslationCardProps) => {
@@ -105,7 +109,8 @@ const TranslationCard = ({original, translated, openModalCallback, openSettingsC
                 <Card className={classes.envelope}>
                     {
                         showKnownWordsCounter &&
-                        <Zoom in={showKnownWordsCounter} style={{transitionDelay: showKnownWordsCounter ? '400ms' : '0ms'}}>
+                        <Zoom in={showKnownWordsCounter}
+                              style={{transitionDelay: showKnownWordsCounter ? '400ms' : '0ms'}}>
                             <CardContent className={classes.rewardContent}>
                                 <Typography variant="h6" color="primary" component="span">
                                     Nice!
@@ -125,13 +130,25 @@ const TranslationCard = ({original, translated, openModalCallback, openSettingsC
                             <CardContent className={classes.cardContent}>
                                 <img className={classes.loroIcon}
                                      src={TransferendumConfig.instance.guiProxy.getWebAccessibleResource("loro.svg")}/>
-                                <Typography variant="h6" component="span">
+                                <Typography variant="h6" component="span" align="center">
                                     {original}
                                 </Typography>
                                 <Divider variant="fullWidth"/>
+
+                                {/*                                 <Box display="flex">
+                                     <Box flexGrow={1}>
+                                         <Typography variant="h6" component="span" align="center">
+                                             {original}
+                                         </Typography>
+                                     </Box>
+                                     <Box>
+
+                                     </Box>
+                                 </Box>
+
                                 <Typography color="textSecondary" component="span" variant="body1">
                                     {translated}
-                                </Typography>
+                                </Typography>*/}
                             </CardContent>
                             <CardActions disableSpacing className={classes.cardActions}>
                                 <IconButton size="small" title={t("Report error")} onClick={() => openModalCallback()}>
@@ -142,6 +159,10 @@ const TranslationCard = ({original, translated, openModalCallback, openSettingsC
                                 </IconButton>
                                 <IconButton size="small" title={t("Settings")} onClick={() => openSettingsCallback()}>
                                     <SettingsIcon/>
+                                </IconButton>
+                                <IconButton size="small" title={t("Report error")} className={classes.button}
+                                            onClick={() => openModalCallback()}>
+                                    <VolumeUpIcon/>
                                 </IconButton>
                             </CardActions>
                         </div>
