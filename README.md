@@ -1,4 +1,8 @@
-# TransferendumConfig chrome extension
+# Loro chrome extension
+Loro automatically translates some words on websites you visit so you can learn a new language without effort. Improving your vocabulary has never been easier, you only need to visit your favorite web pages as you have always done.
+
+- Link to chrome store: [Loro extension](https://chrome.google.com/webstore/detail/loro/ddficccfblbcldoekmniikjcfdcggidp)  
+- Link to associated webpage: [loro-app.com](https://loro-app.com/)
 
 ## Test
  `npm test`
